@@ -1,0 +1,82 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+  }
+  
+  nav ul {
+    padding: 0;
+    list-style: none;
+  }
+  
+  nav ul li {
+    display: inline;
+    margin: 0 1rem;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  section {
+    padding: 2rem;
+    margin: 1rem;
+    background-color: #fff;
+    border-radius: 5px;
+  }
+  
+  #about img {
+    display: block;
+    margin: 0 auto 1rem;
+  }
+  
+  .project {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  /* Basic Form Styling */
+  form label {
+    display: block;
+margin-bottom: 0.5rem; 
+  }
+  
+  form input[type="text"],
+  form input[type="email"],
+  form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for width to include padding/border */
+  }
+  
+  form button {
+    background-color: #333;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
