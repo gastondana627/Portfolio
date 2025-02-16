@@ -2,18 +2,21 @@
   "version": 2,
   "builds": [
     {
-      "src": "Desktop/2025 Portfolio Project/**",
+      "src": "**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/Desktop/2025%20Portfolio%20Project/index.html"
+      "src": "/(.*)",
+      "dest": "/$1"
     },
     {
-      "src": "/(.+)",
-      "dest": "/Desktop/2025%20Portfolio%20Project/$1"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }
