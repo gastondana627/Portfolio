@@ -1,12 +1,22 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/Desktop/2025 Portfolio Project/index.html"
+      "src": "Desktop/2025 Portfolio Project/**",
+      "use": "@vercel/static"
     }
   ],
-  "buildCommand": "cd \"Desktop/2025 Portfolio Project\"",
-  "outputDirectory": "Desktop/2025 Portfolio Project"
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/Desktop/2025 Portfolio Project/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/",
+      "dest": "/Desktop/2025 Portfolio Project/index.html"
+    }
+  ]
 }
