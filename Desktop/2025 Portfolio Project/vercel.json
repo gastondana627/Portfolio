@@ -8,15 +8,12 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/Desktop/2025 Portfolio Project/$1"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
       "src": "/",
-      "dest": "/Desktop/2025 Portfolio Project/index.html"
+      "dest": "/Desktop/2025%20Portfolio%20Project/index.html"
+    },
+    {
+      "src": "/(.+)",
+      "dest": "/Desktop/2025%20Portfolio%20Project/$1"
     }
   ]
 }
