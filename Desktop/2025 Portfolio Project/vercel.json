@@ -1,34 +1,12 @@
 {
-  "version": 2,
-  "builds": [
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
     {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.css",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "assets/**",
-      "use": "@vercel/static"
+      "source": "/(.*)",
+      "destination": "/Desktop/2025 Portfolio Project/index.html"
     }
   ],
-  "routes": [
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/(.+)",
-      "dest": "/$1"
-    }
-  ]
+  "buildCommand": "cd \"Desktop/2025 Portfolio Project\"",
+  "outputDirectory": "Desktop/2025 Portfolio Project"
 }
