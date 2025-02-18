@@ -23,6 +23,11 @@ body {
     display: inline;
     margin: 0 1rem;
   }
+
+.topnav a:hover {
+  border-bottom: 3px solid red;
+}
+
   
   nav a {
     color: #09C1D5;
