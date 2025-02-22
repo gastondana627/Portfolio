@@ -1,92 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaston Dana - Portfolio</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <header>
-    <nav>
-      <h1>Gaston Dana</h1>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section id="about">
-    <h2>About</h2>
-    <img src="assets/Image 2-2-25 at 9.19 PM.jpg" alt="Your Profile Picture" style="width: 150px; border-radius: 50%;">
+<section id="about" class="section">
+  <div class="container">
+    <img src="assets/Image 2-2-25 at 9.19 PM.jpg" alt="Gaston Dana" class="profile-pic">
+    <h2>About Me</h2>
     <p>
-      I like to build, whether its deploying and utilizing flask, django, or streamlit for Python
-      I've had my fair share of many projects. With my time at Reality AI Lab and now AdvancingX I'm looking
-      forward to my old skills that rang in Python and game development mainly and seeing a new fusion between
-      old skills and my new skills that I'm obtaining in the Gen AI realm of things.
+      A passionate and driven developer with a background in Python and game development, now exploring the exciting intersection of AI and software engineering. I thrive on building innovative solutions and am eager to contribute my skills to challenging projects in the Gen AI space.
     </p>
-  </section>
+    <p>
+      With experience at Reality AI Lab and AdvancingX, I'm constantly learning and expanding my skillset. I'm particularly interested in applying my Python expertise to develop cutting-edge AI applications.
+    </p>
+  </div>
+</section>
 
-  <section id="projects">
+<section id="projects" class="section">
+  <div class="container">
     <h2>Projects</h2>
-    <div class="project">
-      <h3>Project 1</h3>
-      <p>A short description of Project Plagarism.</p>
-      <a href="#">View Project</a>
-    </div>
-    <div class="project">
-      <h3>Project 2</h3>
-      <p>A short description of Project Stargate and Bobot .</p>
-      <a href="#">View Project</a>
-    </div>
-    <!-- Add more projects -->
-  </section>
+    <div class="projects-grid">
+      <div class="project-card">
+        <img src="assets/project1.png" alt="Project Plagarism" class="project-image">
+        <h3>Project Plagarism</h3>
+        <p>An application using advanced NLP techniques to detect plagiarism in academic texts. Built with Python, Flask, and scikit-learn.</p>
+        <a href="https://github.com/yourusername/project-plagarism" class="button">View Code</a>
+        <a href="https://projectplagarism.example.com" class="button">View Demo</a>
+      </div>
 
-  <section id="skills">
-    <h2>Main Skills</h2>
-    <ul>
-      <li>Python</li>
-      <li>HTML</li>
-      <li>CSS</li>
-      <li>JavaScript</li>
-    </ul>
-    <h2>Other Skills</h2>
-    <ul>
-      <li>React</li>
-      <li>Node.js</li>
-      <!-- Add more skills -->
-    </ul>
-  </section>
+      <div class="project-card">
+        <img src="assets/project2.png" alt="Project Stargate" class="project-image">
+        <h3>Project Stargate</h3>
+        <p>A real-time data visualization dashboard for monitoring network performance.  Developed using React, Node.js, and D3.js.</p>
+        <a href="https://github.com/yourusername/project-stargate" class="button">View Code</a>
+        </div>
+    </div>
+  </div>
+</section>
 
-  <section id="contact">
+<section id="contact" class="section">
+  <div class="container">
     <h2>Contact Me</h2>
-    <!-- Here is where you place the ID from your Formspree -->
-    <form action="https://formspree.io/f/meoerdwl" method="POST"> 
-      <input type="hidden" name="_next" value="https://your-portfolio.vercel.app/thank-you.html">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name">
+    <form action="https://formspree.io/f/meoerdwl" method="POST">
+      <input type="hidden" name="_next" value="thank-you.html">
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+      </div>
 
-      <label for="message">Message:</label>
-      <textarea id="message" name="message"></textarea>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+      </div>
 
-      <button type="submit">Send</button>
+      <div class="form-group">
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+      </div>
+
+      <button type="submit" class="button">Send Message</button>
     </form>
-  </section>
-
-  <footer>
-    <p>© 2025 Gasmané</p>
-  </footer>
-
-  <!-- Background Music -->
-  <audio id="background-music" src="assets/music_fx_a_trap_beat_with_a_heavy_bass_butwith_techno-2.wav" autoplay loop preload="auto"></audio>
-
-  <script src="script.js"></script>
-</body>
-</html>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> |
+      <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+    </div>
+  </div>
+</section>

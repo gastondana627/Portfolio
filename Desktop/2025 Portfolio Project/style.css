@@ -1,82 +1,149 @@
+/* CSS Variables */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --text-color: #333;
+  --background-color: #f4f4f4;
+  --font-family: 'Arial', sans-serif;
+}
+
+/* General Styles */
 body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
-  }
-  
-  header {
-    background-color: #333;
-    color: #fff;
-    padding: 1rem 0;
-    text-align: center;
-  }
-  
-  nav ul {
-    padding: 0;
-    list-style: none;
-  }
-  
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 2rem;
+  margin: 1rem;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block; /* Make it behave like an inline element */
+}
+
+.button:hover {
+  background-color: darken(var(--primary-color), 10%);
+}
+
+/* Header Styles */
+header {
+  background-color: var(--secondary-color);
+  color: #fff;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+nav ul {
+  padding: 0;
+  list-style: none;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 1rem;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* About Section */
+.profile-pic {
+  width: 150px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+/* Projects Section */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 1rem;
+}
+
+.project-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.project-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+/* Skills Section */
+#skills ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+/* Contact Section */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Social Links */
+.social-links {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Footer Styles */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+/* Media Queries (Responsiveness) */
+@media (max-width: 768px) {
+  /* Adjustments for smaller screens */
   nav ul li {
-    display: inline;
-    margin: 0 1rem;
-  }
-  
-  nav a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  section {
-    padding: 2rem;
-    margin: 1rem;
-    background-color: #fff;
-    border-radius: 5px;
-  }
-  
-  #about img {
     display: block;
-    margin: 0 auto 1rem;
+    margin: 0.5rem 0;
   }
-  
-  .project {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+
+  .projects-grid {
+    grid-template-columns: 1fr; /* Stack projects on smaller screens */
   }
-  
-  footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #333;
-    color: #fff;
-  }
-  
-  /* Basic Form Styling */
-  form label {
-    display: block;
-margin-bottom: 0.5rem; 
-  }
-  
-  form input[type="text"],
-  form input[type="email"],
-  form textarea {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Important for width to include padding/border */
-  }
-  
-  form button {
-    background-color: #333;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+}
