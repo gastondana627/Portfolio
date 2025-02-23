@@ -4,14 +4,14 @@ body {
   margin: 0;
   padding: 0;
   background: linear-gradient(to right, #8309D5, #09C1D5); /* Restored background gradient */
-  color: #fff;
+  color: #fff; /* Global text color */
   line-height: 1.6;
   overflow-x: hidden;
 }
 
 a {
   text-decoration: none;
-  color: #333;
+  color: #fff; /* Set link color to white */
 }
 
 .button {
@@ -60,7 +60,7 @@ nav {
 .logo {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #333;
+  color: #fff; /* Changed logo color */
 }
 
 .nav-links {
@@ -71,7 +71,7 @@ nav {
 
 .nav-links li a {
   font-size: 1rem;
-  color: #555;
+  color: #fff; /* changed link color */
   transition: color 0.3s ease;
 }
 
@@ -84,26 +84,21 @@ nav {
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #333;
+  color: #fff;
   cursor: pointer;
   display: none; /* Hidden by default */
 }
 
 /* Hero Section */
 #hero {
-  background: linear-gradient(to right, #f0f0f0, #e0e0e0);
+  background: linear-gradient(to left, #8309D5, #09C1D5); /* Reversed gradient */
   padding: 100px 0;
   text-align: center;
 }
 
-.hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
+.hero-content h1,
 .hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+  color: #fff; /* Ensure text is white */
 }
 
 .hero-image img {
@@ -114,13 +109,14 @@ nav {
 
 /* About Section */
 #about {
-  background-color: #fff;
+  background-color: #fff; /* Remove explicit background color */
 }
 
 #about h2 {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 30px;
+  color: #fff;
 }
 
 .about-content {
@@ -137,17 +133,19 @@ nav {
 .about-text p {
   font-size: 1.1rem;
   line-height: 1.8;
+  color: #fff;
 }
 
 /* Projects Section */
 #projects {
-  background-color: #f0f0f0;
+  background-color: #f0f0f0; /* Remove explicit background color */
 }
 
 #projects h2 {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 30px;
+  color: #fff;
 }
 
 .projects-grid {
@@ -169,6 +167,11 @@ nav {
   object-fit: cover;
 }
 
+.project h3,
+.project p {
+  color: #333; /* Set project title and description to dark color */
+}
+
 .project h3 {
   font-size: 1.5rem;
   padding: 20px;
@@ -182,13 +185,14 @@ nav {
 
 /* Skills Section */
 #skills {
-  background-color: #fff;
+  background-color: #fff; /* Remove explicit background color */
 }
 
 #skills h2 {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 30px;
+  color: #fff;
 }
 
 .skills-grid {
@@ -212,13 +216,14 @@ nav {
 
 /* Contact Section */
 #contact {
-  background-color: #f0f0f0;
+  background-color: #f0f0f0; /* Remove explicit background color */
 }
 
 #contact h2 {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 30px;
+  color: #fff;
 }
 
 #contact-form {
@@ -236,6 +241,7 @@ nav {
   display: block;
   font-size: 1.1rem;
   margin-bottom: 5px;
+      color: #fff;
 }
 
 .form-group input,
@@ -245,6 +251,8 @@ nav {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Footer */
