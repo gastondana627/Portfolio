@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   background: linear-gradient(to right, #8309D5, #09C1D5); /* Restored background gradient */
-  color: #333;
+  color: #fff;
   line-height: 1.6;
   overflow-x: hidden;
 }
@@ -31,6 +31,8 @@ a {
 
 .section {
   padding: 40px 0;
+  background: linear-gradient(to right, #8309D5, #09C1D5); /* Add gradient to sections */
+  color: #fff; /* Adjust text color for visibility */
 }
 
 .container {
