@@ -1,93 +1,160 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaston Dana - Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaston Dana - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <header>
+<header>
     <nav>
-      <h1>Gaston Dana</h1>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+        <a href="/" class="logo">Gaston Dana</a>
+        <button id="mobile-menu-button" class="mobile-menu-button">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
     </nav>
-  </header>
+</header>
 
-  <section id="about">
-    <h2>About</h2>
-    <img src="assets/Image 2-2-25 at 9.19 PM.jpg" alt="Your Profile Picture" style="width: 150px; border-radius: 50%;">
-    <p>
-      I like to build, whether its deploying and utilizing flask, django, or streamlit for Python
-      I've had my fair share of many projects. With my time at Reality AI Lab and now AdvancingX I'm looking
-      forward to my old skills that rang in Python and game development mainly and seeing a new fusion between
-      old skills and my new skills that I'm obtaining in the Gen AI realm of things.
-    </p>
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="project">
-      <h3>Project 1</h3>
-      <p>A short description of Project Plagarism.</p>
-      <a href="#">View Project</a>
+<section id="hero">
+    <div class="hero-content">
+        <h1>Hello, I'm Gaston Dana</h1>
+        <p>A Full-Stack Developer Passionate About Building Innovative Solutions</p>
+        <a href="#projects" class="button">View My Work</a>
     </div>
-    <div class="project">
-      <h3>Project 2</h3>
-      <p>A short description of Project Stargate and Bobot .</p>
-      <a href="#">View Project</a>
+    <div class="hero-image">
+        <img src="assets/hero-image.jpg" alt="Hero Image">
     </div>
-    <!-- Add more projects -->
-  </section>
+</section>
 
-  <section id="skills">
-    <h2>Main Skills</h2>
-    <ul>
-      <li>Python</li>
-      <li>HTML</li>
-      <li>CSS</li>
-      <li>JavaScript</li>
-    </ul>
-    <h2>Other Skills</h2>
-    <ul>
-      <li>React</li>
-      <li>Node.js</li>
-      <!-- Add more skills -->
-    </ul>
-  </section>
+<section id="about" class="section">
+    <div class="container">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <img src="assets/Image 2-2-25 at 9.19 PM.jpg" alt="Your Profile Picture" class="profile-picture">
+            <div class="about-text">
+                <p>
+                    I am a full stack engineer with a strong inclination towards software engineering. I like to build, whether its deploying and utilizing flask, django, or streamlit for Python, and I've had my fair share of many projects.
+                </p>
+                <p>
+                    With my time at Reality AI Lab and now AdvancingX I'm looking forward to my old skills that rang in Python and game development mainly and seeing a new fusion between
+                    old skills and my new skills that I'm obtaining in the Gen AI realm of things.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <!-- Here is where you place the ID from your Formspree -->
-    <form action="https://formspree.io/f/meoerdwl" method="POST"> 
-      <input type="hidden" name="_next" value="https://your-portfolio.vercel.app/thank-you.html">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name">
+<section id="projects" class="section">
+    <div class="container">
+        <h2>Projects</h2>
+        <div class="projects-grid">
+            <div class="project">
+                <img src="assets/project1.jpg" alt="Project 1" class="project-image">
+                <h3>Project 1</h3>
+                <p>A brief description of Project Plagarism.</p>
+                <a href="#" class="button">View Project</a>
+            </div>
+            <div class="project">
+                <img src="assets/project2.jpg" alt="Project 2" class="project-image">
+                <h3>Project 2</h3>
+                <p>A brief description of Project Stargate and Bobot.</p>
+                <a href="#" class="button">View Project</a>
+            </div>
+            <!-- Add more projects here -->
+        </div>
+        <button id="load-more-button" class="button">Load More Projects</button>
+    </div>
+</section>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email">
+<section id="skills" class="section">
+    <div class="container">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+            <div class="skill">
+                <i class="fab fa-python"></i>
+                <p>Python</p>
+            </div>
+            <div class="skill">
+                <i class="fab fa-html5"></i>
+                <p>HTML5</p>
+            </div>
+            <div class="skill">
+                <i class="fab fa-css3-alt"></i>
+                <p>CSS3</p>
+            </div>
+            <div class="skill">
+                <i class="fab fa-js"></i>
+                <p>JavaScript</p>
+            </div>
+            <div class="skill">
+                <i class="fab fa-react"></i>
+                <p>React</p>
+            </div>
+            <div class="skill">
+                <i class="fab fa-node-js"></i>
+                <p>Node.js</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-      <label for="message">Message:</label>
-      <textarea id="message" name="message"></textarea>
+<section id="contact" class="section">
+    <div class="container">
+        <h2>Contact Me</h2>
+        <form id="contact-form" action="https://formspree.io/f/meoerdwl" method="POST">
+            <input type="hidden" name="_next" value="thankyou.html">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="button">Send Message</button>
+        </form>
+        <div id="form-status"></div>
+    </div>
+</section>
 
-      <button type="submit">Send</button>
-    </form>
-  </section>
+<footer>
+    <div class="container">
+        <p>© 2025 Gasmané</p>
+        <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+    </div>
+</footer>
 
-  <footer>
-    <p>© 2025 Gasmané</p>
-  </footer>
+<!-- Scroll to Top Button -->
+<button id="scroll-to-top-button" class="scroll-to-top-button">
+    <i class="fas fa-arrow-up"></i>
+</button>
 
-  <!-- Background Music -->
-  <audio id="background-music" src="assets/music_fx_a_trap_beat_with_a_heavy_bass_butwith_techno-2.wav" autoplay loop preload="auto"></audio>
+<!-- Music Controls -->
+<div class="music-controls">
+    <button id="play-pause-button"><i class="fas fa-play"></i></button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+</div>
 
-  <script src="script.js"></script>
+<audio id="background-music" src="assets/music_fx_a_trap_beat_with_a_heavy_bass_butwith_techno-2.wav" autoplay loop preload="auto"></audio>
+<script src="script.js"></script>
 </body>
 </html>
