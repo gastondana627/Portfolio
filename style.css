@@ -3,15 +3,15 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to right, #8309D5, #09C1D5); /* Restored background gradient */
-  color: #fff; /* Global text color */
+  background: linear-gradient(to right, #8309D5, #09C1D5);
+  color: #fff;
   line-height: 1.6;
   overflow-x: hidden;
 }
 
 a {
   text-decoration: none;
-  color: #fff; /* Set link color to white */
+  color: #fff;
 }
 
 .button {
@@ -31,8 +31,8 @@ a {
 
 .section {
   padding: 40px 0;
-  background: linear-gradient(to right, #8309D5, #09C1D5); /* Add gradient to sections */
-  color: #fff; /* Adjust text color for visibility */
+  background: linear-gradient(to right, #8309D5, #09C1D5);
+  color: #fff;
 }
 
 .container {
@@ -60,7 +60,7 @@ nav {
 .logo {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #fff; /* Changed logo color */
+  color: #fff;
 }
 
 .nav-links {
@@ -71,7 +71,7 @@ nav {
 
 .nav-links li a {
   font-size: 1rem;
-  color: #fff; /* changed link color */
+  color: #fff;
   transition: color 0.3s ease;
 }
 
@@ -86,30 +86,30 @@ nav {
   font-size: 1.5rem;
   color: #fff;
   cursor: pointer;
-  display: none; /* Hidden by default */
+  display: none;
 }
 
 /* Hero Section */
 #hero {
-  background: linear-gradient(to left, #8309D5, #09C1D5); /* Reversed gradient */
+  background: linear-gradient(to left, #8309D5, #09C1D5);
   padding: 100px 0;
   text-align: center;
 }
 
 .hero-content h1,
 .hero-content p {
-  color: #fff; /* Ensure text is white */
+  color: #fff;
 }
 
 .hero-image img {
-  width: 600px; /* Increased width */
-  border-radius: 10px; /* Rounded rectangle */
+  width: 900px;
+  border-radius: 10px;
   margin-top: 30px;
 }
 
 /* About Section */
 #about {
-  background-color: #fff; /* Remove explicit background color */
+  background-color: #fff;
 }
 
 #about h2 {
@@ -138,7 +138,7 @@ nav {
 
 /* Projects Section */
 #projects {
-  background-color: #f0f0f0; /* Remove explicit background color */
+  background-color: #f0f0f0;
 }
 
 #projects h2 {
@@ -169,7 +169,7 @@ nav {
 
 .project h3,
 .project p {
-  color: #333; /* Set project title and description to dark color */
+  color: #333;
 }
 
 .project h3 {
@@ -185,7 +185,7 @@ nav {
 
 /* Skills Section */
 #skills {
-  background-color: #fff; /* Remove explicit background color */
+  background-color: #fff;
 }
 
 #skills h2 {
@@ -216,7 +216,7 @@ nav {
 
 /* Contact Section */
 #contact {
-  background-color: #f0f0f0; /* Remove explicit background color */
+  background-color: #f0f0f0;
 }
 
 #contact h2 {
@@ -241,7 +241,7 @@ nav {
   display: block;
   font-size: 1.1rem;
   margin-bottom: 5px;
-   background: linear-gradient(to right, #8309D5, #09C1D5);
+background: linear-gradient(to right, #8309D5, #09C1D5);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 }
@@ -317,11 +317,35 @@ footer .container {
 }
 
 .music-controls button {
-  background: none;
+  background: linear-gradient(to right, #8309D5, #09C1D5);
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
   margin-right: 10px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.music-controls button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.music-controls button.playing {
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+      transform: scale(1);
+      opacity: 1;
+  }
+  to {
+      transform: scale(1.1);
+      opacity: 0.7;
+  }
 }
 
 .music-controls input[type="range"] {
@@ -345,7 +369,7 @@ footer .container {
   }
 
   .nav-links {
-      display: none; /* Hide the nav links */
+      display: none;
       flex-direction: column;
       position: absolute;
       top: 60px;
@@ -358,7 +382,7 @@ footer .container {
   }
 
   .nav-links.active {
-      display: flex; /* Show the nav links when active */
+      display: flex;
   }
 
   .nav-links li {
@@ -370,7 +394,7 @@ footer .container {
   }
 
   .mobile-menu-button {
-      display: block; /* Show the mobile menu button */
+      display: block;
   }
 
   /* Hero section adjustments */
