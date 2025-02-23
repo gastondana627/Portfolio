@@ -9,6 +9,11 @@ body {
   overflow-x: hidden;
 }
 
+body.theme-dark {
+  background: #333;
+  color: #fff;
+}
+
 a {
   text-decoration: none;
   color: #fff;
@@ -350,6 +355,68 @@ footer .container {
 
 .music-controls input[type="range"] {
   width: 100px;
+}
+
+/* Add dark/light themes */
+[data-theme="dark"] {
+--primary: #333;
+--secondary: #1a1a1a;
+--accent: #999;
+--text: #fff;
+}
+input[type=checkbox]{
+height: 0;
+width: 0;
+visibility: hidden;
+}
+
+.theme-switch {
+display: inline-block;
+height: 34px;
+position: relative;
+width: 60px;
+}
+
+.theme-switch .slider {
+background-color: #ccc;
+bottom: 0;
+cursor: pointer;
+left: 0;
+position: absolute;
+right: 0;
+top: 0;
+transition: .4s;
+}
+
+.theme-switch .slider:before {
+background-color: white;
+bottom: 4px;
+content: "";
+left: 4px;
+position: absolute;
+transition: .4s;
+}
+
+input:checked + .slider {
+background-color: #66bb6a;
+}
+
+input:focus + .slider {
+box-shadow: 0 0 1px #66bb6a;
+}
+
+input:checked + .slider:before {
+transform: translateX(26px);
+}
+
+.theme-switch .slider.round {
+border-radius: 34px;
+}
+
+.theme-switch .slider.round:before {
+border-radius: 50%;
+height: 26px;
+width: 26px;
 }
 
 /* Media Queries for Responsiveness */
