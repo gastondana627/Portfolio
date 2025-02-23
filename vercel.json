@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
  
     "version": 2,
     "builds": [
@@ -34,26 +33,3 @@
     }
     ]
    }
-=======
-  "version": 2,
-  "builds": [
-    {
-      "src": "**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    }
-  ]
-}
->>>>>>> 3caf9a2bee5caa58ffed3454233f9e66fba56f2f
