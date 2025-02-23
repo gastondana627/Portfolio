@@ -103,7 +103,7 @@ nav {
 
 .hero-image img {
   width: 300px;
-  border-radius: 50%;
+  border-radius: 10px; /* Rounded rectangle */
   margin-top: 30px;
 }
 
@@ -241,7 +241,9 @@ nav {
   display: block;
   font-size: 1.1rem;
   margin-bottom: 5px;
-      color: #fff;
+     background: linear-gradient(to right, #8309D5, #09C1D5);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 
 .form-group input,
