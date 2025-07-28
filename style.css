@@ -524,3 +524,35 @@ width: 26px;
       margin-bottom: 10px;
   }
 }
+
+
+
+
+/* Professional Services Section */
+#ad-services {
+  /* You can choose a background theme here, e.g., the dark gradient or a light background */
+  background: var(--section-bg-dark-gradient); /* Example: matching your hero/default body */
+  /* background-color: var(--section-bg-light); */ /* Alternative: if you want it light */
+}
+
+#ad-services .section-title {
+  color: var(--text-on-dark-bg); /* Adjust based on background choice */
+}
+
+#ad-services .section-description {
+  color: var(--text-on-dark-bg); /* Adjust based on background choice */
+  margin-bottom: 30px;
+}
+
+.service-button-cta {
+  font-size: 1.1rem;
+  padding: 15px 30px;
+  display: inline-flex; /* To align icon and text */
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+}
+
+/* You might want to add this to your existing .button style or as a separate rule */
+.button i.fas {
+  margin-right: 5px; /* Add a small space for icon inside buttons */
+}
