@@ -9,30 +9,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 </head>
 <body>
 
 <header>
     <nav>
-        <a href="/" class="logo" style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Gaston Dana</a>
+        <a href="/" class="logo gradient-text">Gaston Dana</a>
         <button id="mobile-menu-button" class="mobile-menu-button">
             <i class="fas fa-bars"></i>
         </button>
         <ul class="nav-links">
-            <li><a href="#about" style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">About</a></li>
-            <li><a href="#projects" style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Projects</a></li>
-            <li><a href="#skills" style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Skills</a></li>
-            <li><a href="#contact" style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Contact</a></li>
+            <li><a href="#about" class="gradient-text">About</a></li>
+            <li><a href="#projects" class="gradient-text">Projects</a></li>
+            <li><a href="#merch-shop" class="gradient-text">Oriel Merch</a></li> <li><a href="#skills" class="gradient-text">Skills</a></li>
+            <li><a href="#contact" class="gradient-text">Contact</a></li>
         </ul>
     </nav>
 </header>
@@ -50,8 +41,7 @@
 
 <section id="about" class="section">
     <div class="container">
-        <h2>About Me</h2>
-        <div class="about-content">
+        <h2 class="section-title">About Me</h2> <div class="about-content">
             <img src="assets/Image 2-2-25 at 9.19 PM.jpg" alt="Your Profile Picture" class="profile-picture">
             <div class="about-text">
                 <p>
@@ -68,68 +58,116 @@
 
 <section id="projects" class="section">
     <div class="container">
-        <h2>Projects</h2>
-        <div class="projects-grid">
+        <h2 class="section-title">Projects</h2> <div class="projects-grid">
             <div class="project">
                 <img src="assets/Teacher Management Chatbot.jpg" alt="Teacher Management Chatbot" class="project-image">
                 <h3>Teacher Management Chatbot</h3>
-                <p>A brief description of Teacher Management Chatbot.</p>
+                <p>An emotionally intelligent AI agent helping educators manage student inquiries and administrative tasks.</p>
                 <a href="https://github.com/gastondana627/chatbot" class="button" target="_blank">Github</a>
                 <a href="https://chatbobot.streamlit.app" class="button" target="_blank">Teacher Chatbot</a>
-
             </div>
             <div class="project">
                 <img src="assets/Stargate1.jpg" alt="Project 2" class="project-image">
                 <h3>Project Stargate and Bobot</h3>
-                <p>A brief description of Project Stargate and Bobot.</p>
+                <p>Interactive digital personas for gaming mentorship and coaching, enhancing player development.</p>
                 <a href="https://github.com/gastondana627/Stargate-and-Bobot" class="button" target="_blank">GitHub</a>
                 <a href="https://moonrock-stargate-and-bobot-game.streamlit.app" class="button" target="_blank">Play Game</a>
             </div>
-            <!-- Add more projects here -->
+            <div class="project">
+                <img src="assets/peata-image.jpg" alt="Peata - AI Pet Reunification" class="project-image">
+                <h3>Peata - AI Pet Reunification</h3>
+                <p>Character-driven, RAG-backed virtual assistant for pet recovery, using image-matching.</p>
+                <a href="https://devpost.com/software/peata-98wner" class="button" target="_blank">DevPost</a>
+                <a href="https://peata-sao.streamlit.app" class="button" target="_blank">Prototype</a>
+            </div>
+            <div class="project">
+                <img src="assets/relic-image.jpg" alt="Relic - AI Archaeological Survey" class="project-image">
+                <h3>Relic - AI Archaeological Survey</h3>
+                <p>Persona-driven, RAG-backed AI research assistant as an interactive digital field guide.</p>
+                <a href="https://github.com/your-relic-repo" class="button" target="_blank">GitHub</a> <a href="https://relic-openai-to-z-challenge.tech" class="button" target="_blank">Live Demo</a>
+            </div>
+            <div class="project">
+                <img src="assets/marvel-ai-image.jpg" alt="Marvel AI System" class="project-image">
+                <h3>Marvel AI System</h3>
+                <p>Designed multi-agent AI with goal-oriented behaviors and emotional awareness for engaging narratives.</p>
+                <a href="https://github.com/your-marvel-ai-repo" class="button" target="_blank">GitHub</a>
+                </div>
+            <div class="project">
+                <img src="assets/sky-ai-image.jpg" alt="Sky AI System" class="project-image">
+                <h3>Sky AI System</h3>
+                <p>Engineered memory-aware agents capable of context switching and user-specific coaching.</p>
+                <a href="https://github.com/your-sky-ai-repo" class="button" target="_blank">GitHub</a>
+                </div>
+            <div class="project">
+                <img src="assets/nasa-kg-image.jpg" alt="NASA Knowledge Graph" class="project-image">
+                <h3>NASA Knowledge Graph</h3>
+                <p>Mapped biological/omics data into Neo4j for contextual health reasoning for astronauts.</p>
+                <a href="[Under Construction]" class="button">Project Info</a> </div>
+
         </div>
-        <button id="load-more-button" class="button">Load More Projects</button>
+        <button id="load-more-button" class="button" style="display: none;">Load More Projects</button>
     </div>
 </section>
 
+<section id="merch-shop" class="section">
+    <div class="container">
+        <h2 class="section-title">Oriel Signal Merch</h2>
+        <p class="section-description">
+            Experience the confluence of intelligence and artistry. Our exclusive collection embodies the vision of Oriel Signal, bringing AI-enhanced creativity to your everyday.
+        </p>
+        <div class="merch-grid">
+            <div class="merch-item">
+                <img src="assets/oriel-merch-synthesis.jpg" alt="Oriel Signal Synthesis Glyph T-Shirt" class="merch-image">
+                <h3>Synthesis Glyph Tee</h3>
+                <p>Wear the core vision of blended intelligence.</p>
+            </div>
+            <div class="merch-item">
+                <img src="assets/oriel-merch-cognitive.jpg" alt="Oriel Signal Cognitive Architects Mug" class="merch-image">
+                <h3>Cognito Architect Mug</h3>
+                <p>Design your day with strategic precision.</p>
+            </div>
+            <div class="merch-item">
+                <img src="assets/oriel-merch-light.jpg" alt="Oriel Signal Choreographed Light Print" class="merch-image">
+                <h3>Choreographed Print</h3>
+                <p>Art in motion, woven by light.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="[YOUR SHOPIFY STORE URL HERE]" class="button merch-button-cta">
+                🛍️ Shop The Signal
+            </a>
+        </div>
+    </div>
+</section>
 <section id="skills" class="section">
     <div class="container">
-        <h2>Skills</h2>
-        <div class="skills-grid">
+        <h2 class="section-title">Skills</h2> <div class="skills-grid">
             <div class="skill">
                 <i class="fab fa-python"></i>
-                <p style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Python</p>
-            </div>
+                <p class="gradient-text">Python</p> </div>
             <div class="skill">
                 <i class="fab fa-html5"></i>
-                <p style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">HTML5</p>
-            </div>
+                <p class="gradient-text">HTML5</p> </div>
             <div class="skill">
                 <i class="fab fa-css3-alt"></i>
-                <p style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">CSS3</p>
-            </div>
+                <p class="gradient-text">CSS3</p> </div>
             <div class="skill">
                 <i class="fab fa-js"></i>
-                <p style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">JavaScript</p>
-            </div>
+                <p class="gradient-text">JavaScript</p> </div>
             <div class="skill">
                 <i class="fab fa-react"></i>
-                <p style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">React</p>
-            </div>
+                <p class="gradient-text">React</p> </div>
             <div class="skill">
                 <i class="fab fa-node-js"></i>
-                <p style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Node.js</p>
+                <p class="gradient-text">Node.js</p> </div>
+            <div class="skill">
+                <i class="fas fa-brain"></i> <p class="gradient-text">AI Agents</p>
+            </div>
+            <div class="skill">
+                <i class="fas fa-database"></i> <p class="gradient-text">RAG</p>
+            </div>
+            <div class="skill">
+                <i class="fas fa-cloud"></i> <p class="gradient-text">Cloud/DevOps</p>
             </div>
         </div>
     </div>
@@ -137,26 +175,16 @@
 
 <section id="contact" class="section">
     <div class="container">
-        <h2>Contact Me</h2>
-        <form id="contact-form" action="https://formspree.io/f/meoerdwl" method="POST">
+        <h2 class="section-title">Contact Me</h2> <form id="contact-form" action="https://formspree.io/f/meoerdwl" method="POST">
             <input type="hidden" name="_next" value="thankyou.html">
             <div class="form-group">
-                <label for="name"  style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <label for="name" class="gradient-text">Name:</label> <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group">
-                <label for="email"  style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <label for="email" class="gradient-text">Email:</label> <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
-                <label for="message"  style="background: linear-gradient(to right, #8309D5, #09C1D5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Message:</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
+                <label for="message" class="gradient-text">Message:</label> <textarea id="message" name="message" rows="5" required></textarea>
             </div>
             <button type="submit" class="button">Send Message</button>
         </form>
@@ -174,18 +202,15 @@
     </div>
 </footer>
 
-<!-- Theme Toggle -->
-   <label class="theme-switch" for="checkbox">
+<label class="theme-switch" for="checkbox">
         <input type="checkbox" id="checkbox" />
         <div class="slider round"></div>
   </label>
 
-<!-- Scroll to Top Button -->
 <button id="scroll-to-top-button" class="scroll-to-top-button">
     <i class="fas fa-arrow-up"></i>
 </button>
 
-<!-- Music Controls -->
 <div class="music-controls">
     <button id="play-pause-button"><i class="fas fa-play"></i></button>
     <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
