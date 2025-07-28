@@ -556,3 +556,16 @@ width: 26px;
 .button i.fas {
   margin-right: 5px; /* Add a small space for icon inside buttons */
 }
+
+
+
+/* Already present in your style.css for merch and ad services, but ensure it applies globally */
+.section-description {
+  text-align: center;
+  font-size: 1.1rem; /* Adjust font size as needed */
+  color: var(--text-on-dark-bg); /* Or var(--text-on-light-bg) depending on section background */
+  margin-bottom: 40px;
+  max-width: 800px; /* Keep text readable, not too wide */
+  margin-left: auto;
+  margin-right: auto;
+}
