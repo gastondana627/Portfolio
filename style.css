@@ -49,7 +49,8 @@ a {
 
 /* Header Styles */
 header {
-  background-color: #fff;
+  background-color: #191919; /* CORRECTED: Was #fff */
+  border-bottom: 1px solid #333;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
@@ -66,7 +67,6 @@ nav {
 .logo {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #fff;
 }
 
 .nav-links {
@@ -75,10 +75,12 @@ nav {
   gap: 20px;
 }
 
-.nav-links li a {
-  font-size: 1rem;
-  color: #fff;
-  transition: color 0.3s ease;
+/* This rule makes the header text white and removes the gradient */
+header nav a.gradient-text {
+    color: white !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
 }
 
 .nav-links li a:hover {
@@ -122,7 +124,7 @@ nav {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 30px;
-  color: #fff;
+  color: #333; /* CORRECTED: Was #fff (invisible) */
 }
 
 .about-content {
@@ -139,7 +141,7 @@ nav {
 .about-text p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #fff;
+  color: #333; /* CORRECTED: Text inside a white section should be dark */
 }
 
 /* Projects Section */
@@ -151,7 +153,7 @@ nav {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 30px;
-  color: #fff;
+  color: #333; /* CORRECTED: Was #fff (invisible) */
 }
 
 .projects-grid {
@@ -198,7 +200,7 @@ nav {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 30px;
-  color: #fff;
+  color: #333; /* CORRECTED: Was #fff (invisible) */
 }
 
 .skills-grid {
@@ -229,7 +231,7 @@ nav {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 30px;
-  color: #fff;
+  color: #333; /* CORRECTED: Was #fff (invisible) */
 }
 
 #contact-form {
@@ -247,9 +249,9 @@ nav {
   display: block;
   font-size: 1.1rem;
   margin-bottom: 5px;
-background: linear-gradient(to right, #8309D5, #09C1D5);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
+  background: linear-gradient(to right, #8309D5, #09C1D5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .form-group input,
@@ -259,16 +261,47 @@ background: linear-gradient(to right, #8309D5, #09C1D5);
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
-  color: #fff;
+  color: #333; /* CORRECTED: Form text should be dark */
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* Professional Services & Merch Sections */
+#ad-services, #merch-shop {
+  background: linear-gradient(to right, #8309D5, #09C1D5);
+}
+
+.section-description {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.service-button-cta {
+  font-size: 1.1rem;
+  padding: 15px 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button i.fas {
+  margin-right: 5px;
+}
+
 /* Footer */
+/* --- Your NEW Footer Style --- */
 footer {
-  background-color: #333;
+  background-color: #191919; /* Solid black background */
   color: #fff;
   text-align: center;
   padding: 30px 0;
+  border-top: 5px solid; /* Creates the space for the border image */
+  border-image-source: linear-gradient(to right, #8309D5, #09C1D5);
+  border-image-slice: 1;
 }
 
 footer .container {
@@ -358,66 +391,56 @@ footer .container {
   width: 100px;
 }
 
-/* Add dark/light themes */
-[data-theme="dark"] {
---primary: #333;
---secondary: #1a1a1a;
---accent: #999;
---text: #fff;
-}
-input[type=checkbox]{
-height: 0;
-width: 0;
-visibility: hidden;
+/* Dark/Light Theme Switch */
+.theme-switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
 }
 
-.theme-switch {
-display: inline-block;
-height: 34px;
-position: relative;
-width: 60px;
+.theme-switch input {
+  height: 0;
+  width: 0;
+  visibility: hidden;
 }
 
 .theme-switch .slider {
-background-color: #ccc;
-bottom: 0;
-cursor: pointer;
-left: 0;
-position: absolute;
-right: 0;
-top: 0;
-transition: .4s;
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
 }
 
 .theme-switch .slider:before {
-background-color: white;
-bottom: 4px;
-content: "";
-left: 4px;
-position: absolute;
-transition: .4s;
+  background-color: white;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
 }
 
 input:checked + .slider {
-background-color: #66bb6a;
-}
-
-input:focus + .slider {
-box-shadow: 0 0 1px #66bb6a;
+  background-color: #66bb6a;
 }
 
 input:checked + .slider:before {
-transform: translateX(26px);
+  transform: translateX(26px);
 }
 
 .theme-switch .slider.round {
-border-radius: 34px;
+  border-radius: 34px;
 }
 
 .theme-switch .slider.round:before {
-border-radius: 50%;
-height: 26px;
-width: 26px;
+  border-radius: 50%;
 }
 
 /* Media Queries for Responsiveness */
@@ -443,7 +466,7 @@ width: 26px;
       top: 60px;
       left: 0;
       width: 100%;
-      background-color: #fff;
+      background-color: #191919; /* Match header background */
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 10px;
       text-align: center;
@@ -528,44 +551,22 @@ width: 26px;
 
 
 
-/* Professional Services Section */
-#ad-services {
-  /* You can choose a background theme here, e.g., the dark gradient or a light background */
-  background: var(--section-bg-dark-gradient); /* Example: matching your hero/default body */
-  /* background-color: var(--section-bg-light); */ /* Alternative: if you want it light */
-}
 
-#ad-services .section-title {
-  color: var(--text-on-dark-bg); /* Adjust based on background choice */
-}
 
-#ad-services .section-description {
-  color: var(--text-on-dark-bg); /* Adjust based on background choice */
-  margin-bottom: 30px;
-}
+/* --- Fade to Footer Effect --- */
 
-.service-button-cta {
-  font-size: 1.1rem;
-  padding: 15px 30px;
-  display: inline-flex; /* To align icon and text */
-  align-items: center;
-  gap: 10px; /* Space between icon and text */
-}
-
-/* You might want to add this to your existing .button style or as a separate rule */
-.button i.fas {
-  margin-right: 5px; /* Add a small space for icon inside buttons */
+/* This creates a "ghost" element at the bottom of the page */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px; /* Adjust the height to control the fade distance */
+  background: linear-gradient(to top, #191919, transparent);
+  pointer-events: none; /* Allows you to click through the effect */
+  z-index: 98; /* Sits just above the 3D canvas but below content */
 }
 
 
 
-/* Already present in your style.css for merch and ad services, but ensure it applies globally */
-.section-description {
-  text-align: center;
-  font-size: 1.1rem; /* Adjust font size as needed */
-  color: var(--text-on-dark-bg); /* Or var(--text-on-light-bg) depending on section background */
-  margin-bottom: 40px;
-  max-width: 800px; /* Keep text readable, not too wide */
-  margin-left: auto;
-  margin-right: auto;
-}

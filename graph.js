@@ -1,40 +1,48 @@
 // --- 1. SETUP ---
-// Find the container we created in our HTML
 const container = document.getElementById('graph-container');
-
-// Scene: The 3D world that will hold all our objects
 const scene = new THREE.Scene();
-
-// Camera: The viewer's perspective or "eye"
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5; // Move the camera back a bit so we can see the cube
-
-// Renderer: This draws the scene onto the screen
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // alpha: true makes the background transparent
+camera.position.z = 5;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-container.appendChild(renderer.domElement); // Add the renderer's canvas to our HTML container
+container.appendChild(renderer.domElement);
+const clock = new THREE.Clock(); // Use a clock to manage time
 
-// --- 2. CREATE THE OBJECT ---
-// Geometry: The shape of the object (a box)
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-// Material: The "skin" of the object (a green wireframe)
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-// Mesh: The final object, combining the shape and the skin
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube); // Add the cube to our 3D world
+// --- 2. CREATE THE OBJECT & MATERIALS ---
+const geometry = new THREE.BoxGeometry(2, 2, 2);
+
+// Create two materials that we can switch between
+const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
+const blackMaterial = new THREE.MeshBasicMaterial({ color: 0x191919, wireframe: true });
+
+// Create the cube and start with the white material
+const cube = new THREE.Mesh(geometry, whiteMaterial);
+scene.add(cube);
 
 // --- 3. ANIMATE ---
-// This function runs about 60 times per second to create motion
 function animate() {
-    requestAnimationFrame(animate); // Schedule the next frame
+    requestAnimationFrame(animate);
 
-    // Rotate the cube on its X and Y axes
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
+    // Get the total time the animation has been running
+    const elapsedTime = clock.getElapsedTime();
 
-    // Tell the renderer to draw the scene from the camera's perspective
+    // --- Flash Animation Logic ---
+    // Every 15 seconds, this condition will be true for 1 second.
+    // (Math.floor(elapsedTime) % 15) gives us a number that counts 0, 1, 2... up to 14, then repeats.
+    // We check if that number is 0.
+    if (Math.floor(elapsedTime) % 15 === 0) {
+        cube.material = blackMaterial; // Use the black material for the "flash"
+    } else {
+        cube.material = whiteMaterial; // Use the default white material
+    }
+
+    // --- Rotation Logic ---
+    // Use a sine wave for the smooth back-and-forth rotation
+    const rotationTime = elapsedTime * 0.5; // Controls the speed of the rotation
+    cube.rotation.y = ((Math.sin(rotationTime) + 1) / 2) * Math.PI;
+    cube.rotation.x = elapsedTime * 0.2; // Keep a slow constant rotation on another axis
+
     renderer.render(scene, camera);
 }
 
-// Start the animation loop!
 animate();
