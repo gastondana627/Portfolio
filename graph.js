@@ -2,45 +2,78 @@
 const container = document.getElementById('graph-container');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
+camera.position.z = 10; // Moved camera back to better see the pulsing effect
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 container.appendChild(renderer.domElement);
-const clock = new THREE.Clock(); // Use a clock to manage time
+const clock = new THREE.Clock();
 
-// --- 2. CREATE THE OBJECT & MATERIALS ---
+// --- 2. AUDIO ANALYSIS SETUP ---
+let analyser;
+let dataArray;
+
+// This function sets up the Web Audio API
+function initAudio() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioElement = document.getElementById('background-music');
+    const source = audioContext.createMediaElementSource(audioElement);
+
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256; // Fast Fourier Transform size
+
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    // Ensure the audio element is playing
+    audioElement.play();
+}
+
+// --- 3. CREATE THE OBJECT & MATERIALS ---
 const geometry = new THREE.BoxGeometry(2, 2, 2);
 
-// Create two materials that we can switch between
-const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
-const blackMaterial = new THREE.MeshBasicMaterial({ color: 0x191919, wireframe: true });
+// We'll use a single material and change its color dynamically
+const material = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    wireframe: true
+});
 
-// Create the cube and start with the white material
-const cube = new THREE.Mesh(geometry, whiteMaterial);
+const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
-// --- 3. ANIMATE ---
+// Define our base color (white) and glow color (purple from your scheme)
+const baseColor = new THREE.Color(0xffffff);
+const glowColor = new THREE.Color(0x8309D5);
+
+// --- 4. ANIMATE ---
 function animate() {
     requestAnimationFrame(animate);
-
-    // Get the total time the animation has been running
     const elapsedTime = clock.getElapsedTime();
 
-    // --- Flash Animation Logic ---
-    // Every 15 seconds, this condition will be true for 1 second.
-    // (Math.floor(elapsedTime) % 15) gives us a number that counts 0, 1, 2... up to 14, then repeats.
-    // We check if that number is 0.
-    if (Math.floor(elapsedTime) % 15 === 0) {
-        cube.material = blackMaterial; // Use the black material for the "flash"
-    } else {
-        cube.material = whiteMaterial; // Use the default white material
+    // --- Audio-Reactive Logic ---
+    if (analyser) {
+        // Get the frequency data from the audio
+        analyser.getByteFrequencyData(dataArray);
+
+        // --- BASS ---
+        // Bass frequencies are the first few elements in the array
+        const bassValue = (dataArray[2] + dataArray[3]) / 2 / 255; // Average a few bins and normalize (0-1)
+        const bassScale = 1 + bassValue * 1.5; // Pulse between 1x and 2.5x size
+        cube.scale.set(bassScale, bassScale, bassScale);
+
+        // --- TREBLE ---
+        // Treble frequencies are further down the array
+        const trebleValue = (dataArray[50] + dataArray[60]) / 2 / 255; // Average a few bins and normalize (0-1)
+        // Interpolate between white and purple based on treble intensity
+        material.color.copy(baseColor).lerp(glowColor, trebleValue);
     }
 
+
     // --- Rotation Logic ---
-    // Use a sine wave for the smooth back-and-forth rotation
-    const rotationTime = elapsedTime * 0.5; // Controls the speed of the rotation
-    cube.rotation.y = ((Math.sin(rotationTime) + 1) / 2) * Math.PI;
-    cube.rotation.x = elapsedTime * 0.2; // Keep a slow constant rotation on another axis
+    cube.rotation.x = elapsedTime * 0.1;
+    cube.rotation.y = elapsedTime * 0.15;
 
     renderer.render(scene, camera);
 }
