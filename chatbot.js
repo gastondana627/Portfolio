@@ -230,8 +230,12 @@ class PortfolioChatbot {
             return "👥 Gaston is passionate about mentorship! He actively mentors through Ambition in Motion (partnered with NSCS) and engages with the ALPFA community. He guides students in technology, career development, AI/ML projects, and hackathon preparation. His mentorship focuses on bridging the gap between academic learning and real-world AI applications.";
         }
         
+        if (lowerMessage.includes('kaggle') || lowerMessage.includes('vercel')) {
+            return "🏆 Gaston is an Early Access Program Tester for both Kaggle and Vercel! This means he gets hands-on experience with cutting-edge AI/ML tools and deployment platforms before they're publicly available. This early access allows him to stay ahead of the curve and build solutions with tomorrow's technology today.";
+        }
+        
         if (lowerMessage.includes('early access') || lowerMessage.includes('beta') || lowerMessage.includes('cutting edge')) {
-            return "🚀 Gaston stays at the forefront of technology by participating in early access and beta programs for both frontend and backend development tools! This gives him hands-on experience with emerging technologies before they hit the mainstream, allowing him to build with tomorrow's tools today and provide cutting-edge solutions to clients.";
+            return "🚀 Gaston stays at the forefront of technology by participating in early access and beta programs, including Kaggle and Vercel! This gives him hands-on experience with emerging technologies before they hit the mainstream, allowing him to build with tomorrow's tools today and provide cutting-edge solutions to clients.";
         }
         
         if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('email')) {
@@ -239,7 +243,7 @@ class PortfolioChatbot {
         }
         
         if (lowerMessage.includes('experience') || lowerMessage.includes('background')) {
-            return "💼 Gaston is a Full-Stack Developer & AI Engineer with experience at Reality AI Lab and AdvancingX. He specializes in building production-ready AI/ML systems, particularly RAG-backed applications and multi-agent systems. He's also an active mentor through NSCS & ALPFA partnerships and participates in early access programs for cutting-edge development tools, staying at the forefront of both frontend and backend innovations.";
+            return "💼 Gaston is an Early Access Program Tester for Kaggle and Vercel, and a Full-Stack Developer & AI Engineer with experience at Reality AI Lab and AdvancingX. He specializes in building production-ready AI/ML systems, particularly RAG-backed applications and multi-agent systems. He's also an active mentor through NSCS & ALPFA partnerships and participates in beta programs for cutting-edge development tools.";
         }
         
         if (lowerMessage.includes('project') && (lowerMessage.includes('main') || lowerMessage.includes('top') || lowerMessage.includes('best') || lowerMessage.includes('all'))) {
