@@ -11,7 +11,7 @@ CORS(app)
 
 # --- PROJECT DATA WITH FULL DETAILS ---
 mock_projects_data = {
-    "nodes": [
+    "projects": [
         {
             "id": "stargate",
             "group": "Gaming",
@@ -84,12 +84,45 @@ mock_projects_data = {
             ]
         }
     ],
-    "links": [
+    "skills": [
+        {"id": "python", "name": "Python", "category": "Language", "level": "expert"},
+        {"id": "rag", "name": "RAG", "category": "AI", "level": "expert"},
+        {"id": "ai_agents", "name": "AI Agents", "category": "AI", "level": "expert"},
+        {"id": "neo4j", "name": "Neo4j", "category": "Database", "level": "advanced"},
+        {"id": "mongodb", "name": "MongoDB", "category": "Database", "level": "advanced"},
+        {"id": "computer_vision", "name": "Computer Vision", "category": "AI", "level": "intermediate"},
+        {"id": "gis", "name": "GIS", "category": "Geospatial", "level": "advanced"},
+        {"id": "multi_agent", "name": "Multi-Agent Systems", "category": "AI", "level": "advanced"},
+        {"id": "gaming", "name": "Gaming", "category": "Domain", "level": "advanced"},
+        {"id": "security", "name": "Security", "category": "Domain", "level": "intermediate"}
+    ],
+    "evolution_links": [
         {"source": "peata", "target": "relic", "relationship": "evolved_into", "description": "Expanded RAG concepts from pet recovery to archaeological research"},
         {"source": "relic", "target": "astro_archive", "relationship": "evolved_into", "description": "Applied geospatial + AI learnings to space data archival"},
         {"source": "astro_archive", "target": "nasa_kg", "relationship": "evolved_into", "description": "Transitioned from document storage to knowledge graph reasoning"},
         {"source": "stargate", "target": "peata", "relationship": "inspired", "description": "Gaming personas inspired character-driven AI assistants"},
         {"source": "sesa", "target": "astro_archive", "relationship": "influenced", "description": "Multi-agent concepts influenced memory-aware systems"}
+    ],
+    "skill_links": [
+        {"project": "stargate", "skill": "python"},
+        {"project": "stargate", "skill": "ai_agents"},
+        {"project": "stargate", "skill": "gaming"},
+        {"project": "peata", "skill": "rag"},
+        {"project": "peata", "skill": "python"},
+        {"project": "peata", "skill": "ai_agents"},
+        {"project": "peata", "skill": "computer_vision"},
+        {"project": "relic", "skill": "rag"},
+        {"project": "relic", "skill": "python"},
+        {"project": "relic", "skill": "gis"},
+        {"project": "relic", "skill": "ai_agents"},
+        {"project": "sesa", "skill": "multi_agent"},
+        {"project": "sesa", "skill": "ai_agents"},
+        {"project": "sesa", "skill": "security"},
+        {"project": "astro_archive", "skill": "mongodb"},
+        {"project": "astro_archive", "skill": "python"},
+        {"project": "astro_archive", "skill": "ai_agents"},
+        {"project": "nasa_kg", "skill": "neo4j"},
+        {"project": "nasa_kg", "skill": "python"}
     ]
 }
 

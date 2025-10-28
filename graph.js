@@ -88,7 +88,10 @@ const glowColor = new THREE.Color(0x8309D5);
 
 // --- PROJECT DATA ---
 let projectNodes = [];
+let skillNodes = [];
 let projectData = [];
+let skillData = [];
+let skillLinks = [];
 
 const groupColors = {
     'AI Projects': { 
@@ -109,6 +112,14 @@ const groupColors = {
     }
 };
 
+const skillColors = {
+    'Language': 0xFFD700,    // Gold
+    'AI': 0x8309D5,          // Purple
+    'Database': 0x09C1D5,    // Cyan
+    'Geospatial': 0x00FF88,  // Green
+    'Domain': 0xFF00FF       // Magenta
+};
+
 // --- LOAD PROJECTS ---
 async function loadProjects() {
     console.log('📡 Fetching projects...');
@@ -120,8 +131,10 @@ async function loadProjects() {
         
         const response = await fetch(apiUrl);
         const data = await response.json();
-        projectData = data.nodes;
-        console.log('✅ Loaded', projectData.length, 'projects from backend');
+        projectData = data.projects || data.nodes; // Support both formats
+        skillData = data.skills || [];
+        skillLinks = data.skill_links || [];
+        console.log('✅ Loaded', projectData.length, 'projects and', skillData.length, 'skills from backend');
     } catch (error) {
         console.log('⚠️ Backend unavailable, using complete fallback data');
         // Complete fallback with all 6 projects
@@ -133,8 +146,22 @@ async function loadProjects() {
             {id: "astro_archive", group: "AI Projects", label: "Astro Archive", description: "Memory-aware coaching agents", links: [{type: "github", url: "https://github.com/gastondana627/Mongo_DB_NASA_OSDR"}]},
             {id: "nasa_kg", group: "AI Projects", label: "NASA Knowledge Graph", description: "Biological data mapping for astronaut health", links: [{type: "github", url: "https://github.com/gastondana627/spoke_genelab"}]}
         ];
+        skillData = [
+            {id: "python", name: "Python", category: "Language"},
+            {id: "rag", name: "RAG", category: "AI"},
+            {id: "ai_agents", name: "AI Agents", category: "AI"},
+            {id: "neo4j", name: "Neo4j", category: "Database"}
+        ];
+        skillLinks = [
+            {project: "peata", skill: "rag"},
+            {project: "peata", skill: "python"},
+            {project: "relic", skill: "rag"},
+            {project: "nasa_kg", skill: "neo4j"}
+        ];
     }
     createProjectNodes();
+    createSkillNodes();
+    createSkillConnections();
 }
 
 // --- CREATE NODES ---
@@ -187,9 +214,103 @@ function createProjectNodes() {
         projectNodes.push(node);
     });
     
-    console.log('✅ Created', projectNodes.length, 'nodes');
+    console.log('✅ Created', projectNodes.length, 'project nodes');
+}
+
+// --- CREATE SKILL NODES ---
+function createSkillNodes() {
+    console.log('🎨 Creating', skillData.length, 'skill nodes');
     
-    // Create evolution path connections
+    // Position skills in inner ring closer to prism
+    const innerRadius = 4;
+    const angleStep = (Math.PI * 2) / skillData.length;
+    
+    skillData.forEach((skill, index) => {
+        const angle = angleStep * index;
+        const x = Math.cos(angle) * innerRadius;
+        const z = Math.sin(angle) * innerRadius;
+        const y = (Math.random() - 0.5) * 2; // Random height variation
+        
+        const skillColor = skillColors[skill.category] || 0xFFFFFF;
+        
+        // Smaller octahedron for skills (diamond shape)
+        const skillGeometry = new THREE.OctahedronGeometry(0.5, 0);
+        const skillMaterial = new THREE.MeshBasicMaterial({
+            color: skillColor,
+            transparent: true,
+            opacity: 0.7,
+            wireframe: false
+        });
+        const skillNode = new THREE.Mesh(skillGeometry, skillMaterial);
+        
+        skillNode.position.set(x, y, z);
+        
+        // Add wireframe outline
+        const outlineGeometry = new THREE.OctahedronGeometry(0.55, 0);
+        const outlineMaterial = new THREE.MeshBasicMaterial({
+            color: skillColor,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.8
+        });
+        const outline = new THREE.Mesh(outlineGeometry, outlineMaterial);
+        skillNode.add(outline);
+        
+        skillNode.userData = {
+            id: skill.id,
+            name: skill.name,
+            category: skill.category,
+            level: skill.level,
+            originalPosition: new THREE.Vector3(x, y, z),
+            baseColor: new THREE.Color(skillColor),
+            outline: outline,
+            isSkill: true
+        };
+        
+        scene.add(skillNode);
+        skillNodes.push(skillNode);
+    });
+    
+    console.log('✅ Created', skillNodes.length, 'skill nodes');
+}
+
+// --- CREATE SKILL CONNECTIONS ---
+let skillConnectionLines = [];
+
+function createSkillConnections() {
+    console.log('🔗 Creating skill connections');
+    
+    skillLinks.forEach(link => {
+        const projectNode = projectNodes.find(n => n.userData.id === link.project);
+        const skillNode = skillNodes.find(n => n.userData.id === link.skill);
+        
+        if (projectNode && skillNode) {
+            // Create thin line connecting project to skill
+            const points = [projectNode.position, skillNode.position];
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({
+                color: skillNode.userData.baseColor,
+                transparent: true,
+                opacity: 0.2,
+                linewidth: 1
+            });
+            
+            const line = new THREE.Line(geometry, material);
+            line.userData = {
+                isSkillConnection: true,
+                projectNode: projectNode,
+                skillNode: skillNode,
+                baseOpacity: 0.2
+            };
+            
+            scene.add(line);
+            skillConnectionLines.push(line);
+        }
+    });
+    
+    console.log('✅ Created', skillConnectionLines.length, 'skill connections');
+    
+    // Now create evolution paths
     createEvolutionPaths();
 }
 
@@ -288,21 +409,31 @@ function onMouseMove(event) {
     
     raycaster.setFromCamera(mouse, camera);
     
-    // Find closest node to mouse, regardless of occlusion
+    // Find closest node to mouse (projects and skills)
     let closestNode = null;
     let closestDistance = Infinity;
     
+    // Check project nodes
     projectNodes.forEach(node => {
-        // Project node position to screen space
         const nodeScreenPos = node.position.clone().project(camera);
-        
-        // Calculate distance from mouse to node in screen space
         const dx = nodeScreenPos.x - mouse.x;
         const dy = nodeScreenPos.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // Increased threshold for easier hovering (0.15 = ~15% of screen)
         if (distance < 0.15 && distance < closestDistance) {
+            closestDistance = distance;
+            closestNode = node;
+        }
+    });
+    
+    // Check skill nodes (smaller threshold)
+    skillNodes.forEach(node => {
+        const nodeScreenPos = node.position.clone().project(camera);
+        const dx = nodeScreenPos.x - mouse.x;
+        const dy = nodeScreenPos.y - mouse.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 0.12 && distance < closestDistance) {
             closestDistance = distance;
             closestNode = node;
         }
@@ -344,9 +475,36 @@ function onMouseMove(event) {
             hoveredNode.userData.outline.material.opacity = 1.0;
         }
         container.classList.add('hovering');
-        showTooltip(hoveredNode.userData.project.label, event.clientX, event.clientY);
+        
+        // Show appropriate tooltip
+        if (hoveredNode.userData.isSkill) {
+            showTooltip(`💎 ${hoveredNode.userData.name} (${hoveredNode.userData.category})`, event.clientX, event.clientY);
+            
+            // Highlight connected projects
+            skillConnectionLines.forEach(line => {
+                if (line.userData.skillNode === hoveredNode) {
+                    line.material.opacity = 0.6;
+                    line.userData.projectNode.material.opacity = 1.0;
+                }
+            });
+        } else {
+            showTooltip(hoveredNode.userData.project.label, event.clientX, event.clientY);
+            
+            // Highlight connected skills
+            skillConnectionLines.forEach(line => {
+                if (line.userData.projectNode === hoveredNode) {
+                    line.material.opacity = 0.6;
+                    line.userData.skillNode.material.opacity = 1.0;
+                }
+            });
+        }
     } else if (!hoveredPrism && !closestNode) {
         container.classList.remove('hovering');
+        
+        // Reset all skill connections
+        skillConnectionLines.forEach(line => {
+            line.material.opacity = line.userData.baseOpacity;
+        });
     }
 }
 
@@ -547,6 +705,32 @@ function animate() {
     
     prism.rotation.x = elapsedTime * 0.1;
     prism.rotation.y = elapsedTime * 0.15;
+    
+    // Animate skill nodes - rotate in place
+    skillNodes.forEach((node, index) => {
+        // Gentle rotation
+        node.rotation.x = elapsedTime * 0.5 + index;
+        node.rotation.y = elapsedTime * 0.3 + index;
+        
+        // Subtle floating
+        const floatOffset = Math.sin(elapsedTime * 2 + index) * 0.2;
+        node.position.y = node.userData.originalPosition.y + floatOffset;
+        
+        // Pulse with audio if available
+        if (analyser) {
+            const pulse = 1 + (dataArray[10 + index] || 0) / 255 * 0.3;
+            node.scale.set(pulse, pulse, pulse);
+        }
+    });
+    
+    // Update skill connection lines
+    skillConnectionLines.forEach(line => {
+        const points = [line.userData.projectNode.position, line.userData.skillNode.position];
+        line.geometry.setFromPoints(points);
+        
+        // Subtle pulse
+        line.material.opacity = line.userData.baseOpacity + Math.sin(elapsedTime) * 0.05;
+    });
     
     // Animate path particles
     pathParticles.forEach(particle => {
