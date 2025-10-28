@@ -243,7 +243,7 @@ class PortfolioChatbot {
         }
         
         if (lowerMessage.includes('experience') || lowerMessage.includes('background')) {
-            return "💼 Gaston is an Early Access Program Tester for Kaggle and Vercel, and a Full-Stack Developer & AI Engineer with experience at Reality AI Lab and AdvancingX. He specializes in building production-ready AI/ML systems, particularly RAG-backed applications and multi-agent systems. He's also an active mentor through NSCS & ALPFA partnerships and participates in beta programs for cutting-edge development tools.";
+            return "💼 Gaston is an Early Access Program Tester for Kaggle and Vercel, specializing as a Full-Stack Developer & AI Engineer. He builds production-ready AI/ML systems, particularly RAG-backed applications and multi-agent systems. He's also an active mentor through NSCS & ALPFA partnerships and participates in beta programs for cutting-edge development tools.";
         }
         
         if (lowerMessage.includes('project') && (lowerMessage.includes('main') || lowerMessage.includes('top') || lowerMessage.includes('best') || lowerMessage.includes('all'))) {
