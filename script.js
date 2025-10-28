@@ -97,20 +97,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const volumeSlider = document.getElementById('volume-slider');
 
     if (backgroundMusic && playPauseButton && volumeSlider) {
-        let isPlaying = true;
-        // --- ADDED THIS LINE ---
-        // This flag ensures the audio analyzer is only initialized once.
+        let isPlaying = false;
         let audioInitialized = false;
 
         // Play/Pause
         playPauseButton.addEventListener('click', () => {
-            // --- ADDED THIS BLOCK ---
-            // On the first click, this will run the initAudio function from graph.js
-            if (!audioInitialized) {
-                initAudio();
-                audioInitialized = true;
+            // Initialize audio analyzer on first interaction
+            if (!audioInitialized && typeof initAudio === 'function') {
+                try {
+                    initAudio();
+                    audioInitialized = true;
+                } catch (error) {
+                    console.log("Audio initialization error:", error);
+                }
             }
-            // --- END OF ADDED BLOCK ---
 
             if (isPlaying) {
                 backgroundMusic.pause();
@@ -118,7 +118,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 playPauseButton.classList.remove('playing');
                 playPauseButton.setAttribute('title', 'Play Music');
             } else {
-                backgroundMusic.play();
+                backgroundMusic.play().catch(error => {
+                    console.log("Playback error:", error);
+                });
                 playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
                 playPauseButton.classList.add('playing');
                 playPauseButton.setAttribute('title', 'Pause Music');
@@ -134,23 +136,29 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initial volume setup
         backgroundMusic.volume = volumeSlider.value;
 
-        // Autoplay Check
+        // Try autoplay (will likely be blocked by browser)
         const playPromise = backgroundMusic.play();
         if (playPromise !== undefined) {
             playPromise.then(_ => {
-                    if (isPlaying) {
-                        playPauseButton.classList.add('playing');
-                        playPauseButton.setAttribute('title', 'Pause Music')
+                isPlaying = true;
+                playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+                playPauseButton.classList.add('playing');
+                playPauseButton.setAttribute('title', 'Pause Music');
+                // Initialize audio on successful autoplay
+                if (!audioInitialized && typeof initAudio === 'function') {
+                    try {
+                        initAudio();
+                        audioInitialized = true;
+                    } catch (error) {
+                        console.log("Audio initialization error:", error);
                     }
-                })
-                .catch(error => {
-                    console.log("Autoplay prevented: ", error);
-                    isPlaying = false;
-                    playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
-                    playPauseButton.setAttribute('title', 'Play Music');
-                });
-        } else {
-            playPauseButton.setAttribute('title', 'Pause Music')
+                }
+            }).catch(error => {
+                console.log("Autoplay prevented (expected):", error);
+                isPlaying = false;
+                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                playPauseButton.setAttribute('title', 'Play Music');
+            });
         }
     }
 });
@@ -167,3 +175,40 @@ function switchTheme(e) {
 }
 
 toggleSwitch.addEventListener('change', switchTheme, false);
+
+// Graph Instructions Overlay
+document.addEventListener('DOMContentLoaded', () => {
+    const instructions = document.getElementById('graph-instructions');
+    const gotItBtn = document.getElementById('got-it-btn');
+    
+    if (!instructions || !gotItBtn) return;
+    
+    // Check if user has seen instructions before
+    const hasSeenInstructions = localStorage.getItem('hasSeenGraphInstructions');
+    
+    if (!hasSeenInstructions) {
+        // Show instructions after a short delay
+        setTimeout(() => {
+            instructions.style.display = 'block';
+            instructions.style.opacity = '1';
+        }, 1000);
+    } else {
+        instructions.style.display = 'none';
+    }
+    
+    // Hide instructions when button is clicked
+    gotItBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Got it button clicked!');
+        
+        // Fade out animation
+        instructions.style.opacity = '0';
+        instructions.style.transform = 'translate(-50%, -50%) scale(0.9)';
+        
+        setTimeout(() => {
+            instructions.style.display = 'none';
+            localStorage.setItem('hasSeenGraphInstructions', 'true');
+        }, 300);
+    });
+});

@@ -1,0 +1,172 @@
+/* Knowledge Graph Modal Styles */
+
+#graph-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(25, 25, 25, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(131, 9, 213, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+#graph-modal.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#graph-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#graph-modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 28px;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    margin-bottom: 24px;
+}
+
+.modal-title {
+    font-size: 28px;
+    font-weight: 600;
+    background: linear-gradient(to right, #8309D5, #09C1D5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 8px 0;
+}
+
+.modal-category {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(131, 9, 213, 0.2);
+    border: 1px solid rgba(131, 9, 213, 0.4);
+    border-radius: 20px;
+    font-size: 12px;
+    color: #09C1D5;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modal-description {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+.modal-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+}
+
+.modal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: linear-gradient(to right, #8309D5, #09C1D5);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(131, 9, 213, 0.4);
+}
+
+.modal-link i {
+    font-size: 16px;
+}
+
+/* Scrollbar styling */
+#graph-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+#graph-modal::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+#graph-modal::-webkit-scrollbar-thumb {
+    background: rgba(131, 9, 213, 0.5);
+    border-radius: 4px;
+}
+
+#graph-modal::-webkit-scrollbar-thumb:hover {
+    background: rgba(131, 9, 213, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #graph-modal {
+        padding: 24px;
+        width: 95%;
+    }
+
+    .modal-title {
+        font-size: 22px;
+    }
+
+    .modal-links {
+        flex-direction: column;
+    }
+
+    .modal-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
