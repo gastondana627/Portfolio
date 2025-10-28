@@ -159,19 +159,32 @@ async function loadProjects() {
             {id: "relic", group: "AI Projects", label: "Relic", description: "Archaeological research assistant", links: [{type: "github", url: "https://github.com/gastondana627/Team-Relic-Xingu-Challenge"}]},
             {id: "sesa", group: "Ethical Hacking", label: "SESA", description: "Multi-agent AI system", links: []},
             {id: "astro_archive", group: "AI Projects", label: "Astro Archive", description: "Memory-aware coaching agents", links: [{type: "github", url: "https://github.com/gastondana627/Mongo_DB_NASA_OSDR"}]},
-            {id: "nasa_kg", group: "AI Projects", label: "NASA Knowledge Graph", description: "Biological data mapping for astronaut health", links: [{type: "github", url: "https://github.com/gastondana627/spoke_genelab"}]}
+            {id: "nasa_kg", group: "AI Projects", label: "NASA Knowledge Graph", description: "Biological data mapping for astronaut health", links: [{type: "github", url: "https://github.com/gastondana627/spoke_genelab"}]},
+            {id: "planetrics", group: "AI Projects", label: "Planetrics", description: "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog. Built with Plotly Studio, featuring live data from NASA Exoplanet Archive API, discovery trends, and curated milestone content.", links: [{type: "demo", url: "https://d3db0003-331f-4875-8af8-7bb0fb3acc6c.plotly.app"}]},
+            {id: "ai-room-designer", group: "AI Projects", label: "AI Room Designer", description: "Multi-modal AI interior design platform with dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Features Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs voice narration, and local gpt-oss agent for offline AI consultation.", links: [{type: "demo", url: "https://rooms-through-time-production.up.railway.app"}, {type: "demo", url: "https://rooms-through-time.vercel.app"}, {type: "github", url: "https://github.com/gastondana627/Rooms-Through-Time"}, {type: "info", url: "https://youtu.be/Gh2-ltEzjr0?si=J3W58BHmcdWNWA5k"}]}
         ];
         skillData = [
             {id: "python", name: "Python", category: "Language"},
             {id: "rag", name: "RAG", category: "AI"},
             {id: "ai_agents", name: "AI Agents", category: "AI"},
-            {id: "neo4j", name: "Neo4j", category: "Database"}
+            {id: "neo4j", name: "Neo4j", category: "Database"},
+            {id: "data_viz", name: "Data Visualization", category: "Domain"},
+            {id: "api", name: "API Integration", category: "Domain"},
+            {id: "react", name: "React", category: "Language"},
+            {id: "computer_vision", name: "Computer Vision", category: "AI"}
         ];
         skillLinks = [
             {project: "peata", skill: "rag"},
             {project: "peata", skill: "python"},
             {project: "relic", skill: "rag"},
-            {project: "nasa_kg", skill: "neo4j"}
+            {project: "nasa_kg", skill: "neo4j"},
+            {project: "planetrics", skill: "python"},
+            {project: "planetrics", skill: "data_viz"},
+            {project: "planetrics", skill: "api"},
+            {project: "ai-room-designer", skill: "python"},
+            {project: "ai-room-designer", skill: "react"},
+            {project: "ai-room-designer", skill: "ai_agents"},
+            {project: "ai-room-designer", skill: "computer_vision"}
         ];
     }
     createProjectNodes();
@@ -362,7 +375,9 @@ function createEvolutionPaths() {
         { from: "relic", to: "astro_archive", color: 0x09C1D5 },
         { from: "astro_archive", to: "nasa_kg", color: 0xA855F7 },
         { from: "stargate", to: "peata", color: 0xFF00FF, dashed: true },
-        { from: "sesa", to: "astro_archive", color: 0x00FFFF, dashed: true }
+        { from: "sesa", to: "astro_archive", color: 0x00FFFF, dashed: true },
+        { from: "nasa_kg", to: "ai-room-designer", color: 0x8309D5 },
+        { from: "nasa_kg", to: "planetrics", color: 0x09C1D5, dashed: true }
     ];
     
     evolutionPaths.forEach(path => {

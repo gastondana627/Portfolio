@@ -82,6 +82,31 @@ mock_projects_data = {
                 {"type": "github", "url": "https://github.com/gastondana627/spoke_genelab"},
                 {"type": "info", "url": "https://www.linkedin.com/posts/gaston-d-859653184_spoke-nasa-team60-activity-7325938069293977601-T3ck"}
             ]
+        },
+        {
+            "id": "planetrics",
+            "group": "AI Projects",
+            "label": "Planetrics",
+            "description": "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog. Built with Plotly Studio, featuring live data from NASA Exoplanet Archive API, discovery trends, and curated milestone content.",
+            "year": 2025,
+            "skills": ["Python", "Plotly", "Pandas", "NASA API", "Data Visualization"],
+            "links": [
+                {"type": "demo", "url": "https://d3db0003-331f-4875-8af8-7bb0fb3acc6c.plotly.app"}
+            ]
+        },
+        {
+            "id": "ai-room-designer",
+            "group": "AI Projects",
+            "label": "AI Room Designer",
+            "description": "Multi-modal AI interior design platform with dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Features Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs voice narration, and local gpt-oss agent for offline AI consultation.",
+            "year": 2025,
+            "skills": ["React", "Python", "FastAPI", "Gemini 2.5", "Fal.ai", "ElevenLabs", "TypeScript", "Tailwind CSS"],
+            "links": [
+                {"type": "demo", "url": "https://rooms-through-time-production.up.railway.app"},
+                {"type": "demo", "url": "https://rooms-through-time.vercel.app"},
+                {"type": "github", "url": "https://github.com/gastondana627/Rooms-Through-Time"},
+                {"type": "info", "url": "https://youtu.be/Gh2-ltEzjr0?si=J3W58BHmcdWNWA5k"}
+            ]
         }
     ],
     "skills": [
@@ -94,7 +119,10 @@ mock_projects_data = {
         {"id": "gis", "name": "GIS", "category": "Geospatial", "level": "advanced"},
         {"id": "multi_agent", "name": "Multi-Agent Systems", "category": "AI", "level": "advanced"},
         {"id": "gaming", "name": "Gaming", "category": "Domain", "level": "advanced"},
-        {"id": "security", "name": "Security", "category": "Domain", "level": "intermediate"}
+        {"id": "security", "name": "Security", "category": "Domain", "level": "intermediate"},
+        {"id": "data_viz", "name": "Data Visualization", "category": "Domain", "level": "advanced"},
+        {"id": "api", "name": "API Integration", "category": "Domain", "level": "expert"},
+        {"id": "react", "name": "React", "category": "Language", "level": "advanced"}
     ],
     "evolution_links": [
         {"source": "peata", "target": "relic", "relationship": "evolved_into", "description": "Expanded RAG concepts from pet recovery to archaeological research"},
@@ -122,7 +150,14 @@ mock_projects_data = {
         {"project": "astro_archive", "skill": "python"},
         {"project": "astro_archive", "skill": "ai_agents"},
         {"project": "nasa_kg", "skill": "neo4j"},
-        {"project": "nasa_kg", "skill": "python"}
+        {"project": "nasa_kg", "skill": "python"},
+        {"project": "planetrics", "skill": "python"},
+        {"project": "planetrics", "skill": "data_viz"},
+        {"project": "planetrics", "skill": "api"},
+        {"project": "ai-room-designer", "skill": "python"},
+        {"project": "ai-room-designer", "skill": "react"},
+        {"project": "ai-room-designer", "skill": "ai_agents"},
+        {"project": "ai-room-designer", "skill": "computer_vision"}
     ]
 }
 

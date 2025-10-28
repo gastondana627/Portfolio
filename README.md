@@ -1,12 +1,14 @@
 # Gaston Dana - Portfolio Website
 
-A modern, interactive portfolio website showcasing AI/ML projects, full-stack development work, and creative services.
+A modern, interactive portfolio website showcasing AI/ML projects, full-stack development work, and creative services. Features 8 projects including recent 2025 hackathon entries: Planetrics (NASA Exoplanet Dashboard) and AI Room Designer (Multi-modal Interior Design Platform).
 
 ## Features
 
+- **Interactive Knowledge Graph** - Three.js-based 3D visualization with 8 project nodes and skill connections
 - **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
-- **3D Audio-Reactive Visualization** - Three.js cube that pulses to background music
-- **Project Showcase** - Highlighting AI-powered solutions and innovative applications
+- **3D Audio-Reactive Visualization** - Three.js prism that pulses to background music
+- **Project Showcase** - Highlighting AI-powered solutions and innovative applications (8 featured projects)
+- **Project Carousel** - Auto-rotating display synchronized with knowledge graph
 - **Contact Form** - Integrated with Formspree for easy communication
 - **Dark/Light Theme Toggle** - User preference support
 - **Background Music Player** - With volume controls
@@ -91,10 +93,24 @@ vercel
 
 The site is configured for static hosting via `vercel.json`.
 
+## Featured Projects
+
+The portfolio currently showcases 8 AI/ML projects:
+
+1. **NASA Knowledge Graph** - RAG-powered research assistant
+2. **Peata** - Emotional AI companion
+3. **Teacher Management Chatbot** - Educational AI assistant
+4. **Space for Health Challenge** - NASA health monitoring system
+5. **Stargate** - Multi-agent orchestration platform
+6. **SESA Proposal** - Space exploration research proposal
+7. **Planetrics** (2025) - NASA Exoplanet Dashboard with live data visualization
+8. **AI Room Designer** (2025) - Multi-modal interior design platform with Gemini 2.5 Flash
+
 ## Customization
 
 - **Colors**: Update the gradient colors in `style.css` (currently purple to cyan)
-- **Projects**: Edit the project cards in `index.html`
+- **Projects**: Edit project data in `backend/app.py` and `graph.js` fallback arrays
+- **Carousel**: Update featured projects in `project-carousel.js`
 - **Music**: Replace `assets/music_fx_a_trap_beat_with_a_heavy_bass_butwith_techno-2.wav`
 - **Images**: Update images in the `assets/` folder
 

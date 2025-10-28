@@ -48,6 +48,32 @@ const featuredProjects = [
             { url: "https://github.com/gastondana627/Stargate-and-Bobot", label: "GitHub", icon: "fab fa-github" },
             { url: "https://moonrock-stargate-and-bobot-game.streamlit.app", label: "Play Game", icon: "fas fa-gamepad" }
         ]
+    },
+    {
+        id: "planetrics",
+        title: "Planetrics - NASA Exoplanet Dashboard",
+        category: "AI Projects",
+        description: "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog. Built with Plotly Studio, featuring live data from NASA Exoplanet Archive API, discovery trends, and curated milestone content.",
+        tech: ["Python", "Plotly", "Pandas", "NASA API", "Data Visualization"],
+        image: "assets/planetrics-dashboard.jpg",
+        links: [
+            { url: "https://d3db0003-331f-4875-8af8-7bb0fb3acc6c.plotly.app", label: "Live Dashboard", icon: "fas fa-chart-line" },
+            { url: "https://docs.google.com/document/d/1234", label: "Documentation", icon: "fas fa-file-alt" }
+        ]
+    },
+    {
+        id: "ai-room-designer",
+        title: "AI Room Designer - Rooms Through Time",
+        category: "AI Projects",
+        description: "Multi-modal AI interior design platform with dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Features Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs voice narration, and local gpt-oss agent for offline AI consultation.",
+        tech: ["React", "Python", "FastAPI", "Gemini 2.5", "Fal.ai", "ElevenLabs", "TypeScript", "Tailwind CSS"],
+        image: "assets/ai-room-designer-promo.jpg",
+        links: [
+            { url: "https://rooms-through-time-production.up.railway.app", label: "Live Demo (Railway)", icon: "fas fa-external-link-alt" },
+            { url: "https://rooms-through-time.vercel.app", label: "Live Demo (Vercel)", icon: "fas fa-external-link-alt" },
+            { url: "https://github.com/gastondana627/Rooms-Through-Time", label: "GitHub", icon: "fab fa-github" },
+            { url: "https://youtu.be/Gh2-ltEzjr0?si=J3W58BHmcdWNWA5k", label: "Demo Video", icon: "fab fa-youtube" }
+        ]
     }
 ];
 
