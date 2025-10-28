@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1A1A2E;
+            color: white;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .debug-info {
+            background: #2A2A3E;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #8309D5;
+        }
+        button {
+            background: #8309D5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #09C1D5;
+        }
+        #canvas-preview {
+            border: 2px solid #8309D5;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Favicon Debug Test</h1>
+    
+    <div class="debug-info">
+        <h3>Debug Information:</h3>
+        <div id="debug-output">Loading...</div>
+    </div>
+    
+    <div class="debug-info">
+        <h3>Canvas Preview (32x32):</h3>
+        <canvas id="canvas-preview" width="64" height="64"></canvas>
+        <p>This shows what the favicon should look like (scaled 2x for visibility)</p>
+    </div>
+    
+    <div class="debug-info">
+        <h3>Controls:</h3>
+        <button onclick="testFavicon()">🔄 Generate New Favicon</button>
+        <button onclick="cycleFavicon()">🎨 Cycle Font</button>
+        <button onclick="showDebugInfo()">📊 Show Debug Info</button>
+        <button onclick="clearFavicon()">🗑️ Clear Favicon</button>
+    </div>
+    
+    <div class="debug-info">
+        <h3>Current Favicons in DOM:</h3>
+        <div id="favicon-list">Checking...</div>
+    </div>
+
+    <script src="dynamic-favicon.js"></script>
+    <script>
+        function testFavicon() {
+            console.log('🧪 Testing favicon generation...');
+            if (window.dynamicFavicon) {
+                window.dynamicFavicon.generateFavicon();
+                showDebugInfo();
+            } else {
+                console.log('❌ Dynamic favicon not initialized');
+                document.getElementById('debug-output').innerHTML = '❌ Dynamic favicon not initialized';
+            }
+        }
+        
+        function cycleFavicon() {
+            if (window.dynamicFavicon) {
+                window.dynamicFavicon.cycleFavicon();
+                showDebugInfo();
+            }
+        }
+        
+        function clearFavicon() {
+            const favicons = document.querySelectorAll('link[rel*="icon"]');
+            favicons.forEach(f => f.remove());
+            showDebugInfo();
+        }
+        
+        function showDebugInfo() {
+            const debugOutput = document.getElementById('debug-output');
+            const faviconList = document.getElementById('favicon-list');
+            
+            let info = '';
+            if (window.dynamicFavicon) {
+                const currentFont = window.dynamicFavicon.fonts[window.dynamicFavicon.currentFontIndex];
+                info += `✅ Dynamic favicon initialized<br>`;
+                info += `🎨 Current font: ${currentFont.name}<br>`;
+                info += `🔢 Font index: ${window.dynamicFavicon.currentFontIndex}<br>`;
+            } else {
+                info += `❌ Dynamic favicon not initialized<br>`;
+            }
+            
+            // Check canvas support
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            info += `🖼️ Canvas support: ${ctx ? '✅' : '❌'}<br>`;
+            
+            debugOutput.innerHTML = info;
+            
+            // List current favicons
+            const favicons = document.querySelectorAll('link[rel*="icon"]');
+            let faviconInfo = '';
+            if (favicons.length === 0) {
+                faviconInfo = '❌ No favicons found in DOM';
+            } else {
+                favicons.forEach((favicon, index) => {
+                    faviconInfo += `${index + 1}. rel="${favicon.rel}" type="${favicon.type}" href="${favicon.href.substring(0, 50)}..."<br>`;
+                });
+            }
+            faviconList.innerHTML = faviconInfo;
+            
+            // Update canvas preview
+            updateCanvasPreview();
+        }
+        
+        function updateCanvasPreview() {
+            const canvas = document.getElementById('canvas-preview');
+            const ctx = canvas.getContext('2d');
+            
+            // Scale up for visibility
+            ctx.scale(2, 2);
+            
+            // Clear
+            ctx.clearRect(0, 0, 32, 32);
+            
+            // Draw same as favicon but scaled
+            ctx.fillStyle = '#1A1A2E';
+            ctx.beginPath();
+            ctx.arc(16, 16, 15, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            ctx.strokeStyle = '#8309D5';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(16, 16, 15, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#09C1D5';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('GD', 16, 16);
+        }
+        
+        // Auto-update debug info every 2 seconds
+        setInterval(showDebugInfo, 2000);
+        
+        // Initial debug info
+        setTimeout(showDebugInfo, 1000);
+    </script>
+</body>
+</html>
