@@ -141,7 +141,7 @@ async function loadProjects() {
     try {
         // Use environment-aware URL
         const apiUrl = window.location.hostname === 'localhost' 
-            ? 'http://localhost:5001/api/projects'
+            ? 'http://localhost:3001/api/projects'
             : '/api/projects'; // Will need backend deployed or use fallback
         
         const response = await fetch(apiUrl);
@@ -649,8 +649,11 @@ function closeModal() {
 
 function openChatbot() {
     console.log('🤖 Chatbot activated!');
-    // TODO: Implement chatbot UI
-    alert('🤖 AI Assistant coming soon! This will be a chatbot trained on Gaston\'s work and projects.');
+    if (window.portfolioChatbot) {
+        window.portfolioChatbot.open();
+    } else {
+        console.error('Chatbot not initialized yet');
+    }
 }
 
 // Function to zoom to a specific project node (called from carousel)

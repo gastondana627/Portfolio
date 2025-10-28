@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="chatbot.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1A1A2E, #16213E);
+            color: white;
+            margin: 0;
+            padding: 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .test-container {
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, #8309D5, #09C1D5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #8309D5, #09C1D5);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(131, 9, 213, 0.4);
+        }
+        
+        .instructions {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid rgba(131, 9, 213, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🤖 Chatbot Test Page</h1>
+        
+        <div class="instructions">
+            <p>This is a test page for the portfolio chatbot. Click the button below to open the chatbot interface.</p>
+            <p><strong>Note:</strong> Make sure your backend is running on <code>localhost:3001</code> for full functionality.</p>
+        </div>
+        
+        <button class="test-button" onclick="openChatbot()">
+            <i class="fas fa-robot"></i> Open Chatbot
+        </button>
+        
+        <button class="test-button" onclick="testBackend()">
+            <i class="fas fa-server"></i> Test Backend
+        </button>
+        
+        <div id="status" style="margin-top: 20px; padding: 10px; border-radius: 8px; display: none;"></div>
+    </div>
+
+    <script src="chatbot.js"></script>
+    <script>
+        async function testBackend() {
+            const status = document.getElementById('status');
+            status.style.display = 'block';
+            status.style.background = 'rgba(255, 193, 7, 0.2)';
+            status.style.border = '1px solid rgba(255, 193, 7, 0.5)';
+            status.innerHTML = '🔄 Testing backend connection...';
+            
+            try {
+                const response = await fetch('http://localhost:3001/api/projects');
+                if (response.ok) {
+                    const data = await response.json();
+                    status.style.background = 'rgba(40, 167, 69, 0.2)';
+                    status.style.border = '1px solid rgba(40, 167, 69, 0.5)';
+                    status.innerHTML = `✅ Backend is working! Found ${data.projects.length} projects.`;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                status.style.background = 'rgba(220, 53, 69, 0.2)';
+                status.style.border = '1px solid rgba(220, 53, 69, 0.5)';
+                status.innerHTML = `❌ Backend connection failed: ${error.message}<br><small>Make sure to run: cd backend && python app.py</small>`;
+            }
+        }
+        
+        // Test backend on page load
+        window.addEventListener('load', () => {
+            setTimeout(testBackend, 1000);
+        });
+    </script>
+</body>
+</html>

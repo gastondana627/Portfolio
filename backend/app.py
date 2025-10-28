@@ -1,13 +1,37 @@
 # backend/app.py
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
+import os
+import json
+from datetime import datetime
 
 # Initialize the Flask app
 app = Flask(__name__)
 # Enable Cross-Origin Resource Sharing (CORS)
 # This is crucial to allow your Vercel frontend to talk to this API
 CORS(app)
+
+# Google Cloud Platform setup (optional - will fallback to local responses)
+try:
+    from google.cloud import aiplatform
+    from vertexai.language_models import TextGenerationModel
+    
+    # Initialize Vertex AI (requires GCP credentials)
+    # Your GCP project details
+    PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT', 'sesa-trifecta-street-25')
+    PROJECT_NUMBER = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER', '362559111577')
+    LOCATION = os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
+    
+    aiplatform.init(project=PROJECT_ID, location=LOCATION)
+    GCP_AVAILABLE = True
+        
+except ImportError:
+    print("Google Cloud libraries not installed. Using local responses only.")
+    GCP_AVAILABLE = False
+except Exception as e:
+    print(f"GCP initialization failed: {e}. Using local responses only.")
+    GCP_AVAILABLE = False
 
 # --- PROJECT DATA WITH FULL DETAILS ---
 mock_projects_data = {
@@ -161,7 +185,101 @@ mock_projects_data = {
     ]
 }
 
-# --- API ENDPOINT ---
+# Portfolio context for the AI chatbot
+PORTFOLIO_CONTEXT = """
+You are an AI assistant for Gaston Dana's portfolio website. You are knowledgeable about his work, projects, and experience.
+
+ABOUT GASTON:
+- Full-Stack Developer & AI Engineer
+- Experience at Reality AI Lab and AdvancingX
+- Specializes in RAG systems, multi-agent AI, and production-ready AI/ML solutions
+- Active in mentorship through Ambition in Motion (NSCS partnership) and ALPFA
+- 7+ hackathons participated with multiple placements
+- First SESA proposal submitted to NASA (2025)
+
+KEY PROJECTS:
+1. **Peata** - Character-driven, RAG-backed virtual assistant for pet recovery using image-matching
+2. **Relic** - AI archaeological research assistant using SRTM, Sentinel-2, OpenTopography, and Google Earth
+3. **NASA Knowledge Graph** - Mapped biological/omics data into Neo4j for astronaut health reasoning
+4. **AI Room Designer** - Multi-modal interior design platform with Gemini 2.5 Flash, Fal.ai, ElevenLabs
+5. **Astro Archive** - Memory-aware coaching agents for space data
+6. **Planetrics** - Interactive NASA exoplanet visualization dashboard (6,000+ exoplanets)
+7. **Project Stargate** - Gaming mentorship personas and coaching system
+8. **SESA** - Multi-agent AI system proposal (submitted to NASA)
+
+TECHNICAL SKILLS:
+- AI/ML: RAG Systems (Expert), Multi-Agent Systems (Expert), Computer Vision (Advanced)
+- Languages: Python (Expert), JavaScript (Advanced), React (Advanced)
+- Databases: Neo4j (Expert), MongoDB (Advanced)
+- Cloud: GCP/AWS (Advanced), Docker/DevOps (Intermediate)
+
+CONTACT:
+- LinkedIn: https://www.linkedin.com/in/gaston-d-859653184/
+- GitHub: https://github.com/gastondana627
+- Email: Available through website contact form
+
+Be helpful, enthusiastic, and knowledgeable. Keep responses conversational but informative.
+"""
+
+def generate_ai_response(user_message):
+    """Generate AI response using Vertex AI or fallback to local responses"""
+    
+    if GCP_AVAILABLE:
+        try:
+            # Use Vertex AI's Gemini model
+            from vertexai.generative_models import GenerativeModel
+            
+            model = GenerativeModel("gemini-1.5-flash-001")
+            
+            prompt = f"""
+{PORTFOLIO_CONTEXT}
+
+User Question: {user_message}
+
+Please provide a helpful, conversational response about Gaston's work and experience. Keep it concise but informative (2-3 sentences max unless more detail is specifically requested).
+"""
+            
+            response = model.generate_content(prompt)
+            return response.text.strip()
+            
+        except Exception as e:
+            print(f"Vertex AI error: {e}")
+            # Fall back to local responses
+            pass
+    
+    # Local fallback responses
+    return get_local_response(user_message)
+
+def get_local_response(message):
+    """Local fallback responses when GCP is unavailable"""
+    lowerMessage = message.lower()
+    
+    # Project-specific responses
+    if 'peata' in lowerMessage:
+        return "🐕 Peata is one of Gaston's flagship AI projects! It's a character-driven, RAG-backed virtual assistant designed for pet recovery. The system uses image-matching and conversational AI to help reunite lost pets with their families."
+    
+    if 'relic' in lowerMessage:
+        return "🏛️ Relic is a fascinating AI archaeological research assistant! It's a persona-driven, RAG-backed system that serves as an interactive digital field guide using SRTM, Sentinel-2, OpenTopography, and Google Earth data."
+    
+    if 'nasa' in lowerMessage or 'space' in lowerMessage:
+        return "🚀 Gaston has worked on several NASA-related projects! His NASA Knowledge Graph maps biological data into Neo4j for astronaut health reasoning, and his SESA proposal was submitted to NASA in 2025."
+    
+    if 'ai room designer' in lowerMessage or 'room designer' in lowerMessage:
+        return "🏠 The AI Room Designer is Gaston's latest multi-modal AI platform! It features dual modes with Gemini 2.5 Flash, Fal.ai for 3D reconstruction, and ElevenLabs for voice narration."
+    
+    if 'rag' in lowerMessage:
+        return "🔍 Gaston is an expert in RAG (Retrieval-Augmented Generation) systems! He's implemented RAG in multiple projects like Peata, Relic, and others, combining document retrieval with generative AI."
+    
+    if 'contact' in lowerMessage:
+        return "📧 You can reach Gaston through LinkedIn (https://www.linkedin.com/in/gaston-d-859653184/), GitHub (https://github.com/gastondana627), or the contact form on this website!"
+    
+    if 'project' in lowerMessage and ('main' in lowerMessage or 'top' in lowerMessage):
+        return "🚀 Gaston's main AI projects include Peata (pet recovery), Relic (archaeological research), NASA Knowledge Graph, AI Room Designer, and several others. Each showcases different aspects of his AI expertise!"
+    
+    # Default response
+    return "That's an interesting question! Gaston has worked on many AI projects involving RAG systems, multi-agent architectures, and knowledge graphs. Could you be more specific about what you'd like to know?"
+
+# --- API ENDPOINTS ---
 @app.route("/api/projects")
 def get_projects():
     """
@@ -169,8 +287,39 @@ def get_projects():
     """
     return jsonify(mock_projects_data)
 
+@app.route("/api/chat", methods=["POST"])
+def chat():
+    """
+    Chatbot endpoint that processes user messages and returns AI responses
+    """
+    try:
+        data = request.get_json()
+        user_message = data.get('message', '').strip()
+        
+        if not user_message:
+            return jsonify({"error": "Message is required"}), 400
+        
+        # Generate AI response
+        ai_response = generate_ai_response(user_message)
+        
+        # Log the interaction (optional)
+        print(f"[{datetime.now()}] User: {user_message}")
+        print(f"[{datetime.now()}] Bot: {ai_response}")
+        
+        return jsonify({
+            "response": ai_response,
+            "timestamp": datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"Chat endpoint error: {e}")
+        return jsonify({
+            "response": "I'm having trouble processing your request right now. Please try again later!",
+            "error": str(e)
+        }), 500
+
 # This allows the file to be run directly using "python app.py"
 if __name__ == '__main__':
-    # Running on port 5001 to avoid conflicts with other common ports
-    app.run(debug=True, port=5001)
+    # Running on port 3001 to avoid conflicts with frontend on 3000
+    app.run(debug=True, port=3001)
     
