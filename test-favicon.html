@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Favicon Test</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1A1A2E, #16213E);
+            color: white;
+            margin: 0;
+            padding: 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .test-container {
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, #8309D5, #09C1D5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .favicon-preview {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .favicon-item {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(131, 9, 213, 0.3);
+            min-width: 150px;
+        }
+        
+        .favicon-display {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 15px;
+            border: 2px solid rgba(131, 9, 213, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1A1A2E;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #8309D5, #09C1D5);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(131, 9, 213, 0.4);
+        }
+        
+        .info {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid rgba(131, 9, 213, 0.3);
+        }
+        
+        .current-font {
+            font-size: 1.2rem;
+            color: #09C1D5;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎨 Dynamic Favicon Test</h1>
+        
+        <div class="info">
+            <p>Your favicon changes based on a combination of factors including date, time, and browser info. Each visitor gets a different font experience!</p>
+        </div>
+        
+        <div class="current-font" id="current-font">
+            Current Font: Loading...
+        </div>
+        
+        <div class="favicon-preview">
+            <div class="favicon-item">
+                <div class="favicon-display" id="orbitron-preview"></div>
+                <h3>Orbitron</h3>
+                <p>Futuristic, space-age</p>
+            </div>
+            <div class="favicon-item">
+                <div class="favicon-display" id="exo2-preview"></div>
+                <h3>Exo 2</h3>
+                <p>Modern, tech-inspired</p>
+            </div>
+            <div class="favicon-item">
+                <div class="favicon-display" id="rajdhani-preview"></div>
+                <h3>Rajdhani</h3>
+                <p>Geometric, minimalist</p>
+            </div>
+        </div>
+        
+        <button class="test-button" onclick="cycleFavicon()">
+            🔄 Cycle to Next Font
+        </button>
+        
+        <button class="test-button" onclick="window.location.reload()">
+            🎲 Refresh for Random Font
+        </button>
+        
+        <div class="info">
+            <p><strong>How it works:</strong> The favicon is generated dynamically using HTML5 Canvas with different fonts. The selection is based on date, time, and browser characteristics, ensuring variety across different visits.</p>
+        </div>
+    </div>
+
+    <script src="dynamic-favicon.js"></script>
+    <script>
+        function cycleFavicon() {
+            if (window.dynamicFavicon) {
+                window.dynamicFavicon.cycleFavicon();
+                updateCurrentFont();
+            }
+        }
+        
+        function updateCurrentFont() {
+            if (window.dynamicFavicon) {
+                const fontName = window.dynamicFavicon.fonts[window.dynamicFavicon.currentFontIndex].name;
+                document.getElementById('current-font').textContent = `Current Font: ${fontName}`;
+            }
+        }
+        
+        // Generate preview favicons for each font
+        function generatePreviews() {
+            const fonts = [
+                { name: 'Orbitron', id: 'orbitron-preview', fallback: 'Arial Black, sans-serif' },
+                { name: 'Exo 2', id: 'exo2-preview', fallback: 'Arial Black, sans-serif' },
+                { name: 'Rajdhani', id: 'rajdhani-preview', fallback: 'Arial Black, sans-serif' }
+            ];
+            
+            fonts.forEach((font, index) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 60;
+                canvas.height = 60;
+                
+                // Background
+                const gradient = ctx.createLinearGradient(0, 0, 60, 60);
+                gradient.addColorStop(0, '#1A1A2E');
+                gradient.addColorStop(1, '#16213E');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 60, 60);
+                
+                // Border
+                const borderGradient = ctx.createLinearGradient(0, 0, 60, 60);
+                borderGradient.addColorStop(0, '#8309D5');
+                borderGradient.addColorStop(1, '#09C1D5');
+                ctx.strokeStyle = borderGradient;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(1, 1, 58, 58);
+                
+                // Text
+                ctx.fillStyle = borderGradient;
+                ctx.font = `bold 24px ${font.fallback}`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = '#8309D5';
+                ctx.shadowBlur = 2;
+                ctx.fillText('GD', 30, 32);
+                
+                document.getElementById(font.id).appendChild(canvas);
+            });
+        }
+        
+        // Wait for fonts to load
+        setTimeout(() => {
+            generatePreviews();
+            updateCurrentFont();
+        }, 1000);
+    </script>
+</body>
+</html>
