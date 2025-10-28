@@ -188,6 +188,95 @@ function createProjectNodes() {
     });
     
     console.log('✅ Created', projectNodes.length, 'nodes');
+    
+    // Create evolution path connections
+    createEvolutionPaths();
+}
+
+// --- EVOLUTION PATHS ---
+let evolutionLines = [];
+
+function createEvolutionPaths() {
+    // Define evolution relationships (will come from backend later)
+    const evolutionPaths = [
+        { from: "peata", to: "relic", color: 0x8309D5 },
+        { from: "relic", to: "astro_archive", color: 0x09C1D5 },
+        { from: "astro_archive", to: "nasa_kg", color: 0xA855F7 },
+        { from: "stargate", to: "peata", color: 0xFF00FF, dashed: true },
+        { from: "sesa", to: "astro_archive", color: 0x00FFFF, dashed: true }
+    ];
+    
+    evolutionPaths.forEach(path => {
+        const fromNode = projectNodes.find(n => n.userData.id === path.from);
+        const toNode = projectNodes.find(n => n.userData.id === path.to);
+        
+        if (fromNode && toNode) {
+            // Create curved line between nodes
+            const curve = new THREE.QuadraticBezierCurve3(
+                fromNode.position,
+                new THREE.Vector3(
+                    (fromNode.position.x + toNode.position.x) / 2,
+                    (fromNode.position.y + toNode.position.y) / 2 + 2, // Arc upward
+                    (fromNode.position.z + toNode.position.z) / 2
+                ),
+                toNode.position
+            );
+            
+            const points = curve.getPoints(50);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            
+            const material = new THREE.LineBasicMaterial({
+                color: path.color,
+                transparent: true,
+                opacity: 0.4,
+                linewidth: 2
+            });
+            
+            if (path.dashed) {
+                material.opacity = 0.3;
+            }
+            
+            const line = new THREE.Line(geometry, material);
+            line.userData = {
+                isEvolutionPath: true,
+                fromNode: fromNode,
+                toNode: toNode,
+                baseOpacity: path.dashed ? 0.3 : 0.4
+            };
+            
+            scene.add(line);
+            evolutionLines.push(line);
+            
+            // Add animated particles along the path
+            createPathParticles(curve, path.color);
+        }
+    });
+    
+    console.log('✅ Created', evolutionLines.length, 'evolution paths');
+}
+
+// --- PATH PARTICLES ---
+let pathParticles = [];
+
+function createPathParticles(curve, color) {
+    const particleGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+    const particleMaterial = new THREE.MeshBasicMaterial({
+        color: color,
+        transparent: true,
+        opacity: 0.8
+    });
+    
+    // Create 3 particles per path
+    for (let i = 0; i < 3; i++) {
+        const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+        particle.userData = {
+            curve: curve,
+            progress: i / 3, // Stagger starting positions
+            speed: 0.001 + Math.random() * 0.001
+        };
+        scene.add(particle);
+        pathParticles.push(particle);
+    }
 }
 
 // --- MOUSE INTERACTION ---
@@ -458,6 +547,43 @@ function animate() {
     
     prism.rotation.x = elapsedTime * 0.1;
     prism.rotation.y = elapsedTime * 0.15;
+    
+    // Animate path particles
+    pathParticles.forEach(particle => {
+        particle.userData.progress += particle.userData.speed;
+        if (particle.userData.progress > 1) {
+            particle.userData.progress = 0;
+        }
+        
+        const point = particle.userData.curve.getPoint(particle.userData.progress);
+        particle.position.copy(point);
+        
+        // Pulse effect
+        const pulse = 1 + Math.sin(elapsedTime * 3 + particle.userData.progress * Math.PI * 2) * 0.3;
+        particle.scale.set(pulse, pulse, pulse);
+    });
+    
+    // Update evolution path curves to follow nodes
+    evolutionLines.forEach(line => {
+        const fromPos = line.userData.fromNode.position;
+        const toPos = line.userData.toNode.position;
+        
+        const curve = new THREE.QuadraticBezierCurve3(
+            fromPos,
+            new THREE.Vector3(
+                (fromPos.x + toPos.x) / 2,
+                (fromPos.y + toPos.y) / 2 + 2,
+                (fromPos.z + toPos.z) / 2
+            ),
+            toPos
+        );
+        
+        const points = curve.getPoints(50);
+        line.geometry.setFromPoints(points);
+        
+        // Pulse opacity
+        line.material.opacity = line.userData.baseOpacity + Math.sin(elapsedTime * 2) * 0.1;
+    });
     
     // Rotate nodes around the prism
     projectNodes.forEach((node, index) => {
