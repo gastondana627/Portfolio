@@ -113,11 +113,26 @@ const groupColors = {
 };
 
 const skillColors = {
-    'Language': 0xFFD700,    // Gold
-    'AI': 0x8309D5,          // Purple
-    'Database': 0x09C1D5,    // Cyan
-    'Geospatial': 0x00FF88,  // Green
-    'Domain': 0xFF00FF       // Magenta
+    'Language': { 
+        main: 0xFFD700,      // Gold
+        outline: 0x8309D5    // Purple outline
+    },
+    'AI': { 
+        main: 0x8309D5,      // Purple
+        outline: 0xFFD700    // Gold outline
+    },
+    'Database': { 
+        main: 0x09C1D5,      // Cyan
+        outline: 0x8309D5    // Purple outline
+    },
+    'Geospatial': { 
+        main: 0x00FF88,      // Green
+        outline: 0x09C1D5    // Cyan outline
+    },
+    'Domain': { 
+        main: 0xFF00FF,      // Magenta
+        outline: 0x00FFFF    // Cyan outline
+    }
 };
 
 // --- LOAD PROJECTS ---
@@ -241,7 +256,9 @@ function createSkillNodes() {
         const z = Math.sin(angle) * innerRadius;
         const y = (Math.random() - 0.5) * 2; // Random height variation
         
-        const skillColor = skillColors[skill.category] || 0xFFFFFF;
+        const colors = skillColors[skill.category] || { main: 0xFFFFFF, outline: 0x8309D5 };
+        const skillColor = colors.main;
+        const outlineColor = colors.outline;
         
         // Smaller octahedron for skills (diamond shape)
         const skillGeometry = new THREE.OctahedronGeometry(0.5, 0);
@@ -265,10 +282,10 @@ function createSkillNodes() {
         const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
         skillNode.add(hitbox);
         
-        // Add wireframe outline
+        // Add wireframe outline with complementary color
         const outlineGeometry = new THREE.OctahedronGeometry(0.55, 0);
         const outlineMaterial = new THREE.MeshBasicMaterial({
-            color: skillColor,
+            color: outlineColor,
             wireframe: true,
             transparent: true,
             opacity: 0.8
@@ -283,6 +300,7 @@ function createSkillNodes() {
             level: skill.level,
             originalPosition: new THREE.Vector3(x, y, z),
             baseColor: new THREE.Color(skillColor),
+            baseOutlineColor: new THREE.Color(outlineColor),
             outline: outline,
             isSkill: true
         };
