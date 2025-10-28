@@ -113,17 +113,25 @@ const groupColors = {
 async function loadProjects() {
     console.log('📡 Fetching projects...');
     try {
-        const response = await fetch('http://localhost:5001/api/projects');
+        // Use environment-aware URL
+        const apiUrl = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5001/api/projects'
+            : '/api/projects'; // Will need backend deployed or use fallback
+        
+        const response = await fetch(apiUrl);
         const data = await response.json();
         projectData = data.nodes;
         console.log('✅ Loaded', projectData.length, 'projects from backend');
     } catch (error) {
-        console.log('⚠️ Backend unavailable, using fallback data');
+        console.log('⚠️ Backend unavailable, using complete fallback data');
+        // Complete fallback with all 6 projects
         projectData = [
-            {id: "peata", group: "AI Projects", label: "Peata", description: "AI pet recovery assistant", links: []},
-            {id: "relic", group: "AI Projects", label: "Relic", description: "Archaeological research assistant", links: []},
-            {id: "stargate", group: "Gaming", label: "Stargate", description: "Gaming mentorship", links: []},
-            {id: "sesa", group: "Ethical Hacking", label: "SESA", description: "Multi-agent AI", links: []}
+            {id: "stargate", group: "Gaming", label: "Project Stargate", description: "Gaming mentorship personas", links: [{type: "github", url: "https://github.com/gastondana627/Stargate-and-Bobot"}]},
+            {id: "peata", group: "AI Projects", label: "Peata", description: "AI pet recovery assistant", links: [{type: "github", url: "https://github.com/gastondana627/Peata"}]},
+            {id: "relic", group: "AI Projects", label: "Relic", description: "Archaeological research assistant", links: [{type: "github", url: "https://github.com/gastondana627/Team-Relic-Xingu-Challenge"}]},
+            {id: "sesa", group: "Ethical Hacking", label: "SESA", description: "Multi-agent AI system", links: []},
+            {id: "astro_archive", group: "AI Projects", label: "Astro Archive", description: "Memory-aware coaching agents", links: [{type: "github", url: "https://github.com/gastondana627/Mongo_DB_NASA_OSDR"}]},
+            {id: "nasa_kg", group: "AI Projects", label: "NASA Knowledge Graph", description: "Biological data mapping for astronaut health", links: [{type: "github", url: "https://github.com/gastondana627/spoke_genelab"}]}
         ];
     }
     createProjectNodes();
