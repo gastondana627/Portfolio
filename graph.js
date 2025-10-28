@@ -189,6 +189,16 @@ function createProjectNodes() {
         });
         const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
         
+        // Invisible larger hitbox for easier hovering
+        const hitboxGeometry = new THREE.SphereGeometry(1.5, 8, 8);
+        const hitboxMaterial = new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+            visible: false
+        });
+        const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
+        node.add(hitbox);
+        
         // Outer wireframe glow - complementary color
         const outlineGeometry = new THREE.SphereGeometry(0.95, 16, 16);
         const outlineMaterial = new THREE.MeshBasicMaterial({
@@ -244,6 +254,16 @@ function createSkillNodes() {
         const skillNode = new THREE.Mesh(skillGeometry, skillMaterial);
         
         skillNode.position.set(x, y, z);
+        
+        // Invisible larger hitbox for easier hovering
+        const hitboxGeometry = new THREE.OctahedronGeometry(1.0, 0);
+        const hitboxMaterial = new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+            visible: false
+        });
+        const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
+        skillNode.add(hitbox);
         
         // Add wireframe outline
         const outlineGeometry = new THREE.OctahedronGeometry(0.55, 0);
@@ -413,27 +433,29 @@ function onMouseMove(event) {
     let closestNode = null;
     let closestDistance = Infinity;
     
-    // Check project nodes
+    // Check project nodes - INCREASED SENSITIVITY
     projectNodes.forEach(node => {
         const nodeScreenPos = node.position.clone().project(camera);
         const dx = nodeScreenPos.x - mouse.x;
         const dy = nodeScreenPos.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < 0.15 && distance < closestDistance) {
+        // Increased from 0.15 to 0.25 for better hover detection
+        if (distance < 0.25 && distance < closestDistance) {
             closestDistance = distance;
             closestNode = node;
         }
     });
     
-    // Check skill nodes (smaller threshold)
+    // Check skill nodes - INCREASED SENSITIVITY
     skillNodes.forEach(node => {
         const nodeScreenPos = node.position.clone().project(camera);
         const dx = nodeScreenPos.x - mouse.x;
         const dy = nodeScreenPos.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < 0.12 && distance < closestDistance) {
+        // Increased from 0.12 to 0.20 for better hover detection
+        if (distance < 0.20 && distance < closestDistance) {
             closestDistance = distance;
             closestNode = node;
         }
