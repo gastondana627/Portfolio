@@ -193,19 +193,22 @@ ABOUT GASTON:
 - Full-Stack Developer & AI Engineer
 - Experience at Reality AI Lab and AdvancingX
 - Specializes in RAG systems, multi-agent AI, and production-ready AI/ML solutions
-- Active in mentorship through Ambition in Motion (NSCS partnership) and ALPFA
+- Active mentor through Ambition in Motion (NSCS partnership) and ALPFA community
+- Early access participant and beta tester for cutting-edge development tools
+- Participates in beta programs for both frontend and backend software platforms
 - 7+ hackathons participated with multiple placements
 - First SESA proposal submitted to NASA (2025)
+- Guides next generation of technologists through mentorship programs
 
 KEY PROJECTS:
-1. **Peata** - Character-driven, RAG-backed virtual assistant for pet recovery using image-matching
-2. **Relic** - AI archaeological research assistant using SRTM, Sentinel-2, OpenTopography, and Google Earth
-3. **NASA Knowledge Graph** - Mapped biological/omics data into Neo4j for astronaut health reasoning
-4. **AI Room Designer** - Multi-modal interior design platform with Gemini 2.5 Flash, Fal.ai, ElevenLabs
-5. **Astro Archive** - Memory-aware coaching agents for space data
-6. **Planetrics** - Interactive NASA exoplanet visualization dashboard (6,000+ exoplanets)
-7. **Project Stargate** - Gaming mentorship personas and coaching system
-8. **SESA** - Multi-agent AI system proposal (submitted to NASA)
+1. **Peata** - Character-driven, RAG-backed virtual assistant for pet recovery using image-matching and conversational AI to help reunite lost pets with families
+2. **Relic** - AI archaeological research assistant using SRTM, Sentinel-2, OpenTopography, and Google Earth data as an interactive digital field guide
+3. **NASA Knowledge Graph** - Mapped biological/omics data into Neo4j for contextual health reasoning supporting astronaut health research
+4. **AI Room Designer (Rooms Through Time)** - Multi-modal interior design platform with dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Built with React, Python, FastAPI, Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs voice narration, and local gpt-oss agent for offline AI consultation
+5. **Planetrics** - Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog. Built with Plotly Studio, featuring live data from NASA Exoplanet Archive API, discovery trends, and curated milestone content
+6. **Astro Archive** - Memory-aware coaching agents capable of context switching and user-specific coaching for space data
+7. **Project Stargate and Bobot** - Interactive digital personas for gaming mentorship and coaching, enhancing player development through AI-powered guidance
+8. **SESA** - Multi-agent AI system with goal-oriented behaviors and emotional awareness for engaging narratives (proposal submitted to NASA)
 
 TECHNICAL SKILLS:
 - AI/ML: RAG Systems (Expert), Multi-Agent Systems (Expert), Computer Vision (Advanced)

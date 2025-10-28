@@ -196,8 +196,16 @@ class PortfolioChatbot {
             return "🚀 Gaston has worked on several NASA-related projects! His NASA Knowledge Graph maps biological/omics data into Neo4j for contextual health reasoning for astronauts. He also built Astro Archive with memory-aware agents for space data, and Planetrics - an interactive dashboard visualizing NASA's 6,000+ exoplanet catalog. His SESA proposal even got submitted to NASA!";
         }
         
-        if (lowerMessage.includes('ai room designer') || lowerMessage.includes('room designer')) {
-            return "🏠 The AI Room Designer is Gaston's latest multi-modal AI platform! It features dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Built with React, Python, Gemini 2.5 Flash, Fal.ai for 3D reconstruction, and ElevenLabs for voice narration. It even includes a local gpt-oss agent for offline AI consultation!";
+        if (lowerMessage.includes('ai room designer') || lowerMessage.includes('room designer') || lowerMessage.includes('rooms through time')) {
+            return "🏠 The AI Room Designer (Rooms Through Time) is Gaston's latest multi-modal AI platform! It features dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Built with React, Python, FastAPI, Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs for voice narration, and includes a local gpt-oss agent for offline AI consultation!";
+        }
+        
+        if (lowerMessage.includes('planetrics')) {
+            return "🪐 Planetrics is Gaston's interactive NASA exoplanet visualization dashboard! It showcases NASA's 6,000+ exoplanet catalog using Plotly Studio with live data from the NASA Exoplanet Archive API. The dashboard features discovery trends, curated milestone content, and makes complex astronomical data accessible and engaging for everyone.";
+        }
+        
+        if (lowerMessage.includes('astro archive')) {
+            return "🚀 Astro Archive demonstrates Gaston's expertise in memory-aware AI agents! The system is capable of context switching and provides user-specific coaching for space data applications. It showcases advanced agent architecture with persistent memory and personalized interactions.";
         }
 
         // Skills-based responses
@@ -218,16 +226,32 @@ class PortfolioChatbot {
             return "🏆 Gaston is an active hackathon participant with 7+ competitions under his belt! He's achieved multiple placements and uses hackathons to rapidly prototype innovative AI solutions. His hackathon projects often evolve into larger portfolio pieces, showing his ability to quickly build and iterate on ideas.";
         }
         
+        if (lowerMessage.includes('mentor') || lowerMessage.includes('mentorship') || lowerMessage.includes('teaching')) {
+            return "👥 Gaston is passionate about mentorship! He actively mentors through Ambition in Motion (partnered with NSCS) and engages with the ALPFA community. He guides students in technology, career development, AI/ML projects, and hackathon preparation. His mentorship focuses on bridging the gap between academic learning and real-world AI applications.";
+        }
+        
+        if (lowerMessage.includes('early access') || lowerMessage.includes('beta') || lowerMessage.includes('cutting edge')) {
+            return "🚀 Gaston stays at the forefront of technology by participating in early access and beta programs for both frontend and backend development tools! This gives him hands-on experience with emerging technologies before they hit the mainstream, allowing him to build with tomorrow's tools today and provide cutting-edge solutions to clients.";
+        }
+        
         if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('email')) {
             return "📧 You can reach Gaston through several channels:\n\n• LinkedIn: https://www.linkedin.com/in/gaston-d-859653184/\n• GitHub: https://github.com/gastondana627\n• Email: Use the contact form on this website\n\nHe's always open to discussing AI projects, collaboration opportunities, or mentorship!";
         }
         
         if (lowerMessage.includes('experience') || lowerMessage.includes('background')) {
-            return "💼 Gaston is a Full-Stack Developer & AI Engineer with experience at Reality AI Lab and AdvancingX. He specializes in building production-ready AI/ML systems, particularly RAG-backed applications and multi-agent systems. He's also active in mentorship through Ambition in Motion (NSCS partnership) and ALPFA community engagement.";
+            return "💼 Gaston is a Full-Stack Developer & AI Engineer with experience at Reality AI Lab and AdvancingX. He specializes in building production-ready AI/ML systems, particularly RAG-backed applications and multi-agent systems. He's also an active mentor through NSCS & ALPFA partnerships and participates in early access programs for cutting-edge development tools, staying at the forefront of both frontend and backend innovations.";
         }
         
-        if (lowerMessage.includes('project') && (lowerMessage.includes('main') || lowerMessage.includes('top') || lowerMessage.includes('best'))) {
-            return "🚀 Gaston's main AI projects include:\n\n• **Peata** - RAG-backed pet recovery assistant\n• **Relic** - AI archaeological research tool\n• **NASA Knowledge Graph** - Biological data mapping for astronaut health\n• **AI Room Designer** - Multi-modal interior design platform\n• **Astro Archive** - Memory-aware coaching agents\n• **Planetrics** - NASA exoplanet visualization dashboard\n\nEach project showcases different aspects of his AI expertise!";
+        if (lowerMessage.includes('project') && (lowerMessage.includes('main') || lowerMessage.includes('top') || lowerMessage.includes('best') || lowerMessage.includes('all'))) {
+            return "🚀 Gaston's portfolio includes 8 major projects:\n\n• **Peata** - RAG-backed pet recovery assistant with image-matching\n• **Relic** - AI archaeological research tool using satellite data\n• **NASA Knowledge Graph** - Biological data mapping for astronaut health\n• **AI Room Designer** - Multi-modal interior design with Gemini 2.5 Flash\n• **Planetrics** - Interactive NASA exoplanet dashboard (6,000+ planets)\n• **Astro Archive** - Memory-aware coaching agents for space data\n• **Project Stargate** - Gaming mentorship personas and coaching\n• **SESA** - Multi-agent AI system (NASA proposal)\n\nEach showcases different AI/ML capabilities!";
+        }
+        
+        if (lowerMessage.includes('sesa')) {
+            return "🛰️ SESA is Gaston's multi-agent AI system proposal that was submitted to NASA in 2025! It features goal-oriented behaviors and emotional awareness for creating engaging narratives. This project demonstrates his ability to design sophisticated AI architectures for space exploration applications.";
+        }
+        
+        if (lowerMessage.includes('all projects') || lowerMessage.includes('complete list')) {
+            return "📋 Here's Gaston's complete project portfolio:\n\n**AI Projects:**\n• Peata - Pet recovery assistant\n• Relic - Archaeological research tool\n• NASA Knowledge Graph - Astronaut health data\n• AI Room Designer - Interior design platform\n• Planetrics - NASA exoplanet dashboard\n• Astro Archive - Memory-aware agents\n• SESA - Multi-agent system (NASA)\n\n**Gaming:**\n• Project Stargate - Gaming mentorship\n\nEach project demonstrates different aspects of AI/ML engineering!";
         }
         
         if (lowerMessage.includes('skill') || lowerMessage.includes('technology')) {
