@@ -5,43 +5,142 @@ from flask_cors import CORS
 import os
 import json
 from datetime import datetime
+from dotenv import load_dotenv
+
+from langchain_community.vectorstores import Chroma
+from langchain_google_vertexai import VertexAIEmbeddings
+from PyPDF2 import PdfReader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+# Load environment variables from .env file
+load_dotenv()
 
 if os.getenv("GCP_SERVICE_ACCOUNT_JSON"):
-    # Write JSON string from env var to a temp file so Vertex AI can read it
     sa_info = json.loads(os.getenv("GCP_SERVICE_ACCOUNT_JSON"))
     temp_path = "/tmp/temp_key.json"
     with open(temp_path, "w") as f:
         json.dump(sa_info, f)
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp_path
 
-# Initialize the Flask app
+# Initialize Flask app
 app = Flask(__name__)
-# Enable Cross-Origin Resource Sharing (CORS)
-# This is crucial to allow your Vercel frontend to talk to this API
 CORS(app)
 
-# Google Cloud Platform setup (optional - will fallback to local responses)
-try:
-    from google.cloud import aiplatform
-    from vertexai.language_models import TextGenerationModel
-    
-    # Initialize Vertex AI (requires GCP credentials)
-    # Your GCP project details
-    PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT', 'sesa-trifecta-street-25')
-    PROJECT_NUMBER = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER', '362559111577')
-    LOCATION = os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
-    
-    aiplatform.init(project=PROJECT_ID, location=LOCATION)
-    GCP_AVAILABLE = True
-        
-except ImportError:
-    print("Google Cloud libraries not installed. Using local responses only.")
-    GCP_AVAILABLE = False
-except Exception as e:
-    print(f"GCP initialization failed: {e}. Using local responses only.")
-    GCP_AVAILABLE = False
+# Multi-Model AI Setup (Claude Primary, OpenAI/Google fallback ready)
+AI_CLIENT = None
+AI_PROVIDER = None
+AI_AVAILABLE = False
 
-# --- PROJECT DATA WITH FULL DETAILS ---
+try:
+    # Try Claude first (Primary)
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+    if ANTHROPIC_API_KEY:
+        from anthropic import Anthropic
+        AI_CLIENT = Anthropic(api_key=ANTHROPIC_API_KEY)
+        AI_PROVIDER = "claude"
+        AI_AVAILABLE = True
+        print("✅ Claude API configured (Primary)")
+    
+    # Fallback to OpenAI (if Claude not available)
+    elif os.getenv('OPENAI_API_KEY'):
+        from openai import OpenAI
+        AI_CLIENT = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+        AI_PROVIDER = "openai"
+        AI_AVAILABLE = True
+        print("✅ OpenAI configured (Fallback)")
+    
+    # Fallback to Google AI (if neither available)
+    elif os.getenv('GOOGLE_API_KEY'):
+        import google.generativeai as genai
+        genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+        AI_CLIENT = genai
+        AI_PROVIDER = "google"
+        AI_AVAILABLE = True
+        print("✅ Google AI configured (Fallback)")
+    
+    else:
+        print("⚠️ No AI API keys found. Using local responses only.")
+        AI_AVAILABLE = False
+
+except ImportError as e:
+    print(f"⚠️ AI library not installed: {e}. Using local responses only.")
+    AI_AVAILABLE = False
+except Exception as e:
+    print(f"⚠️ AI initialization failed: {e}. Using local responses only.")
+    AI_AVAILABLE = False
+
+PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT', 'sesa-trifecta-street-25')
+LOCATION = os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
+
+# --- RAG SETUP (Multi-PDF Support) ---
+VECTORSTORES = {}
+
+PROJECT_PDF_MAP = {
+    "ai-room-designer": {
+        "filename": "AI Room Designer - Final Doc.pdf",
+        "keywords": ["room designer", "ai room", "rooms through time", "redesign", "interior design"]
+    },
+}
+
+def load_pdf_for_project(project_key):
+    """Load and create vector store for a specific project's PDF"""
+    try:
+        project_info = PROJECT_PDF_MAP.get(project_key)
+        if not project_info:
+            return None
+        
+        pdf_filename = project_info["filename"]
+        pdf_path = os.path.join(os.path.dirname(__file__), "project_docs", pdf_filename)
+        
+        if not os.path.exists(pdf_path):
+            print(f"⚠️ PDF not found: {pdf_path}")
+            return None
+        
+        print(f"📄 Loading PDF for {project_key}...")
+        reader = PdfReader(pdf_path)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text() + "\n"
+        
+        print(f"✂️ Splitting into chunks...")
+        splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+        chunks = splitter.split_text(text)
+        print(f"✅ Created {len(chunks)} chunks for {project_key}")
+        
+        print(f"🔮 Creating embeddings for {project_key}...")
+        embeddings = VertexAIEmbeddings(
+            model_name="text-embedding-004",
+            project=PROJECT_ID,
+            location=LOCATION
+        )
+        
+        vectorstore = Chroma.from_texts(chunks, embedding=embeddings)
+        print(f"✅ Vector store created for {project_key}!")
+        return vectorstore
+        
+    except Exception as e:
+        print(f"❌ Failed to load PDF for {project_key}: {e}")
+        return None
+
+def get_vectorstore_for_query(query):
+    """Determine which project the query is about and return its vectorstore"""
+    query_lower = query.lower()
+    
+    print(f"🔍 Checking query: '{query_lower}'")
+    
+    for project_key, project_info in PROJECT_PDF_MAP.items():
+        if any(keyword in query_lower for keyword in project_info["keywords"]):
+            print(f"✅ Match found for project: {project_key}")
+            if project_key not in VECTORSTORES:
+                print(f"📥 Loading vectorstore for {project_key}...")
+                VECTORSTORES[project_key] = load_pdf_for_project(project_key)
+            else:
+                print(f"♻️ Using cached vectorstore for {project_key}")
+            return VECTORSTORES[project_key], project_key
+    
+    return None, None
+
+# --- PROJECT DATA ---
 mock_projects_data = {
     "projects": [
         {
@@ -193,7 +292,6 @@ mock_projects_data = {
     ]
 }
 
-# Portfolio context for the AI chatbot
 PORTFOLIO_CONTEXT = """
 You are an AI assistant for Gaston Dana's portfolio website. You are knowledgeable about his work, projects, and experience.
 
@@ -232,51 +330,101 @@ CONTACT:
 Be helpful, enthusiastic, and knowledgeable. Keep responses conversational but informative.
 """
 
-def generate_ai_response(user_message):
-    """Generate AI response using Vertex AI or fallback to local responses"""
+def call_ai_model(system_prompt, user_message, provider=None):
+    """Universal AI caller - routes to appropriate provider"""
+    if not AI_AVAILABLE:
+        return None
     
-    if GCP_AVAILABLE:
-        try:
-            # Use Vertex AI's Gemini model
-            from vertexai.generative_models import GenerativeModel
-            
-            model = GenerativeModel("gemini-1.5-flash-001")
-            
-            prompt = f"""
-{PORTFOLIO_CONTEXT}
-
-User Question: {user_message}
-
-Please provide a helpful, conversational response about Gaston's work and experience. Keep it concise but informative (2-3 sentences max unless more detail is specifically requested).
-"""
-            
+    current_provider = provider or AI_PROVIDER
+    
+    try:
+        if current_provider == "claude":
+            response = AI_CLIENT.messages.create(
+                model="claude-3-5-sonnet-20241022",
+                max_tokens=1024,
+                system=system_prompt,
+                messages=[{"role": "user", "content": user_message}]
+            )
+            return response.content[0].text
+        
+        elif current_provider == "openai":
+            response = AI_CLIENT.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_message}
+                ]
+            )
+            return response.choices[0].message.content
+        
+        elif current_provider == "google":
+            model = AI_CLIENT.GenerativeModel("gemini-1.5-flash")
+            prompt = f"{system_prompt}\n\nUser: {user_message}"
             response = model.generate_content(prompt)
-            return response.text.strip()
+            return response.text
+        
+    except Exception as e:
+        print(f"❌ {current_provider.title()} error: {e}")
+        return None
+
+def generate_ai_response(user_message):
+    """Generate AI response using RAG (if applicable) + AI or fallback"""
+    
+    print(f"\n🔍 DEBUG: Processing query: '{user_message}'")
+    print(f"🔍 DEBUG: AI Provider = {AI_PROVIDER}")
+    
+    vectorstore, project_key = get_vectorstore_for_query(user_message)
+    
+    print(f"🔍 DEBUG: Project detected = {project_key}")
+    print(f"🔍 DEBUG: Vectorstore found = {vectorstore is not None}")
+    
+    # RAG-enhanced response
+    if AI_AVAILABLE and vectorstore:
+        try:
+            print(f"🔍 Using RAG for project: {project_key}")
+            
+            results = vectorstore.similarity_search(user_message, k=3)
+            context = "\n\n".join([doc.page_content for doc in results])
+            
+            system_prompt = f"You are an AI assistant helping users learn about Gaston's {project_key} project."
+            user_prompt = f"""CONTEXT FROM PROJECT DOCUMENTATION:
+{context}
+
+USER QUESTION: {user_message}
+
+Provide a helpful, conversational answer based on the documentation above. Keep it concise (2-4 sentences) unless more detail is requested."""
+            
+            response = call_ai_model(system_prompt, user_prompt)
+            if response:
+                return response
             
         except Exception as e:
-            print(f"Vertex AI error: {e}")
-            # Fall back to local responses
-            pass
+            print(f"❌ RAG error: {e}")
     
-    # Local fallback responses
+    # Regular AI response
+    if AI_AVAILABLE:
+        response = call_ai_model(PORTFOLIO_CONTEXT, user_message)
+        if response:
+            return response
+    
+    # Fallback to local
     return get_local_response(user_message)
 
 def get_local_response(message):
-    """Local fallback responses when GCP is unavailable"""
+    """Local fallback responses when AI is unavailable"""
     lowerMessage = message.lower()
     
-    # Project-specific responses
+    if 'room designer' in lowerMessage or 'ai room' in lowerMessage:
+        return "🏠 The AI Room Designer (Rooms Through Time) is Gaston's latest multi-modal AI platform! It features dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Built with React, Python, FastAPI, Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs for voice narration, and includes a local gpt-oss agent for offline AI consultation!"
+    
     if 'peata' in lowerMessage:
-        return "🐕 Peata is one of Gaston's flagship AI projects! It's a character-driven, RAG-backed virtual assistant designed for pet recovery. The system uses image-matching and conversational AI to help reunite lost pets with their families."
+        return "🐕 Peata is one of Gaston's flagship AI projects! It's a character-driven, RAG-backed virtual assistant designed for pet recovery using image-matching and conversational AI to help reunite lost pets with families."
     
     if 'relic' in lowerMessage:
         return "🏛️ Relic is a fascinating AI archaeological research assistant! It's a persona-driven, RAG-backed system that serves as an interactive digital field guide using SRTM, Sentinel-2, OpenTopography, and Google Earth data."
     
     if 'nasa' in lowerMessage or 'space' in lowerMessage:
         return "🚀 Gaston has worked on several NASA-related projects! His NASA Knowledge Graph maps biological data into Neo4j for astronaut health reasoning, and his SESA proposal was submitted to NASA in 2025."
-    
-    if 'ai room designer' in lowerMessage or 'room designer' in lowerMessage:
-        return "🏠 The AI Room Designer is Gaston's latest multi-modal AI platform! It features dual modes with Gemini 2.5 Flash, Fal.ai for 3D reconstruction, and ElevenLabs for voice narration."
     
     if 'rag' in lowerMessage:
         return "🔍 Gaston is an expert in RAG (Retrieval-Augmented Generation) systems! He's implemented RAG in multiple projects like Peata, Relic, and others, combining document retrieval with generative AI."
@@ -287,22 +435,15 @@ def get_local_response(message):
     if 'project' in lowerMessage and ('main' in lowerMessage or 'top' in lowerMessage):
         return "🚀 Gaston's main AI projects include Peata (pet recovery), Relic (archaeological research), NASA Knowledge Graph, AI Room Designer, and several others. Each showcases different aspects of his AI expertise!"
     
-    # Default response
     return "That's an interesting question! Gaston has worked on many AI projects involving RAG systems, multi-agent architectures, and knowledge graphs. Could you be more specific about what you'd like to know?"
 
-# --- API ENDPOINTS ---
 @app.route("/api/projects")
 def get_projects():
-    """
-    This endpoint returns the mock project data as a JSON object.
-    """
     return jsonify(mock_projects_data)
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
-    """
-    Chatbot endpoint that processes user messages and returns AI responses
-    """
+    """Chatbot endpoint with RAG support"""
     try:
         data = request.get_json()
         user_message = data.get('message', '').strip()
@@ -310,16 +451,20 @@ def chat():
         if not user_message:
             return jsonify({"error": "Message is required"}), 400
         
-        # Generate AI response
         ai_response = generate_ai_response(user_message)
         
-        # Log the interaction (optional)
         print(f"[{datetime.now()}] User: {user_message}")
         print(f"[{datetime.now()}] Bot: {ai_response}")
         
+        _, project_key = get_vectorstore_for_query(user_message)
+        used_rag = project_key is not None and project_key in VECTORSTORES
+        
         return jsonify({
             "response": ai_response,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
+            "used_rag": used_rag,
+            "project": project_key if used_rag else None,
+            "ai_provider": AI_PROVIDER  # Shows which AI answered
         })
         
     except Exception as e:
@@ -329,8 +474,5 @@ def chat():
             "error": str(e)
         }), 500
 
-# This allows the file to be run directly using "python app.py"
 if __name__ == '__main__':
-    # Running on port 3001 to avoid conflicts with frontend on 3000
     app.run(debug=True, port=3001)
-    
