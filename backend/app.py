@@ -6,6 +6,14 @@ import os
 import json
 from datetime import datetime
 
+if os.getenv("GCP_SERVICE_ACCOUNT_JSON"):
+    # Write JSON string from env var to a temp file so Vertex AI can read it
+    sa_info = json.loads(os.getenv("GCP_SERVICE_ACCOUNT_JSON"))
+    temp_path = "/tmp/temp_key.json"
+    with open(temp_path, "w") as f:
+        json.dump(sa_info, f)
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp_path
+
 # Initialize the Flask app
 app = Flask(__name__)
 # Enable Cross-Origin Resource Sharing (CORS)
