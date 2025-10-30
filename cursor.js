@@ -80,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Optional: Add sparkle particles on click
     document.addEventListener('click', (e) => {
         for (let i = 0; i < 6; i++) {
-            createSparkle(e.clientX, e.clientY);
+            createSparkle(e.clientX, e.clientY, i);  // ✅ FIXED: Added , i
         }
     });
 
-    function createSparkle(x, y) {
+    function createSparkle(x, y, i) {  // ✅ FIXED: Added , i parameter
         const sparkle = document.createElement('div');
         sparkle.style.position = 'fixed';
         sparkle.style.left = x + 'px';
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sparkle.style.zIndex = '9997';
         sparkle.style.boxShadow = '0 0 8px rgba(131, 9, 213, 0.8)';
         
-        const angle = (Math.PI * 2 * i) / 6;
+        const angle = (Math.PI * 2 * i) / 6;  // ✅ Now i is defined!
         const velocity = 2 + Math.random() * 2;
         const vx = Math.cos(angle) * velocity;
         const vy = Math.sin(angle) * velocity;

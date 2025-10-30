@@ -22,10 +22,17 @@ if os.getenv("GCP_SERVICE_ACCOUNT_JSON"):
         json.dump(sa_info, f)
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp_path
 
+
+
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
-
+CORS(app, resources={
+    r"/api/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
 # Multi-Model AI Setup (Claude Primary, OpenAI/Google fallback ready)
 AI_CLIENT = None
