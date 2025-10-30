@@ -474,5 +474,15 @@ def chat():
             "error": str(e)
         }), 500
 
+
+@app.route("/", methods=["GET"])
+def root():
+    return jsonify({"status": "App is running!", "message": "Welcome to Gaston's API-powered portfolio backend."})
+
+@app.route("/health", methods=["GET"])
+def health_check():
+    return jsonify({"health": "ok", "timestamp": datetime.now().isoformat()})
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=3001)
