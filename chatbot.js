@@ -153,8 +153,8 @@ class PortfolioChatbot {
         // Try backend first, fallback to local responses
         try {
             const apiUrl = window.location.hostname === 'localhost' 
-                ? 'http://localhost:3001/api/chat'
-                : '/api/chat';
+                ? 'http://localhost:3001/api/chat'  // local dev
+                : 'https://portfolio-production-b1b4.up.railway.app/api/chat';
             
             const response = await fetch(apiUrl, {
                 method: 'POST',
