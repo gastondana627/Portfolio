@@ -150,11 +150,13 @@ class PortfolioChatbot {
     }
 
     async callChatbotAPI(message) {
-        // Try backend first, fallback to local responses
+    // Try backend first, fallback to local responses
         try {
             const apiUrl = window.location.hostname === 'localhost' 
                 ? 'http://localhost:3001/api/chat'  // local dev
                 : 'https://portfolio-production-b1b4.up.railway.app/api/chat';
+            
+            console.log('🤖 Calling chatbot API:', apiUrl);
             
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -164,14 +166,19 @@ class PortfolioChatbot {
                 body: JSON.stringify({ message: message })
             });
 
+            console.log('📡 API Response status:', response.status);
+
             if (!response.ok) {
+                const errorText = await response.text();
+                console.error('❌ API Error:', response.status, errorText);
                 throw new Error('API request failed');
             }
 
             const data = await response.json();
+            console.log('✅ API Success:', data);
             return data.response;
         } catch (error) {
-            console.log('Backend unavailable, using local responses');
+            console.error('❌ Backend error details:', error);
             return this.getLocalResponse(message);
         }
     }
