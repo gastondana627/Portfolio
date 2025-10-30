@@ -141,9 +141,10 @@ async function loadProjects() {
     try {
         // Use environment-aware URL
         const apiUrl = window.location.hostname === 'localhost' 
-            ? 'http://localhost:3001/api/projects'
-            : '/api/projects'; // Will need backend deployed or use fallback
-        
+        ? 'http://localhost:3001/api/projects'
+        : 'https://portfolio-production-b1b4.up.railway.app/api/projects'; // ✅ Points to Railway backend
+
+            
         const response = await fetch(apiUrl);
         const data = await response.json();
         projectData = data.projects || data.nodes; // Support both formats

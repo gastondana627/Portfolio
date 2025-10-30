@@ -33,21 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Smooth cursor animation
     function animateCursor() {
         // Cursor follows mouse with slight delay
-        cursorX += (mouseX - cursorX) * 0.3;
-        cursorY += (mouseY - cursorY) * 0.3;
-        
+        cursorX += (mouseX - cursorX) * 0.6;  // Changed from 0.3
+        cursorY += (mouseY - cursorY) * 0.6;  // Changed from 0.3
+
         // Trail follows with more delay
-        trailX += (mouseX - trailX) * 0.15;
-        trailY += (mouseY - trailY) * 0.15;
+        trailX += (mouseX - trailX) * 0.4;   // Changed from 0.15
+        trailY += (mouseY - trailY) * 0.4;   // Changed from 0.15
 
         cursor.style.left = cursorX + 'px';
         cursor.style.top = cursorY + 'px';
-        
         cursorTrail.style.left = trailX + 'px';
         cursorTrail.style.top = trailY + 'px';
 
         requestAnimationFrame(animateCursor);
     }
+
+    
     animateCursor();
 
     // Add hover effect for interactive elements
