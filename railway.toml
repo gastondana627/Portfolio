@@ -1,5 +1,9 @@
+
 [build]
 builder = "NIXPACKS"
+
+[build.nixpacksPlan.phases.setup]
+nixPkgs = ["python3", "python3Packages.pip", "gcc"]
 
 [build.nixpacksPlan.phases.install]
 cmds = ["pip install -r backend/requirements.txt"]
