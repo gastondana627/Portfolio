@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
 import json
+import re
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -40,6 +41,58 @@ CORS(app, resources={
         "max_age": 3600
     }
 })
+
+# ============================================
+# PROMPT INJECTION DEFENSE
+# ============================================
+
+INJECTION_PATTERNS = [
+    r"ignore.*instruction",
+    r"forget.*previous",
+    r"forget.*context",
+    r"disregard.*instruction",
+    r"you are now",
+    r"pretend you are",
+    r"act as if",
+    r"from now on",
+    r"new instruction",
+    r"reveal.*system",
+    r"show.*prompt",
+    r"what.*your.*system",
+    r"what.*your.*instructions",
+    r"print.*system",
+    r"display.*system",
+    r"tell me.*context",
+    r"show.*vectorstore",
+    r"reveal.*documents",
+    r"what.*documents",
+    r"list all.*files",
+]
+
+def is_prompt_injection(message):
+    """Detect common prompt injection patterns"""
+    message_lower = message.lower()
+    for pattern in INJECTION_PATTERNS:
+        if re.search(pattern, message_lower, re.IGNORECASE):
+            print(f"⚠️ Potential injection detected: {pattern}")
+            return True
+    return False
+
+def sanitize_user_input(message):
+    """Clean user input before sending to AI"""
+    suspicious_sequences = [
+        "<!--", "-->",
+        "{{", "}}",
+        "\\n\\n\\n",
+    ]
+    
+    sanitized = message
+    for seq in suspicious_sequences:
+        if seq in sanitized:
+            print(f"⚠️ Removed suspicious sequence: {seq}")
+            sanitized = sanitized.replace(seq, "")
+    
+    return sanitized.strip()
 
 # ============================================
 # MULTI-MODEL AI SETUP (SCHEDULED ROTATION)
@@ -577,7 +630,7 @@ def get_projects():
 
 @app.route("/api/chat", methods=["POST", "OPTIONS"])
 def chat():
-    """Chatbot endpoint with RAG support"""
+    """Chatbot endpoint with RAG support + injection defense"""
     
     if request.method == "OPTIONS":
         return "", 200
@@ -595,6 +648,19 @@ def chat():
         
         print(f"\n📞 Chat API called")
         print(f"User message: {user_message}")
+        
+        # ✅ PROMPT INJECTION DEFENSE
+        if is_prompt_injection(user_message):
+            print(f"🚨 BLOCKED: Potential prompt injection detected")
+            return jsonify({
+                "response": "I can only help with questions about Gaston's work and projects. Please ask something relevant.",
+                "timestamp": datetime.now().isoformat(),
+                "blocked": True,
+                "reason": "Suspicious input pattern detected"
+            }), 400
+        
+        # ✅ SANITIZE INPUT
+        user_message = sanitize_user_input(user_message)
         
         ai_response = generate_ai_response(user_message)
         
@@ -657,6 +723,7 @@ if __name__ == '__main__':
     print(f"✅ AI Provider: {AI_PROVIDER}")
     print(f"✅ Provider Rotation: 8hr OpenAI / 8hr Claude / 8hr Google (UTC)")
     print(f"✅ RAG enabled for 8 projects (lazy-loaded on query)")
+    print(f"✅ Prompt injection defense: ACTIVE")
     print(f"✅ CORS enabled for:")
     print(f"   - http://localhost:3000 (dev frontend)")
     print(f"   - https://gastondana.vercel.app (prod)")
