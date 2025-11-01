@@ -1691,3 +1691,88 @@ body::after {
         padding: 25px;
     }
 }
+
+
+
+/* ============================================
+   FILTER TABS STYLING
+   ============================================ */
+
+.filter-tabs {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(13, 27, 42, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(131, 9, 213, 0.3);
+  border-radius: 50px;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(131, 9, 213, 0.2);
+}
+
+.filter-tab {
+  padding: 8px 20px;
+  background: transparent;
+  border: 2px solid rgba(131, 9, 213, 0.5);
+  border-radius: 25px;
+  color: #E0E0E0;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Space Grotesk", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-tab:hover {
+  border-color: #8309D5;
+  background: rgba(131, 9, 213, 0.1);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.filter-tab.active {
+  background: linear-gradient(135deg, #8309D5, #09C1D5);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(131, 9, 213, 0.5);
+}
+
+.filter-tab.active:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(131, 9, 213, 0.7);
+}
+
+@media (max-width: 768px) {
+  .filter-tabs {
+    top: 70px;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  
+  .filter-tab {
+    padding: 6px 14px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-tabs {
+    top: 65px;
+    gap: 4px;
+    width: 95vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  
+  .filter-tab {
+    padding: 6px 12px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+}

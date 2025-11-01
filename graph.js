@@ -24,6 +24,40 @@ let hoveredNode = null;
 let selectedNode = null;
 let analyser, dataArray;
 
+// ============================================
+// NODE FILTERING & HIGHLIGHTING SYSTEM
+// ============================================
+
+const FILTER_TABS = {
+  all: {
+    label: "All",
+    projects: null,
+    description: "Full knowledge graph"
+  },
+  aiml: {
+    label: "AI/ML",
+    projects: ["peata", "relic", "nasa_kg", "sesa", "stargate", "astro_archive", "ai-room-designer", "planetrics"],
+    description: "AI agents, RAG systems, and neural networks"
+  },
+  gaming: {
+    label: "Gaming",
+    projects: ["stargate"],
+    description: "Gaming mentorship and interactive AI"
+  },
+  space: {
+    label: "Space",
+    projects: ["nasa_kg", "astro_archive", "planetrics"],
+    description: "NASA projects and space data systems"
+  },
+  fullstack: {
+    label: "Full-Stack",
+    projects: ["ai-room-designer"],
+    description: "Frontend, backend, and deployment"
+  }
+};
+
+let currentFilter = "all";
+
 // --- AUDIO SETUP ---
 function initAudio() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -58,7 +92,7 @@ const innerPrismMaterial = new THREE.MeshBasicMaterial({
 });
 const innerPrism = new THREE.Mesh(innerPrismGeometry, innerPrismMaterial);
 prism.add(innerPrism);
-prism.userData.innerPrism = innerPrism; // Store reference
+prism.userData.innerPrism = innerPrism;
 
 // Add glowing edges
 const edgesGeometry = new THREE.EdgesGeometry(prismGeometry);
@@ -70,17 +104,17 @@ const edgesMaterial = new THREE.LineBasicMaterial({
 });
 const edges = new THREE.LineSegments(edgesGeometry, edgesMaterial);
 prism.add(edges);
-prism.userData.edges = edges; // Store reference
+prism.userData.edges = edges;
 
 scene.add(prism);
 
 // Color palette for holographic effect
 const prismColors = [
-    new THREE.Color(0x8309D5),  // Purple
-    new THREE.Color(0x09C1D5),  // Cyan
-    new THREE.Color(0xA855F7),  // Violet
-    new THREE.Color(0xFF00FF),  // Magenta
-    new THREE.Color(0x00FFFF)   // Bright Cyan
+    new THREE.Color(0x8309D5),
+    new THREE.Color(0x09C1D5),
+    new THREE.Color(0xA855F7),
+    new THREE.Color(0xFF00FF),
+    new THREE.Color(0x00FFFF)
 ];
 let currentColorIndex = 0;
 const baseColor = new THREE.Color(0xffffff);
@@ -95,16 +129,16 @@ let skillLinks = [];
 
 const groupColors = {
     'AI Projects': { 
-        main: 0x8309D5,      // Purple
-        outline: 0x09C1D5    // Cyan outline
+        main: 0x8309D5,
+        outline: 0x09C1D5
     },
     'Gaming': { 
-        main: 0x09C1D5,      // Cyan
-        outline: 0x8309D5    // Purple outline
+        main: 0x09C1D5,
+        outline: 0x8309D5
     },
     'Ethical Hacking': { 
-        main: 0xA855F7,      // Violet
-        outline: 0x09C1D5    // Cyan outline
+        main: 0xA855F7,
+        outline: 0x09C1D5
     },
     'default': {
         main: 0xFFFFFF,
@@ -114,24 +148,24 @@ const groupColors = {
 
 const skillColors = {
     'Language': { 
-        main: 0xFFD700,      // Gold
-        outline: 0x8309D5    // Purple outline
+        main: 0xFFD700,
+        outline: 0x8309D5
     },
     'AI': { 
-        main: 0x8309D5,      // Purple
-        outline: 0xFFD700    // Gold outline
+        main: 0x8309D5,
+        outline: 0xFFD700
     },
     'Database': { 
-        main: 0x09C1D5,      // Cyan
-        outline: 0x8309D5    // Purple outline
+        main: 0x09C1D5,
+        outline: 0x8309D5
     },
     'Geospatial': { 
-        main: 0x00FF88,      // Green
-        outline: 0x09C1D5    // Cyan outline
+        main: 0x00FF88,
+        outline: 0x09C1D5
     },
     'Domain': { 
-        main: 0xFF00FF,      // Magenta
-        outline: 0x00FFFF    // Cyan outline
+        main: 0xFF00FF,
+        outline: 0x00FFFF
     }
 };
 
@@ -139,21 +173,18 @@ const skillColors = {
 async function loadProjects() {
     console.log('📡 Fetching projects...');
     try {
-        // Use environment-aware URL
         const apiUrl = window.location.hostname === 'localhost' 
-        ? 'http://localhost:3001/api/projects'
-        : 'https://portfolio-production-b1b4.up.railway.app/api/projects'; // ✅ Points to Railway backend
-
+        ? 'http://localhost:5000/api/projects'
+        : 'https://portfolio-production-b1b4.up.railway.app/api/projects';
             
         const response = await fetch(apiUrl);
         const data = await response.json();
-        projectData = data.projects || data.nodes; // Support both formats
+        projectData = data.projects || data.nodes;
         skillData = data.skills || [];
         skillLinks = data.skill_links || [];
         console.log('✅ Loaded', projectData.length, 'projects and', skillData.length, 'skills from backend');
     } catch (error) {
         console.log('⚠️ Backend unavailable, using complete fallback data');
-        // Complete fallback with all 6 projects
         projectData = [
             {id: "stargate", group: "Gaming", label: "Project Stargate", description: "Gaming mentorship personas", links: [{type: "github", url: "https://github.com/gastondana627/Stargate-and-Bobot"}]},
             {id: "peata", group: "AI Projects", label: "Peata", description: "AI pet recovery assistant", links: [{type: "github", url: "https://github.com/gastondana627/Peata"}]},
@@ -209,7 +240,6 @@ function createProjectNodes() {
         const nodeColor = colors.main;
         const outlineColor = colors.outline;
         
-        // Inner solid sphere - bigger for easier hovering
         const nodeGeometry = new THREE.SphereGeometry(0.9, 32, 32);
         const nodeMaterial = new THREE.MeshBasicMaterial({ 
             color: nodeColor,
@@ -218,7 +248,6 @@ function createProjectNodes() {
         });
         const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
         
-        // Invisible larger hitbox for easier hovering
         const hitboxGeometry = new THREE.SphereGeometry(1.5, 8, 8);
         const hitboxMaterial = new THREE.MeshBasicMaterial({
             transparent: true,
@@ -228,7 +257,6 @@ function createProjectNodes() {
         const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
         node.add(hitbox);
         
-        // Outer wireframe glow - complementary color
         const outlineGeometry = new THREE.SphereGeometry(0.95, 16, 16);
         const outlineMaterial = new THREE.MeshBasicMaterial({
             color: outlineColor,
@@ -238,15 +266,17 @@ function createProjectNodes() {
         });
         const outline = new THREE.Mesh(outlineGeometry, outlineMaterial);
         
-        node.add(outline); // Attach outline to node
+        node.add(outline);
         node.position.set(x, y, z);
         node.userData = {
+            id: project.id,
             project: project,
             originalPosition: { x, y, z },
             baseColor: new THREE.Color(nodeColor),
             baseOutlineColor: new THREE.Color(outlineColor),
             outline: outline,
-            isNode: true
+            isNode: true,
+            type: "project-node"
         };
         
         scene.add(node);
@@ -260,7 +290,6 @@ function createProjectNodes() {
 function createSkillNodes() {
     console.log('🎨 Creating', skillData.length, 'skill nodes');
     
-    // Position skills in inner ring closer to prism
     const innerRadius = 4;
     const angleStep = (Math.PI * 2) / skillData.length;
     
@@ -268,13 +297,12 @@ function createSkillNodes() {
         const angle = angleStep * index;
         const x = Math.cos(angle) * innerRadius;
         const z = Math.sin(angle) * innerRadius;
-        const y = (Math.random() - 0.5) * 2; // Random height variation
+        const y = (Math.random() - 0.5) * 2;
         
         const colors = skillColors[skill.category] || { main: 0xFFFFFF, outline: 0x8309D5 };
         const skillColor = colors.main;
         const outlineColor = colors.outline;
         
-        // Smaller octahedron for skills (diamond shape)
         const skillGeometry = new THREE.OctahedronGeometry(0.5, 0);
         const skillMaterial = new THREE.MeshBasicMaterial({
             color: skillColor,
@@ -286,7 +314,6 @@ function createSkillNodes() {
         
         skillNode.position.set(x, y, z);
         
-        // Invisible larger hitbox for easier hovering
         const hitboxGeometry = new THREE.OctahedronGeometry(1.0, 0);
         const hitboxMaterial = new THREE.MeshBasicMaterial({
             transparent: true,
@@ -296,7 +323,6 @@ function createSkillNodes() {
         const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
         skillNode.add(hitbox);
         
-        // Add wireframe outline with complementary color
         const outlineGeometry = new THREE.OctahedronGeometry(0.55, 0);
         const outlineMaterial = new THREE.MeshBasicMaterial({
             color: outlineColor,
@@ -316,7 +342,8 @@ function createSkillNodes() {
             baseColor: new THREE.Color(skillColor),
             baseOutlineColor: new THREE.Color(outlineColor),
             outline: outline,
-            isSkill: true
+            isSkill: true,
+            type: "skill-node"
         };
         
         scene.add(skillNode);
@@ -337,7 +364,6 @@ function createSkillConnections() {
         const skillNode = skillNodes.find(n => n.userData.id === link.skill);
         
         if (projectNode && skillNode) {
-            // Create thin line connecting project to skill
             const points = [projectNode.position, skillNode.position];
             const geometry = new THREE.BufferGeometry().setFromPoints(points);
             const material = new THREE.LineBasicMaterial({
@@ -352,7 +378,8 @@ function createSkillConnections() {
                 isSkillConnection: true,
                 projectNode: projectNode,
                 skillNode: skillNode,
-                baseOpacity: 0.2
+                baseOpacity: 0.2,
+                type: "connection-line"
             };
             
             scene.add(line);
@@ -361,8 +388,6 @@ function createSkillConnections() {
     });
     
     console.log('✅ Created', skillConnectionLines.length, 'skill connections');
-    
-    // Now create evolution paths
     createEvolutionPaths();
 }
 
@@ -370,7 +395,6 @@ function createSkillConnections() {
 let evolutionLines = [];
 
 function createEvolutionPaths() {
-    // Define evolution relationships (will come from backend later)
     const evolutionPaths = [
         { from: "peata", to: "relic", color: 0x8309D5 },
         { from: "relic", to: "astro_archive", color: 0x09C1D5 },
@@ -386,12 +410,11 @@ function createEvolutionPaths() {
         const toNode = projectNodes.find(n => n.userData.id === path.to);
         
         if (fromNode && toNode) {
-            // Create curved line between nodes
             const curve = new THREE.QuadraticBezierCurve3(
                 fromNode.position,
                 new THREE.Vector3(
                     (fromNode.position.x + toNode.position.x) / 2,
-                    (fromNode.position.y + toNode.position.y) / 2 + 2, // Arc upward
+                    (fromNode.position.y + toNode.position.y) / 2 + 2,
                     (fromNode.position.z + toNode.position.z) / 2
                 ),
                 toNode.position
@@ -416,13 +439,12 @@ function createEvolutionPaths() {
                 isEvolutionPath: true,
                 fromNode: fromNode,
                 toNode: toNode,
-                baseOpacity: path.dashed ? 0.3 : 0.4
+                baseOpacity: path.dashed ? 0.3 : 0.4,
+                type: "connection-line"
             };
             
             scene.add(line);
             evolutionLines.push(line);
-            
-            // Add animated particles along the path
             createPathParticles(curve, path.color);
         }
     });
@@ -441,17 +463,185 @@ function createPathParticles(curve, color) {
         opacity: 0.8
     });
     
-    // Create 3 particles per path
     for (let i = 0; i < 3; i++) {
         const particle = new THREE.Mesh(particleGeometry, particleMaterial);
         particle.userData = {
             curve: curve,
-            progress: i / 3, // Stagger starting positions
+            progress: i / 3,
             speed: 0.001 + Math.random() * 0.001
         };
         scene.add(particle);
         pathParticles.push(particle);
     }
+}
+
+// ============================================
+// TAB UI CREATION & EVENT HANDLING
+// ============================================
+
+function createFilterTabs() {
+    const tabContainer = document.createElement("div");
+    tabContainer.id = "filter-tabs";
+    tabContainer.className = "filter-tabs";
+    
+    Object.entries(FILTER_TABS).forEach(([key, tab]) => {
+        const tabButton = document.createElement("button");
+        tabButton.className = `filter-tab ${key === "all" ? "active" : ""}`;
+        tabButton.textContent = tab.label;
+        tabButton.title = tab.description;
+        tabButton.setAttribute("data-filter", key);
+        
+        tabButton.addEventListener("click", () => {
+            setActiveFilter(key, tabButton);
+        });
+        
+        tabContainer.appendChild(tabButton);
+    });
+    
+    document.body.appendChild(tabContainer);
+    console.log("✅ Filter tabs created");
+}
+
+function setActiveFilter(filterKey, buttonElement) {
+    console.log(`🎨 Setting filter: ${filterKey}`);
+    
+    document.querySelectorAll(".filter-tab").forEach(btn => {
+        btn.classList.remove("active");
+    });
+    buttonElement.classList.add("active");
+    
+    currentFilter = filterKey;
+    updateNodeVisibility(filterKey);
+    
+    console.log(`✅ Filter applied: ${FILTER_TABS[filterKey].label}`);
+}
+
+function updateNodeVisibility(filterKey) {
+    const filterConfig = FILTER_TABS[filterKey];
+    const projectsToShow = filterConfig.projects;
+    
+    scene.traverse((object) => {
+        if (object.userData && object.userData.type === "project-node") {
+            const projectId = object.userData.id;
+            const shouldShow = projectsToShow === null || projectsToShow.includes(projectId);
+            
+            if (shouldShow) {
+                animateNodeOpacity(object, 1.0, 300);
+                object.material.emissive.setHex(0x8309D5);
+            } else {
+                animateNodeOpacity(object, 0.2, 300);
+                object.material.emissive.setHex(0x1a0033);
+            }
+        }
+        
+        if (object.userData && object.userData.type === "skill-node") {
+            const skillId = object.userData.id;
+            
+            const hasVisibleProject = projectData.some(p => {
+                const projectMatch = projectsToShow === null || projectsToShow.includes(p.id);
+                const skillMatch = skillLinks.some(link => 
+                    link.project === p.id && link.skill === skillId
+                );
+                return projectMatch && skillMatch;
+            });
+            
+            if (hasVisibleProject) {
+                animateNodeOpacity(object, 1.0, 300);
+                object.material.emissive.setHex(0xFFD700);
+            } else {
+                animateNodeOpacity(object, 0.15, 300);
+                object.material.emissive.setHex(0x332200);
+            }
+        }
+    });
+    
+    updateConnectionVisibility(filterKey);
+}
+
+function updateConnectionVisibility(filterKey) {
+    const filterConfig = FILTER_TABS[filterKey];
+    const projectsToShow = filterConfig.projects;
+    
+    scene.traverse((object) => {
+        if (object.userData && object.userData.type === "connection-line") {
+            const sourceId = object.userData.source || object.userData.fromNode?.userData?.id;
+            const targetId = object.userData.target || object.userData.toNode?.userData?.id;
+            
+            if (object.userData.isSkillConnection) {
+                const sourceId = object.userData.projectNode?.userData?.id;
+                const targetId = object.userData.skillNode?.userData?.id;
+                
+                const sourceVisible = projectsToShow === null || projectsToShow.includes(sourceId);
+                const targetVisible = projectsToShow === null || true;
+                
+                if (sourceVisible && targetVisible) {
+                    animateLineOpacity(object, 0.5, 300);
+                } else {
+                    animateLineOpacity(object, 0.05, 300);
+                }
+            } else if (object.userData.isEvolutionPath) {
+                const sourceId = object.userData.fromNode?.userData?.id;
+                const targetId = object.userData.toNode?.userData?.id;
+                
+                const sourceVisible = projectsToShow === null || projectsToShow.includes(sourceId);
+                const targetVisible = projectsToShow === null || projectsToShow.includes(targetId);
+                
+                if (sourceVisible && targetVisible) {
+                    animateLineOpacity(object, object.userData.baseOpacity, 300);
+                } else {
+                    animateLineOpacity(object, 0.05, 300);
+                }
+            }
+        }
+    });
+}
+
+// ============================================
+// ANIMATION HELPERS
+// ============================================
+
+function animateNodeOpacity(node, targetOpacity, duration = 300) {
+    const startOpacity = node.material.opacity;
+    const startTime = Date.now();
+    
+    const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const eased = progress < 0.5 
+            ? 2 * progress * progress 
+            : -1 + (4 - 2 * progress) * progress;
+        
+        node.material.opacity = startOpacity + (targetOpacity - startOpacity) * eased;
+        
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    };
+    
+    animate();
+}
+
+function animateLineOpacity(line, targetOpacity, duration = 300) {
+    const startOpacity = line.material.opacity;
+    const startTime = Date.now();
+    
+    const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const eased = progress < 0.5 
+            ? 2 * progress * progress 
+            : -1 + (4 - 2 * progress) * progress;
+        
+        line.material.opacity = startOpacity + (targetOpacity - startOpacity) * eased;
+        
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    };
+    
+    animate();
 }
 
 // --- MOUSE INTERACTION ---
@@ -463,39 +653,33 @@ function onMouseMove(event) {
     
     raycaster.setFromCamera(mouse, camera);
     
-    // Find closest node to mouse (projects and skills)
     let closestNode = null;
     let closestDistance = Infinity;
     
-    // Check project nodes - INCREASED SENSITIVITY
     projectNodes.forEach(node => {
         const nodeScreenPos = node.position.clone().project(camera);
         const dx = nodeScreenPos.x - mouse.x;
         const dy = nodeScreenPos.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // Increased from 0.15 to 0.25 for better hover detection
         if (distance < 0.25 && distance < closestDistance) {
             closestDistance = distance;
             closestNode = node;
         }
     });
     
-    // Check skill nodes - INCREASED SENSITIVITY
     skillNodes.forEach(node => {
         const nodeScreenPos = node.position.clone().project(camera);
         const dx = nodeScreenPos.x - mouse.x;
         const dy = nodeScreenPos.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // Increased from 0.12 to 0.20 for better hover detection
         if (distance < 0.20 && distance < closestDistance) {
             closestDistance = distance;
             closestNode = node;
         }
     });
     
-    // Check prism hover (only if no node is close)
     if (!closestNode) {
         const prismIntersects = raycaster.intersectObject(prism, true);
         if (prismIntersects.length > 0) {
@@ -511,7 +695,6 @@ function onMouseMove(event) {
         hoveredPrism = false;
     }
     
-    // Reset previous hover
     if (hoveredNode && hoveredNode !== closestNode) {
         hoveredNode.material.opacity = 0.8;
         hoveredNode.scale.set(1, 1, 1);
@@ -522,7 +705,6 @@ function onMouseMove(event) {
         if (!hoveredPrism) hideTooltip();
     }
     
-    // Set new hover
     if (closestNode && !selectedNode) {
         hoveredNode = closestNode;
         hoveredNode.material.opacity = 1.0;
@@ -532,11 +714,9 @@ function onMouseMove(event) {
         }
         container.classList.add('hovering');
         
-        // Show appropriate tooltip
         if (hoveredNode.userData.isSkill) {
             showTooltip(`💎 ${hoveredNode.userData.name} (${hoveredNode.userData.category})`, event.clientX, event.clientY);
             
-            // Highlight connected projects
             skillConnectionLines.forEach(line => {
                 if (line.userData.skillNode === hoveredNode) {
                     line.material.opacity = 0.6;
@@ -546,7 +726,6 @@ function onMouseMove(event) {
         } else {
             showTooltip(hoveredNode.userData.project.label, event.clientX, event.clientY);
             
-            // Highlight connected skills
             skillConnectionLines.forEach(line => {
                 if (line.userData.projectNode === hoveredNode) {
                     line.material.opacity = 0.6;
@@ -557,7 +736,6 @@ function onMouseMove(event) {
     } else if (!hoveredPrism && !closestNode) {
         container.classList.remove('hovering');
         
-        // Reset all skill connections
         skillConnectionLines.forEach(line => {
             line.material.opacity = line.userData.baseOpacity;
         });
@@ -573,7 +751,6 @@ function onMouseClick() {
         showProjectDetails(hoveredNode.userData.project);
         zoomToNode(hoveredNode);
         
-        // Update carousel to show this project
         if (typeof updateCarouselToProject === 'function') {
             updateCarouselToProject(hoveredNode.userData.project.id);
         }
@@ -657,7 +834,6 @@ function openChatbot() {
     }
 }
 
-// Function to zoom to a specific project node (called from carousel)
 window.zoomToProjectNode = function(projectId) {
     console.log('🔍 Looking for project:', projectId);
     const node = projectNodes.find(n => n.userData.project.id === projectId);
@@ -668,7 +844,6 @@ window.zoomToProjectNode = function(projectId) {
         showProjectDetails(node.userData.project);
         zoomToNode(node);
         
-        // Scroll to graph
         document.getElementById('graph-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
         console.log('❌ Node not found for:', projectId);
@@ -731,7 +906,6 @@ function animate() {
         const bassScale = 1 + bassValue * 1.5;
         prism.scale.set(bassScale, bassScale, bassScale);
         
-        // Holographic color cycling
         const colorCycleSpeed = elapsedTime * 0.3;
         const colorIndex = Math.floor(colorCycleSpeed) % prismColors.length;
         const nextColorIndex = (colorIndex + 1) % prismColors.length;
@@ -741,7 +915,6 @@ function animate() {
         const nextColor = prismColors[nextColorIndex];
         currentColor.lerp(nextColor, colorMix);
         
-        // Apply colors with audio reactivity
         prismMaterial.color.copy(currentColor);
         if (prism.userData.innerPrism) {
             prism.userData.innerPrism.material.color.copy(currentColor).multiplyScalar(0.8);
@@ -755,7 +928,6 @@ function animate() {
             const nodePulse = 1 + bassValue * 0.3;
             node.scale.set(nodePulse, nodePulse, nodePulse);
             
-            // Make outline glow with treble
             if (node.userData.outline) {
                 node.userData.outline.material.opacity = 0.6 + trebleValue * 0.4;
             }
@@ -765,33 +937,26 @@ function animate() {
     prism.rotation.x = elapsedTime * 0.1;
     prism.rotation.y = elapsedTime * 0.15;
     
-    // Animate skill nodes - rotate in place
     skillNodes.forEach((node, index) => {
-        // Gentle rotation
         node.rotation.x = elapsedTime * 0.5 + index;
         node.rotation.y = elapsedTime * 0.3 + index;
         
-        // Subtle floating
         const floatOffset = Math.sin(elapsedTime * 2 + index) * 0.2;
         node.position.y = node.userData.originalPosition.y + floatOffset;
         
-        // Pulse with audio if available
         if (analyser) {
             const pulse = 1 + (dataArray[10 + index] || 0) / 255 * 0.3;
             node.scale.set(pulse, pulse, pulse);
         }
     });
     
-    // Update skill connection lines
     skillConnectionLines.forEach(line => {
         const points = [line.userData.projectNode.position, line.userData.skillNode.position];
         line.geometry.setFromPoints(points);
         
-        // Subtle pulse
         line.material.opacity = line.userData.baseOpacity + Math.sin(elapsedTime) * 0.05;
     });
     
-    // Animate path particles
     pathParticles.forEach(particle => {
         particle.userData.progress += particle.userData.speed;
         if (particle.userData.progress > 1) {
@@ -801,12 +966,10 @@ function animate() {
         const point = particle.userData.curve.getPoint(particle.userData.progress);
         particle.position.copy(point);
         
-        // Pulse effect
         const pulse = 1 + Math.sin(elapsedTime * 3 + particle.userData.progress * Math.PI * 2) * 0.3;
         particle.scale.set(pulse, pulse, pulse);
     });
     
-    // Update evolution path curves to follow nodes
     evolutionLines.forEach(line => {
         const fromPos = line.userData.fromNode.position;
         const toPos = line.userData.toNode.position;
@@ -824,11 +987,9 @@ function animate() {
         const points = curve.getPoints(50);
         line.geometry.setFromPoints(points);
         
-        // Pulse opacity
         line.material.opacity = line.userData.baseOpacity + Math.sin(elapsedTime * 2) * 0.1;
     });
     
-    // Rotate nodes around the prism
     projectNodes.forEach((node, index) => {
         if (!selectedNode || selectedNode !== node) {
             const orbitSpeed = 0.1;
@@ -864,6 +1025,7 @@ animate();
 console.log('📞 Calling loadProjects...');
 loadProjects().then(() => {
     console.log('✅ Projects loaded!');
+    createFilterTabs();
 }).catch(err => {
     console.error('❌ Error loading projects:', err);
 });
