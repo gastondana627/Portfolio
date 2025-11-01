@@ -1,5 +1,4 @@
 # backend/app.py
-# backend/app.py
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -29,15 +28,20 @@ if os.getenv("GCP_SERVICE_ACCOUNT_JSON"):
 
 app = Flask(__name__)
 
-# ✅ FIXED: Enhanced CORS configuration for both localhost and production
+# ✅ FIXED: Explicit CORS origins (no wildcards - browsers don't recognize *.vercel.app)
 CORS(app, resources={
     r"/api/*": {
         "origins": [
-            "http://localhost:3000",      # Local frontend dev
-            "http://localhost:5000",      # Local backend
-            "https://portfolio-production-b1b4.up.railway.app",  # Production Railway
-            "https://*.vercel.app",       # All Vercel preview deployments
-            "https://*.vercel.app/"       # Vercel production
+            # Local development
+            "http://localhost:3000",
+            "http://localhost:5000",
+            
+            # Production Vercel domains (EXPLICIT, not wildcard)
+            "https://gastondana.vercel.app",  # ✅ Official custom domain
+            "https://portfolio-jcqs164kp-gastondana627s-projects.vercel.app",  # ✅ Vercel preview
+            
+            # Railway backend
+            "https://portfolio-production-b1b4.up.railway.app",
         ],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
@@ -56,7 +60,7 @@ AI_AVAILABLE = False
 
 try:
     # Try Claude first (Primary)
-    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '').strip()
     if ANTHROPIC_API_KEY:
         from anthropic import Anthropic
         AI_CLIENT = Anthropic(api_key=ANTHROPIC_API_KEY)
@@ -65,17 +69,17 @@ try:
         print("✅ Claude API configured (Primary)")
     
     # Fallback to OpenAI (if Claude not available)
-    elif os.getenv('OPENAI_API_KEY'):
+    elif os.getenv('OPENAI_API_KEY', '').strip():
         from openai import OpenAI
-        AI_CLIENT = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+        AI_CLIENT = OpenAI(api_key=os.getenv('OPENAI_API_KEY').strip())
         AI_PROVIDER = "openai"
         AI_AVAILABLE = True
         print("✅ OpenAI configured (Fallback)")
     
     # Fallback to Google AI (if neither available)
-    elif os.getenv('GOOGLE_API_KEY'):
+    elif os.getenv('GOOGLE_API_KEY', '').strip():
         import google.generativeai as genai
-        genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+        genai.configure(api_key=os.getenv('GOOGLE_API_KEY').strip())
         AI_CLIENT = genai
         AI_PROVIDER = "google"
         AI_AVAILABLE = True
@@ -567,16 +571,17 @@ def health_check():
 # ============================================
 
 if __name__ == '__main__':
-    # ✅ FIXED: Changed from port 3001 to port 5000
-    print("\n" + "="*50)
+    print("\n" + "="*60)
     print("🚀 Starting Gaston's Portfolio Backend")
-    print("="*50)
+    print("="*60)
     print(f"✅ Flask running on port 5000")
     print(f"✅ AI Available: {AI_AVAILABLE}")
     print(f"✅ AI Provider: {AI_PROVIDER}")
-    print(f"✅ CORS enabled for localhost + production")
-    print("="*50 + "\n")
+    print(f"✅ CORS enabled for:")
+    print(f"   - Local: http://localhost:3000")
+    print(f"   - Production: https://gastondana.vercel.app")
+    print(f"   - Preview: https://portfolio-jcqs164kp-gastondana627s-projects.vercel.app")
+    print(f"   - Backend: https://portfolio-production-b1b4.up.railway.app")
+    print("="*60 + "\n")
     
     app.run(debug=True, port=5000)
-
-#YEA
