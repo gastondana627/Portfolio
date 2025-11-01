@@ -42,43 +42,85 @@ CORS(app, resources={
 })
 
 # ============================================
-# MULTI-MODEL AI SETUP
+# MULTI-MODEL AI SETUP (SCHEDULED ROTATION)
 # ============================================
 
 AI_CLIENT = None
 AI_PROVIDER = None
 AI_AVAILABLE = False
 
+# Schedule: 8hr each provider (UTC)
+schedule = {
+    'openai': range(0, 8),      # 00:00 - 08:00 UTC
+    'claude': range(8, 16),     # 08:00 - 16:00 UTC
+    'google': range(16, 24)     # 16:00 - 24:00 UTC
+}
+
+def get_current_provider():
+    """Determine provider based on time schedule"""
+    hour = datetime.utcnow().hour
+    if hour in schedule['openai']:
+        return 'openai'
+    elif hour in schedule['claude']:
+        return 'claude'
+    else:
+        return 'google'
+
 try:
-    # Try Claude first (Primary)
-    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '').strip()
-    if ANTHROPIC_API_KEY:
-        from anthropic import Anthropic
-        AI_CLIENT = Anthropic(api_key=ANTHROPIC_API_KEY)
-        AI_PROVIDER = "claude"
-        AI_AVAILABLE = True
-        print("✅ Claude API configured (Primary)")
+    current_time = datetime.utcnow()
+    scheduled_provider = get_current_provider()
+    print(f"⏰ Current UTC hour: {current_time.hour}, Scheduled provider: {scheduled_provider}")
     
-    # Fallback to OpenAI
-    elif os.getenv('OPENAI_API_KEY', '').strip():
+    # Try scheduled provider first
+    if scheduled_provider == 'openai' and os.getenv('OPENAI_API_KEY', '').strip():
         from openai import OpenAI
         AI_CLIENT = OpenAI(api_key=os.getenv('OPENAI_API_KEY').strip())
         AI_PROVIDER = "openai"
         AI_AVAILABLE = True
-        print("✅ OpenAI configured (Fallback)")
+        print("✅ OpenAI configured (Scheduled)")
     
-    # Fallback to Google AI
-    elif os.getenv('GOOGLE_API_KEY', '').strip():
+    elif scheduled_provider == 'claude' and os.getenv('ANTHROPIC_API_KEY', '').strip():
+        from anthropic import Anthropic
+        AI_CLIENT = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY').strip())
+        AI_PROVIDER = "claude"
+        AI_AVAILABLE = True
+        print("✅ Claude configured (Scheduled)")
+    
+    elif scheduled_provider == 'google' and os.getenv('GOOGLE_API_KEY', '').strip():
         import google.generativeai as genai
         genai.configure(api_key=os.getenv('GOOGLE_API_KEY').strip())
         AI_CLIENT = genai
         AI_PROVIDER = "google"
         AI_AVAILABLE = True
-        print("✅ Google AI configured (Fallback)")
+        print("✅ Google AI configured (Scheduled)")
     
     else:
-        print("⚠️ No AI API keys found. Using local responses only.")
-        AI_AVAILABLE = False
+        # Fallback to any available
+        if os.getenv('OPENAI_API_KEY', '').strip():
+            from openai import OpenAI
+            AI_CLIENT = OpenAI(api_key=os.getenv('OPENAI_API_KEY').strip())
+            AI_PROVIDER = "openai"
+            AI_AVAILABLE = True
+            print("✅ OpenAI configured (Fallback)")
+        
+        elif os.getenv('ANTHROPIC_API_KEY', '').strip():
+            from anthropic import Anthropic
+            AI_CLIENT = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY').strip())
+            AI_PROVIDER = "claude"
+            AI_AVAILABLE = True
+            print("✅ Claude configured (Fallback)")
+        
+        elif os.getenv('GOOGLE_API_KEY', '').strip():
+            import google.generativeai as genai
+            genai.configure(api_key=os.getenv('GOOGLE_API_KEY').strip())
+            AI_CLIENT = genai
+            AI_PROVIDER = "google"
+            AI_AVAILABLE = True
+            print("✅ Google AI configured (Fallback)")
+        
+        else:
+            print("⚠️ No AI API keys found. Using local responses only.")
+            AI_AVAILABLE = False
 
 except ImportError as e:
     print(f"⚠️ AI library not installed: {e}. Using local responses only.")
@@ -613,6 +655,7 @@ if __name__ == '__main__':
     print(f"✅ Flask running on port 5000")
     print(f"✅ AI Available: {AI_AVAILABLE}")
     print(f"✅ AI Provider: {AI_PROVIDER}")
+    print(f"✅ Provider Rotation: 8hr OpenAI / 8hr Claude / 8hr Google (UTC)")
     print(f"✅ RAG enabled for 8 projects (lazy-loaded on query)")
     print(f"✅ CORS enabled for:")
     print(f"   - http://localhost:3000 (dev frontend)")
