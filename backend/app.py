@@ -1,4 +1,5 @@
 # backend/app.py
+# backend/app.py
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -22,19 +23,33 @@ if os.getenv("GCP_SERVICE_ACCOUNT_JSON"):
         json.dump(sa_info, f)
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp_path
 
+# ============================================
+# FLASK INITIALIZATION & CORS CONFIGURATION
+# ============================================
 
-
-# Initialize Flask app
 app = Flask(__name__)
+
+# ✅ FIXED: Enhanced CORS configuration for both localhost and production
 CORS(app, resources={
     r"/api/*": {
-        "origins": "*",
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
+        "origins": [
+            "http://localhost:3000",      # Local frontend dev
+            "http://localhost:5000",      # Local backend
+            "https://portfolio-production-b1b4.up.railway.app",  # Production Railway
+            "https://*.vercel.app",       # All Vercel preview deployments
+            "https://*.vercel.app/"       # Vercel production
+        ],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": False,
+        "max_age": 3600
     }
 })
 
-# Multi-Model AI Setup (Claude Primary, OpenAI/Google fallback ready)
+# ============================================
+# MULTI-MODEL AI SETUP
+# ============================================
+
 AI_CLIENT = None
 AI_PROVIDER = None
 AI_AVAILABLE = False
@@ -76,6 +91,10 @@ except ImportError as e:
 except Exception as e:
     print(f"⚠️ AI initialization failed: {e}. Using local responses only.")
     AI_AVAILABLE = False
+
+# ============================================
+# GCP & RAG CONFIGURATION
+# ============================================
 
 PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT', 'sesa-trifecta-street-25')
 LOCATION = os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
@@ -148,7 +167,10 @@ def get_vectorstore_for_query(query):
     
     return None, None
 
-# --- PROJECT DATA ---
+# ============================================
+# PROJECT & PORTFOLIO DATA
+# ============================================
+
 mock_projects_data = {
     "projects": [
         {
@@ -338,9 +360,14 @@ CONTACT:
 Be helpful, enthusiastic, and knowledgeable. Keep responses conversational but informative.
 """
 
+# ============================================
+# AI RESPONSE GENERATION
+# ============================================
+
 def call_ai_model(system_prompt, user_message, provider=None):
     """Universal AI caller - routes to appropriate provider"""
     if not AI_AVAILABLE:
+        print("⚠️ AI_AVAILABLE is False, returning None")
         return None
     
     current_provider = provider or AI_PROVIDER
@@ -379,6 +406,7 @@ def generate_ai_response(user_message):
     """Generate AI response using RAG (if applicable) + AI or fallback"""
     
     print(f"\n🔍 DEBUG: Processing query: '{user_message}'")
+    print(f"🔍 DEBUG: AI Available = {AI_AVAILABLE}")
     print(f"🔍 DEBUG: AI Provider = {AI_PROVIDER}")
     
     vectorstore, project_key = get_vectorstore_for_query(user_message)
@@ -404,6 +432,7 @@ Provide a helpful, conversational answer based on the documentation above. Keep 
             
             response = call_ai_model(system_prompt, user_prompt)
             if response:
+                print(f"✅ RAG response generated: {response[:100]}...")
                 return response
             
         except Exception as e:
@@ -411,18 +440,21 @@ Provide a helpful, conversational answer based on the documentation above. Keep 
     
     # Regular AI response
     if AI_AVAILABLE:
+        print(f"🔍 Using standard AI response (no RAG match)")
         response = call_ai_model(PORTFOLIO_CONTEXT, user_message)
         if response:
+            print(f"✅ AI response generated: {response[:100]}...")
             return response
     
     # Fallback to local
+    print(f"🔍 Falling back to local response")
     return get_local_response(user_message)
 
 def get_local_response(message):
     """Local fallback responses when AI is unavailable"""
     lowerMessage = message.lower()
     
-    if 'room designer' in lowerMessage or 'ai room' in lowerMessage:
+    if 'room designer' in lowerMessage or 'ai room' in lowerMessage or 'rooms through time' in lowerMessage:
         return "🏠 The AI Room Designer (Rooms Through Time) is Gaston's latest multi-modal AI platform! It features dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Built with React, Python, FastAPI, Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs for voice narration, and includes a local gpt-oss agent for offline AI consultation!"
     
     if 'peata' in lowerMessage:
@@ -431,33 +463,56 @@ def get_local_response(message):
     if 'relic' in lowerMessage:
         return "🏛️ Relic is a fascinating AI archaeological research assistant! It's a persona-driven, RAG-backed system that serves as an interactive digital field guide using SRTM, Sentinel-2, OpenTopography, and Google Earth data."
     
-    if 'nasa' in lowerMessage or 'space' in lowerMessage:
-        return "🚀 Gaston has worked on several NASA-related projects! His NASA Knowledge Graph maps biological data into Neo4j for astronaut health reasoning, and his SESA proposal was submitted to NASA in 2025."
+    if 'stargate' in lowerMessage:
+        return "🎮 Project Stargate is all about gaming mentorship! Gaston created interactive digital personas for gaming coaching and player development. It's a unique blend of AI agents and gaming expertise."
     
-    if 'rag' in lowerMessage:
-        return "🔍 Gaston is an expert in RAG (Retrieval-Augmented Generation) systems! He's implemented RAG in multiple projects like Peata, Relic, and others, combining document retrieval with generative AI."
+    if 'nasa' in lowerMessage or 'space' in lowerMessage or 'exoplanet' in lowerMessage:
+        return "🚀 Gaston has worked on several NASA-related projects! His NASA Knowledge Graph maps biological data into Neo4j for astronaut health reasoning, Astro Archive uses memory-aware agents for space data, and Planetrics visualizes NASA's 6,000+ exoplanet catalog. His SESA proposal was submitted to NASA in 2025!"
     
-    if 'contact' in lowerMessage:
+    if 'rag' in lowerMessage or 'retrieval' in lowerMessage:
+        return "🔍 Gaston is an expert in RAG (Retrieval-Augmented Generation) systems! He's implemented RAG in multiple projects like Peata (pet recovery), Relic (archaeological research), and others, combining document retrieval with generative AI to create context-aware assistants."
+    
+    if 'contact' in lowerMessage or 'reach' in lowerMessage or 'email' in lowerMessage:
         return "📧 You can reach Gaston through LinkedIn (https://www.linkedin.com/in/gaston-d-859653184/), GitHub (https://github.com/gastondana627), or the contact form on this website!"
     
     if 'project' in lowerMessage and ('main' in lowerMessage or 'top' in lowerMessage):
-        return "🚀 Gaston's main AI projects include Peata (pet recovery), Relic (archaeological research), NASA Knowledge Graph, AI Room Designer, and several others. Each showcases different aspects of his AI expertise!"
+        return "🚀 Gaston's main AI projects include Peata (pet recovery), Relic (archaeological research), NASA Knowledge Graph, AI Room Designer, Planetrics (exoplanet dashboard), Astro Archive (space data agents), and Project Stargate (gaming mentorship). Each showcases different AI/ML capabilities!"
     
     return "That's an interesting question! Gaston has worked on many AI projects involving RAG systems, multi-agent architectures, and knowledge graphs. Could you be more specific about what you'd like to know?"
 
-@app.route("/api/projects")
-def get_projects():
-    return jsonify(mock_projects_data)
+# ============================================
+# API ENDPOINTS
+# ============================================
 
-@app.route("/api/chat", methods=["POST"])
+@app.route("/api/projects", methods=["GET"])
+def get_projects():
+    """Fetch all projects and skills data"""
+    try:
+        return jsonify(mock_projects_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/chat", methods=["POST", "OPTIONS"])
 def chat():
     """Chatbot endpoint with RAG support"""
+    
+    # Handle preflight OPTIONS requests
+    if request.method == "OPTIONS":
+        return "", 200
+    
     try:
         data = request.get_json()
+        
+        if not data:
+            return jsonify({"error": "Request body is required"}), 400
+        
         user_message = data.get('message', '').strip()
         
         if not user_message:
             return jsonify({"error": "Message is required"}), 400
+        
+        print(f"\n📞 Chat API called")
+        print(f"User message: {user_message}")
         
         ai_response = generate_ai_response(user_message)
         
@@ -472,25 +527,54 @@ def chat():
             "timestamp": datetime.now().isoformat(),
             "used_rag": used_rag,
             "project": project_key if used_rag else None,
-            "ai_provider": AI_PROVIDER  # Shows which AI answered
-        })
+            "ai_provider": AI_PROVIDER,
+            "ai_available": AI_AVAILABLE
+        }), 200
         
     except Exception as e:
-        print(f"Chat endpoint error: {e}")
+        print(f"❌ Chat endpoint error: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({
             "response": "I'm having trouble processing your request right now. Please try again later!",
-            "error": str(e)
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
         }), 500
-
 
 @app.route("/", methods=["GET"])
 def root():
-    return jsonify({"status": "App is running!", "message": "Welcome to Gaston's API-powered portfolio backend."})
+    """Health check endpoint"""
+    return jsonify({
+        "status": "App is running!",
+        "message": "Welcome to Gaston's API-powered portfolio backend.",
+        "ai_available": AI_AVAILABLE,
+        "ai_provider": AI_PROVIDER
+    }), 200
 
 @app.route("/health", methods=["GET"])
 def health_check():
-    return jsonify({"health": "ok", "timestamp": datetime.now().isoformat()})
+    """Detailed health check"""
+    return jsonify({
+        "health": "ok",
+        "timestamp": datetime.now().isoformat(),
+        "ai_available": AI_AVAILABLE,
+        "ai_provider": AI_PROVIDER,
+        "flask_port": 5000
+    }), 200
 
+# ============================================
+# APP EXECUTION
+# ============================================
 
 if __name__ == '__main__':
-    app.run(debug=True, port=3001)
+    # ✅ FIXED: Changed from port 3001 to port 5000
+    print("\n" + "="*50)
+    print("🚀 Starting Gaston's Portfolio Backend")
+    print("="*50)
+    print(f"✅ Flask running on port 5000")
+    print(f"✅ AI Available: {AI_AVAILABLE}")
+    print(f"✅ AI Provider: {AI_PROVIDER}")
+    print(f"✅ CORS enabled for localhost + production")
+    print("="*50 + "\n")
+    
+    app.run(debug=True, port=5000)
