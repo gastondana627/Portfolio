@@ -24,40 +24,6 @@ let hoveredNode = null;
 let selectedNode = null;
 let analyser, dataArray;
 
-// ============================================
-// NODE FILTERING & HIGHLIGHTING SYSTEM
-// ============================================
-
-const FILTER_TABS = {
-  all: {
-    label: "All",
-    projects: null,
-    description: "Full knowledge graph"
-  },
-  aiml: {
-    label: "AI/ML",
-    projects: ["peata", "relic", "nasa_kg", "sesa", "stargate", "astro_archive", "ai-room-designer", "planetrics"],
-    description: "AI agents, RAG systems, and neural networks"
-  },
-  gaming: {
-    label: "Gaming",
-    projects: ["stargate"],
-    description: "Gaming mentorship and interactive AI"
-  },
-  space: {
-    label: "Space",
-    projects: ["nasa_kg", "astro_archive", "planetrics"],
-    description: "NASA projects and space data systems"
-  },
-  fullstack: {
-    label: "Full-Stack",
-    projects: ["ai-room-designer"],
-    description: "Frontend, backend, and deployment"
-  }
-};
-
-let currentFilter = "all";
-
 // --- AUDIO SETUP ---
 function initAudio() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -83,7 +49,6 @@ const prismMaterial = new THREE.MeshBasicMaterial({
 });
 const prism = new THREE.Mesh(prismGeometry, prismMaterial);
 
-// Add inner solid prism for depth
 const innerPrismGeometry = new THREE.CylinderGeometry(0.8, 0.8, 2.8, 6);
 const innerPrismMaterial = new THREE.MeshBasicMaterial({
     color: 0x8309D5,
@@ -94,7 +59,6 @@ const innerPrism = new THREE.Mesh(innerPrismGeometry, innerPrismMaterial);
 prism.add(innerPrism);
 prism.userData.innerPrism = innerPrism;
 
-// Add glowing edges
 const edgesGeometry = new THREE.EdgesGeometry(prismGeometry);
 const edgesMaterial = new THREE.LineBasicMaterial({
     color: 0x09C1D5,
@@ -108,7 +72,6 @@ prism.userData.edges = edges;
 
 scene.add(prism);
 
-// Color palette for holographic effect
 const prismColors = [
     new THREE.Color(0x8309D5),
     new THREE.Color(0x09C1D5),
@@ -184,7 +147,7 @@ async function loadProjects() {
         skillLinks = data.skill_links || [];
         console.log('✅ Loaded', projectData.length, 'projects and', skillData.length, 'skills from backend');
     } catch (error) {
-        console.log('⚠️ Backend unavailable, using complete fallback data');
+        console.log('⚠️ Backend unavailable, using fallback data');
         projectData = [
             {id: "stargate", group: "Gaming", label: "Project Stargate", description: "Gaming mentorship personas", links: [{type: "github", url: "https://github.com/gastondana627/Stargate-and-Bobot"}]},
             {id: "peata", group: "AI Projects", label: "Peata", description: "AI pet recovery assistant", links: [{type: "github", url: "https://github.com/gastondana627/Peata"}]},
@@ -192,8 +155,8 @@ async function loadProjects() {
             {id: "sesa", group: "Ethical Hacking", label: "SESA", description: "Multi-agent AI system", links: []},
             {id: "astro_archive", group: "AI Projects", label: "Astro Archive", description: "Memory-aware coaching agents", links: [{type: "github", url: "https://github.com/gastondana627/Mongo_DB_NASA_OSDR"}]},
             {id: "nasa_kg", group: "AI Projects", label: "NASA Knowledge Graph", description: "Biological data mapping for astronaut health", links: [{type: "github", url: "https://github.com/gastondana627/spoke_genelab"}]},
-            {id: "planetrics", group: "AI Projects", label: "Planetrics", description: "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog. Built with Plotly Studio, featuring live data from NASA Exoplanet Archive API, discovery trends, and curated milestone content.", links: [{type: "demo", url: "https://d3db0003-331f-4875-8af8-7bb0fb3acc6c.plotly.app"}]},
-            {id: "ai-room-designer", group: "AI Projects", label: "AI Room Designer", description: "Multi-modal AI interior design platform with dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Features Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs voice narration, and local gpt-oss agent for offline AI consultation.", links: [{type: "demo", url: "https://rooms-through-time-production.up.railway.app"}, {type: "demo", url: "https://rooms-through-time.vercel.app"}, {type: "github", url: "https://github.com/gastondana627/Rooms-Through-Time"}, {type: "info", url: "https://youtu.be/Gh2-ltEzjr0?si=J3W58BHmcdWNWA5k"}]}
+            {id: "planetrics", group: "AI Projects", label: "Planetrics", description: "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog.", links: [{type: "demo", url: "https://d3db0003-331f-4875-8af8-7bb0fb3acc6c.plotly.app"}]},
+            {id: "ai-room-designer", group: "AI Projects", label: "AI Room Designer", description: "Multi-modal AI interior design platform with dual modes: Generate New and Redesign My Room.", links: [{type: "demo", url: "https://rooms-through-time-production.up.railway.app"}, {type: "github", url: "https://github.com/gastondana627/Rooms-Through-Time"}]}
         ];
         skillData = [
             {id: "python", name: "Python", category: "Language"},
@@ -473,175 +436,6 @@ function createPathParticles(curve, color) {
         scene.add(particle);
         pathParticles.push(particle);
     }
-}
-
-// ============================================
-// TAB UI CREATION & EVENT HANDLING
-// ============================================
-
-function createFilterTabs() {
-    const tabContainer = document.createElement("div");
-    tabContainer.id = "filter-tabs";
-    tabContainer.className = "filter-tabs";
-    
-    Object.entries(FILTER_TABS).forEach(([key, tab]) => {
-        const tabButton = document.createElement("button");
-        tabButton.className = `filter-tab ${key === "all" ? "active" : ""}`;
-        tabButton.textContent = tab.label;
-        tabButton.title = tab.description;
-        tabButton.setAttribute("data-filter", key);
-        
-        tabButton.addEventListener("click", () => {
-            setActiveFilter(key, tabButton);
-        });
-        
-        tabContainer.appendChild(tabButton);
-    });
-    
-    document.body.appendChild(tabContainer);
-    console.log("✅ Filter tabs created");
-}
-
-function setActiveFilter(filterKey, buttonElement) {
-    console.log(`🎨 Setting filter: ${filterKey}`);
-    
-    document.querySelectorAll(".filter-tab").forEach(btn => {
-        btn.classList.remove("active");
-    });
-    buttonElement.classList.add("active");
-    
-    currentFilter = filterKey;
-    updateNodeVisibility(filterKey);
-    
-    console.log(`✅ Filter applied: ${FILTER_TABS[filterKey].label}`);
-}
-
-function updateNodeVisibility(filterKey) {
-    const filterConfig = FILTER_TABS[filterKey];
-    const projectsToShow = filterConfig.projects;
-    
-    scene.traverse((object) => {
-        if (object.userData && object.userData.type === "project-node") {
-            const projectId = object.userData.id;
-            const shouldShow = projectsToShow === null || projectsToShow.includes(projectId);
-            
-            if (shouldShow) {
-                animateNodeOpacity(object, 1.0, 300);
-                object.material.emissive.setHex(0x8309D5);
-            } else {
-                animateNodeOpacity(object, 0.2, 300);
-                object.material.emissive.setHex(0x1a0033);
-            }
-        }
-        
-        if (object.userData && object.userData.type === "skill-node") {
-            const skillId = object.userData.id;
-            
-            const hasVisibleProject = projectData.some(p => {
-                const projectMatch = projectsToShow === null || projectsToShow.includes(p.id);
-                const skillMatch = skillLinks.some(link => 
-                    link.project === p.id && link.skill === skillId
-                );
-                return projectMatch && skillMatch;
-            });
-            
-            if (hasVisibleProject) {
-                animateNodeOpacity(object, 1.0, 300);
-                object.material.emissive.setHex(0xFFD700);
-            } else {
-                animateNodeOpacity(object, 0.15, 300);
-                object.material.emissive.setHex(0x332200);
-            }
-        }
-    });
-    
-    updateConnectionVisibility(filterKey);
-}
-
-function updateConnectionVisibility(filterKey) {
-    const filterConfig = FILTER_TABS[filterKey];
-    const projectsToShow = filterConfig.projects;
-    
-    scene.traverse((object) => {
-        if (object.userData && object.userData.type === "connection-line") {
-            const sourceId = object.userData.source || object.userData.fromNode?.userData?.id;
-            const targetId = object.userData.target || object.userData.toNode?.userData?.id;
-            
-            if (object.userData.isSkillConnection) {
-                const sourceId = object.userData.projectNode?.userData?.id;
-                const targetId = object.userData.skillNode?.userData?.id;
-                
-                const sourceVisible = projectsToShow === null || projectsToShow.includes(sourceId);
-                const targetVisible = projectsToShow === null || true;
-                
-                if (sourceVisible && targetVisible) {
-                    animateLineOpacity(object, 0.5, 300);
-                } else {
-                    animateLineOpacity(object, 0.05, 300);
-                }
-            } else if (object.userData.isEvolutionPath) {
-                const sourceId = object.userData.fromNode?.userData?.id;
-                const targetId = object.userData.toNode?.userData?.id;
-                
-                const sourceVisible = projectsToShow === null || projectsToShow.includes(sourceId);
-                const targetVisible = projectsToShow === null || projectsToShow.includes(targetId);
-                
-                if (sourceVisible && targetVisible) {
-                    animateLineOpacity(object, object.userData.baseOpacity, 300);
-                } else {
-                    animateLineOpacity(object, 0.05, 300);
-                }
-            }
-        }
-    });
-}
-
-// ============================================
-// ANIMATION HELPERS
-// ============================================
-
-function animateNodeOpacity(node, targetOpacity, duration = 300) {
-    const startOpacity = node.material.opacity;
-    const startTime = Date.now();
-    
-    const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        const eased = progress < 0.5 
-            ? 2 * progress * progress 
-            : -1 + (4 - 2 * progress) * progress;
-        
-        node.material.opacity = startOpacity + (targetOpacity - startOpacity) * eased;
-        
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        }
-    };
-    
-    animate();
-}
-
-function animateLineOpacity(line, targetOpacity, duration = 300) {
-    const startOpacity = line.material.opacity;
-    const startTime = Date.now();
-    
-    const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        const eased = progress < 0.5 
-            ? 2 * progress * progress 
-            : -1 + (4 - 2 * progress) * progress;
-        
-        line.material.opacity = startOpacity + (targetOpacity - startOpacity) * eased;
-        
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        }
-    };
-    
-    animate();
 }
 
 // --- MOUSE INTERACTION ---
@@ -1025,7 +819,6 @@ animate();
 console.log('📞 Calling loadProjects...');
 loadProjects().then(() => {
     console.log('✅ Projects loaded!');
-    createFilterTabs();
 }).catch(err => {
     console.error('❌ Error loading projects:', err);
 });
