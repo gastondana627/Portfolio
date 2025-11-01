@@ -1,5 +1,3 @@
-# backend/app.py
-
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
@@ -9,7 +7,6 @@ from dotenv import load_dotenv
 
 from langchain_community.vectorstores import Chroma
 from langchain_google_vertexai import VertexAIEmbeddings
-from PyPDF2 import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # Load environment variables from .env file
@@ -28,19 +25,13 @@ if os.getenv("GCP_SERVICE_ACCOUNT_JSON"):
 
 app = Flask(__name__)
 
-# ✅ FIXED: Explicit CORS origins (no wildcards - browsers don't recognize *.vercel.app)
 CORS(app, resources={
     r"/api/*": {
         "origins": [
-            # Local development
             "http://localhost:3000",
             "http://localhost:5000",
-            
-            # Production Vercel domains (EXPLICIT, not wildcard)
-            "https://gastondana.vercel.app",  # ✅ Official custom domain
-            "https://portfolio-jcqs164kp-gastondana627s-projects.vercel.app",  # ✅ Vercel preview
-            
-            # Railway backend
+            "https://gastondana.vercel.app",
+            "https://portfolio-jcqs164kp-gastondana627s-projects.vercel.app",
             "https://portfolio-production-b1b4.up.railway.app",
         ],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -68,7 +59,7 @@ try:
         AI_AVAILABLE = True
         print("✅ Claude API configured (Primary)")
     
-    # Fallback to OpenAI (if Claude not available)
+    # Fallback to OpenAI
     elif os.getenv('OPENAI_API_KEY', '').strip():
         from openai import OpenAI
         AI_CLIENT = OpenAI(api_key=os.getenv('OPENAI_API_KEY').strip())
@@ -76,7 +67,7 @@ try:
         AI_AVAILABLE = True
         print("✅ OpenAI configured (Fallback)")
     
-    # Fallback to Google AI (if neither available)
+    # Fallback to Google AI
     elif os.getenv('GOOGLE_API_KEY', '').strip():
         import google.generativeai as genai
         genai.configure(api_key=os.getenv('GOOGLE_API_KEY').strip())
@@ -103,38 +94,77 @@ except Exception as e:
 PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT', 'sesa-trifecta-street-25')
 LOCATION = os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
 
-# --- RAG SETUP (Multi-PDF Support) ---
+# ============================================
+# RAG SETUP (Multi-Project Text Documents)
+# ============================================
+
 VECTORSTORES = {}
 
-PROJECT_PDF_MAP = {
+PROJECT_DOC_MAP = {
     "ai-room-designer": {
-        "filename": "AI Room Designer - Final Doc.pdf",
-        "keywords": ["room designer", "ai room", "rooms through time", "redesign", "interior design"]
+        "filename": "ai_room_designer.txt",
+        "keywords": ["room designer", "ai room", "rooms through time", "redesign", "interior design", "gemini", "fal.ai"]
     },
+    "astro_archive": {
+        "filename": "astro_archive.txt",
+        "keywords": ["astro archive", "nasa", "space data", "memory-aware", "agents", "coaching"]
+    },
+    "nasa_kg": {
+        "filename": "nasa_kg.txt",
+        "keywords": ["nasa knowledge graph", "neo4j", "biological", "astronaut", "health", "omics"]
+    },
+    "peata": {
+        "filename": "peata.txt",
+        "keywords": ["peata", "pet recovery", "rag", "image-matching", "lost pets"]
+    },
+    "planetrics": {
+        "filename": "planetrics.txt",
+        "keywords": ["planetrics", "exoplanet", "nasa", "plotly", "dashboard"]
+    },
+    "relic": {
+        "filename": "relic.txt",
+        "keywords": ["relic", "archaeological", "geospatial", "research", "srtm", "sentinel"]
+    },
+    "sesa": {
+        "filename": "sesa.txt",
+        "keywords": ["sesa", "multi-agent", "nasa proposal", "emotional awareness"]
+    },
+    "stargate": {
+        "filename": "stargate.txt",
+        "keywords": ["stargate", "gaming", "mentorship", "coaching", "bobot"]
+    }
 }
 
-def load_pdf_for_project(project_key):
-    """Load and create vector store for a specific project's PDF"""
+def load_project_docs(project_key):
+    """Load text file for a specific project"""
     try:
-        project_info = PROJECT_PDF_MAP.get(project_key)
+        project_info = PROJECT_DOC_MAP.get(project_key)
         if not project_info:
             return None
         
-        pdf_filename = project_info["filename"]
-        pdf_path = os.path.join(os.path.dirname(__file__), "project_docs", pdf_filename)
+        filename = project_info["filename"]
+        doc_path = os.path.join(os.path.dirname(__file__), "project_docs", filename)
         
-        if not os.path.exists(pdf_path):
-            print(f"⚠️ PDF not found: {pdf_path}")
+        if not os.path.exists(doc_path):
+            print(f"⚠️ Doc not found: {doc_path}")
             return None
         
-        print(f"📄 Loading PDF for {project_key}...")
-        reader = PdfReader(pdf_path)
-        text = ""
-        for page in reader.pages:
-            text += page.extract_text() + "\n"
+        print(f"📄 Loading docs for {project_key}...")
+        
+        # Read text file
+        with open(doc_path, 'r', encoding='utf-8') as f:
+            text = f.read()
+        
+        if not text.strip():
+            print(f"⚠️ Document is empty: {filename}")
+            return None
         
         print(f"✂️ Splitting into chunks...")
-        splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
+            chunk_overlap=100,
+            separators=["\n\n", "\n", ". ", " ", ""]
+        )
         chunks = splitter.split_text(text)
         print(f"✅ Created {len(chunks)} chunks for {project_key}")
         
@@ -145,28 +175,35 @@ def load_pdf_for_project(project_key):
             location=LOCATION
         )
         
-        vectorstore = Chroma.from_texts(chunks, embedding=embeddings)
+        vectorstore = Chroma.from_texts(
+            chunks,
+            embedding=embeddings,
+            collection_name=f"project_{project_key}"
+        )
         print(f"✅ Vector store created for {project_key}!")
         return vectorstore
         
     except Exception as e:
-        print(f"❌ Failed to load PDF for {project_key}: {e}")
+        print(f"❌ Failed to load docs for {project_key}: {e}")
         return None
 
 def get_vectorstore_for_query(query):
-    """Determine which project the query is about and return its vectorstore"""
+    """Match query to project and return vectorstore"""
     query_lower = query.lower()
     
-    print(f"🔍 Checking query: '{query_lower}'")
+    print(f"🔍 Matching query: '{query_lower}'")
     
-    for project_key, project_info in PROJECT_PDF_MAP.items():
+    for project_key, project_info in PROJECT_DOC_MAP.items():
         if any(keyword in query_lower for keyword in project_info["keywords"]):
             print(f"✅ Match found for project: {project_key}")
+            
+            # Lazy load vectorstore (only when needed)
             if project_key not in VECTORSTORES:
                 print(f"📥 Loading vectorstore for {project_key}...")
-                VECTORSTORES[project_key] = load_pdf_for_project(project_key)
+                VECTORSTORES[project_key] = load_project_docs(project_key)
             else:
                 print(f"♻️ Using cached vectorstore for {project_key}")
+            
             return VECTORSTORES[project_key], project_key
     
     return None, None
@@ -344,11 +381,11 @@ KEY PROJECTS:
 1. **Peata** - Character-driven, RAG-backed virtual assistant for pet recovery using image-matching and conversational AI to help reunite lost pets with families
 2. **Relic** - AI archaeological research assistant using SRTM, Sentinel-2, OpenTopography, and Google Earth data as an interactive digital field guide
 3. **NASA Knowledge Graph** - Mapped biological/omics data into Neo4j for contextual health reasoning supporting astronaut health research
-4. **AI Room Designer (Rooms Through Time)** - Multi-modal interior design platform with dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Built with React, Python, FastAPI, Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs voice narration, and local gpt-oss agent for offline AI consultation
-5. **Planetrics** - Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog. Built with Plotly Studio, featuring live data from NASA Exoplanet Archive API, discovery trends, and curated milestone content
+4. **AI Room Designer (Rooms Through Time)** - Multi-modal interior design platform with dual modes: Generate New (text-to-image) and Redesign My Room (image transformation)
+5. **Planetrics** - Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog
 6. **Astro Archive** - Memory-aware coaching agents capable of context switching and user-specific coaching for space data
-7. **Project Stargate and Bobot** - Interactive digital personas for gaming mentorship and coaching, enhancing player development through AI-powered guidance
-8. **SESA** - Multi-agent AI system with goal-oriented behaviors and emotional awareness for engaging narratives (proposal submitted to NASA)
+7. **Project Stargate and Bobot** - Interactive digital personas for gaming mentorship and coaching
+8. **SESA** - Multi-agent AI system with goal-oriented behaviors and emotional awareness (NASA proposal)
 
 TECHNICAL SKILLS:
 - AI/ML: RAG Systems (Expert), Multi-Agent Systems (Expert), Computer Vision (Advanced)
@@ -426,7 +463,7 @@ def generate_ai_response(user_message):
             results = vectorstore.similarity_search(user_message, k=3)
             context = "\n\n".join([doc.page_content for doc in results])
             
-            system_prompt = f"You are an AI assistant helping users learn about Gaston's {project_key} project."
+            system_prompt = f"You are an AI assistant helping users learn about Gaston's {project_key} project. Answer based on the documentation provided."
             user_prompt = f"""CONTEXT FROM PROJECT DOCUMENTATION:
 {context}
 
@@ -500,7 +537,6 @@ def get_projects():
 def chat():
     """Chatbot endpoint with RAG support"""
     
-    # Handle preflight OPTIONS requests
     if request.method == "OPTIONS":
         return "", 200
     
@@ -577,11 +613,10 @@ if __name__ == '__main__':
     print(f"✅ Flask running on port 5000")
     print(f"✅ AI Available: {AI_AVAILABLE}")
     print(f"✅ AI Provider: {AI_PROVIDER}")
+    print(f"✅ RAG enabled for 8 projects (lazy-loaded on query)")
     print(f"✅ CORS enabled for:")
-    print(f"   - Local: http://localhost:3000")
-    print(f"   - Production: https://gastondana.vercel.app")
-    print(f"   - Preview: https://portfolio-jcqs164kp-gastondana627s-projects.vercel.app")
-    print(f"   - Backend: https://portfolio-production-b1b4.up.railway.app")
+    print(f"   - http://localhost:3000 (dev frontend)")
+    print(f"   - https://gastondana.vercel.app (prod)")
     print("="*60 + "\n")
     
     app.run(debug=True, port=5000)
