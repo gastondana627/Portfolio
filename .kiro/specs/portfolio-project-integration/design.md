@@ -77,9 +77,9 @@ Each project follows this schema:
     image: "assets/planetrics-dashboard.jpg",
     links: [
         {
-            url: "https://d3db0003-331f-4875-8af8-7bb0fb3acc6c.plotly.app",
-            label: "Live Dashboard",
-            icon: "fas fa-chart-line",
+            url: "https://www.linkedin.com/posts/gaston-d-859653184_plotly-python-datascience-activity-7380386160432500736-P6OA?utm_source=share&utm_medium=member_desktop&rcm=ACoAACuFtgUBVdf9kFE9Wlxn2qi6FBP2M0VX6Ds",
+            label: "Video Demo",
+            icon: "fas fa-video",
             type: "demo"
         },
         {

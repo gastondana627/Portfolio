@@ -155,7 +155,7 @@ async function loadProjects() {
             {id: "sesa", group: "Ethical Hacking", label: "SESA", description: "Multi-agent AI system", links: []},
             {id: "astro_archive", group: "AI Projects", label: "Astro Archive", description: "Memory-aware coaching agents", links: [{type: "github", url: "https://github.com/gastondana627/Mongo_DB_NASA_OSDR"}]},
             {id: "nasa_kg", group: "AI Projects", label: "NASA Knowledge Graph", description: "Biological data mapping for astronaut health", links: [{type: "github", url: "https://github.com/gastondana627/spoke_genelab"}]},
-            {id: "planetrics", group: "AI Projects", label: "Planetrics", description: "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog.", links: [{type: "demo", url: "https://d3db0003-331f-4875-8af8-7bb0fb3acc6c.plotly.app"}]},
+            {id: "planetrics", group: "AI Projects", label: "Planetrics", description: "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog.", links: [{type: "video", url: "https://www.linkedin.com/posts/gaston-d-859653184_plotly-python-datascience-activity-7380386160432500736-P6OA?utm_source=share&utm_medium=member_desktop&rcm=ACoAACuFtgUBVdf9kFE9Wlxn2qi6FBP2M0VX6Ds"}]},
             {id: "ai-room-designer", group: "AI Projects", label: "AI Room Designer", description: "Multi-modal AI interior design platform with dual modes: Generate New and Redesign My Room.", links: [{type: "demo", url: "https://rooms-through-time-production.up.railway.app"}, {type: "github", url: "https://github.com/gastondana627/Rooms-Through-Time"}]}
         ];
         skillData = [
@@ -602,9 +602,11 @@ function showProjectDetails(project) {
             
             const icon = link.type === 'github' ? 'fab fa-github' : 
                         link.type === 'demo' ? 'fas fa-external-link-alt' : 
+                        link.type === 'video' ? 'fas fa-video' :
                         'fas fa-info-circle';
             const label = link.type === 'github' ? 'GitHub' : 
-                         link.type === 'demo' ? 'Live Demo' : 'More Info';
+                         link.type === 'demo' ? 'Live Demo' : 
+                         link.type === 'video' ? 'Video Demo' : 'More Info';
             
             linkEl.innerHTML = `<i class="${icon}"></i> ${label}`;
             linksContainer.appendChild(linkEl);
