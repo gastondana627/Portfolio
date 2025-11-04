@@ -442,37 +442,42 @@ function createPathParticles(curve, color) {
 let hoveredPrism = false;
 
 function onMouseMove(event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    // Calculate mouse coordinates relative to the container
+    const containerRect = container.getBoundingClientRect();
+    mouse.x = ((event.clientX - containerRect.left) / containerRect.width) * 2 - 1;
+    mouse.y = -((event.clientY - containerRect.top) / containerRect.height) * 2 + 1;
     
     raycaster.setFromCamera(mouse, camera);
     
     let closestNode = null;
     let closestDistance = Infinity;
     
-    projectNodes.forEach(node => {
-        const nodeScreenPos = node.position.clone().project(camera);
-        const dx = nodeScreenPos.x - mouse.x;
-        const dy = nodeScreenPos.y - mouse.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+    // Only check for node interactions if we have valid mouse coordinates
+    if (Math.abs(mouse.x) <= 1 && Math.abs(mouse.y) <= 1) {
+        projectNodes.forEach(node => {
+            const nodeScreenPos = node.position.clone().project(camera);
+            const dx = nodeScreenPos.x - mouse.x;
+            const dy = nodeScreenPos.y - mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 0.25 && distance < closestDistance) {
+                closestDistance = distance;
+                closestNode = node;
+            }
+        });
         
-        if (distance < 0.25 && distance < closestDistance) {
-            closestDistance = distance;
-            closestNode = node;
-        }
-    });
-    
-    skillNodes.forEach(node => {
-        const nodeScreenPos = node.position.clone().project(camera);
-        const dx = nodeScreenPos.x - mouse.x;
-        const dy = nodeScreenPos.y - mouse.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 0.20 && distance < closestDistance) {
-            closestDistance = distance;
-            closestNode = node;
-        }
-    });
+        skillNodes.forEach(node => {
+            const nodeScreenPos = node.position.clone().project(camera);
+            const dx = nodeScreenPos.x - mouse.x;
+            const dy = nodeScreenPos.y - mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 0.20 && distance < closestDistance) {
+                closestDistance = distance;
+                closestNode = node;
+            }
+        });
+    }
     
     if (!closestNode) {
         const prismIntersects = raycaster.intersectObject(prism, true);
@@ -800,8 +805,27 @@ function animate() {
 }
 
 // --- EVENT LISTENERS ---
-window.addEventListener('mousemove', onMouseMove);
-window.addEventListener('click', onMouseClick);
+container.addEventListener('mousemove', onMouseMove);
+container.addEventListener('click', onMouseClick);
+container.addEventListener('mouseleave', () => {
+    // Clean up hover states when mouse leaves the graph container
+    if (hoveredNode) {
+        hoveredNode.material.opacity = 0.8;
+        hoveredNode.scale.set(1, 1, 1);
+        if (hoveredNode.userData.outline) {
+            hoveredNode.userData.outline.material.opacity = 0.6;
+        }
+        hoveredNode = null;
+    }
+    if (hoveredPrism) {
+        hoveredPrism = false;
+        container.classList.remove('hovering');
+    }
+    hideTooltip();
+    skillConnectionLines.forEach(line => {
+        line.material.opacity = line.userData.baseOpacity;
+    });
+});
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
