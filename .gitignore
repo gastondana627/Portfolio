@@ -9,5 +9,8 @@ backend/__pycache__/
 .Python
 *.log
 .vscode/
-*-test.jsbackend/.env
+*-test.js
+backend/.env
 backend/venv/
+production.env
+*.env

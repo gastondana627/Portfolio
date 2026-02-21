@@ -1,0 +1,764 @@
+/* ===================================
+   DATA SCIENCE SECTION - REDESIGNED
+   =================================== */
+
+.data-science-section {
+    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f1e 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.data-science-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(131, 9, 213, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(9, 193, 213, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Header Section */
+.ds-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.ds-header-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.ds-stats-compact {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.ds-stat-item {
+    text-align: center;
+}
+
+.ds-stat-number {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8309D5, #09C1D5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.ds-stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ds-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+/* Filter Tabs */
+.ds-filter-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ds-tab {
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ds-tab:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(131, 9, 213, 0.3);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.ds-tab.active {
+    background: linear-gradient(135deg, #8309D5, #09C1D5);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(131, 9, 213, 0.3);
+}
+
+.ds-tab i {
+    font-size: 1rem;
+}
+
+/* Notebooks Container */
+.ds-notebooks-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+/* Notebook Cards */
+.ds-notebook-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.ds-notebook-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #8309D5, #09C1D5);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.ds-notebook-card:hover::before {
+    transform: scaleX(1);
+}
+
+.ds-notebook-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(131, 9, 213, 0.4);
+    box-shadow: 0 15px 40px rgba(131, 9, 213, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Featured Card */
+.ds-notebook-card.ds-featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(131, 9, 213, 0.1), rgba(9, 193, 213, 0.05));
+    border: 2px solid rgba(131, 9, 213, 0.3);
+}
+
+.ds-notebook-card.ds-featured::before {
+    height: 4px;
+}
+
+/* Card Header */
+.ds-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.ds-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.ds-card-icon.healthcare {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+}
+
+.ds-card-icon.security {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+
+.ds-card-icon.chess {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+.ds-card-icon.research {
+    background: linear-gradient(135deg, #10B981, #059669);
+}
+
+.ds-featured-badge {
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #000;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Card Content */
+.ds-card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.ds-card-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+/* Card Metrics */
+.ds-card-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ds-metric {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.ds-metric i {
+    color: rgba(131, 9, 213, 0.8);
+}
+
+.ds-metric.highlight {
+    color: #FFD700;
+    font-weight: 600;
+}
+
+.ds-metric.highlight i {
+    color: #FFD700;
+}
+
+/* Card Tags */
+.ds-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ds-tag {
+    padding: 0.4rem 0.9rem;
+    background: rgba(131, 9, 213, 0.15);
+    border: 1px solid rgba(131, 9, 213, 0.3);
+    border-radius: 15px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+/* Card Button */
+.ds-card-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(135deg, #8309D5, #09C1D5);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.ds-card-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(131, 9, 213, 0.4);
+    background: linear-gradient(135deg, #09C1D5, #8309D5);
+}
+
+.ds-card-button i:last-child {
+    transition: transform 0.3s ease;
+}
+
+.ds-card-button:hover i:last-child {
+    transform: translateX(3px);
+}
+
+/* CTA Section */
+.ds-cta-section {
+    margin-top: 4rem;
+    padding: 3rem;
+    background: linear-gradient(135deg, rgba(131, 9, 213, 0.1), rgba(9, 193, 213, 0.05));
+    border: 2px solid rgba(131, 9, 213, 0.2);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.ds-cta-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(131, 9, 213, 0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.ds-cta-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.ds-cta-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #8309D5, #09C1D5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    flex-shrink: 0;
+    padding: 15px;
+}
+
+.kaggle-logo-cta {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.ds-cta-text {
+    flex: 1;
+}
+
+.ds-cta-text h3 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.ds-cta-text p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+}
+
+.ds-cta-button {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #8309D5, #09C1D5);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.ds-cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(131, 9, 213, 0.4);
+    background: linear-gradient(135deg, #09C1D5, #8309D5);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .ds-notebook-card.ds-featured {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .ds-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .ds-stats-compact {
+        width: 100%;
+        justify-content: space-around;
+        padding: 1rem 1.5rem;
+    }
+    
+    .ds-stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .ds-filter-tabs {
+        gap: 0.7rem;
+    }
+    
+    .ds-tab {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
+    }
+    
+    .ds-notebooks-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .ds-cta-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .ds-cta-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ds-stats-compact {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .ds-stat-divider {
+        width: 100%;
+        height: 1px;
+    }
+    
+    .ds-notebook-card {
+        padding: 1.5rem;
+    }
+    
+    .ds-card-title {
+        font-size: 1.1rem;
+    }
+    
+    .ds-cta-section {
+        padding: 2rem 1.5rem;
+    }
+}
+
+/* Hide/Show based on filter */
+.ds-notebook-card.hidden {
+    display: none;
+}
+
+
+/* ===================================
+   PROFESSIONAL UI ENHANCEMENTS
+   =================================== */
+
+/* Title Wrapper with EAP Badge */
+.ds-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+/* Kaggle Logo in Header */
+.ds-header-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.ds-header-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Title Group Container */
+.ds-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kaggle-eap-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #000;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    animation: subtle-pulse 3s ease-in-out infinite;
+}
+
+@keyframes subtle-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
+    50% { transform: scale(1.02); box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4); }
+}
+
+/* Multiple Badges Container */
+.ds-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Trending Badge */
+.ds-trending-badge {
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, #FF4500, #FF6347);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    box-shadow: 0 2px 10px rgba(255, 69, 0, 0.3);
+}
+
+.ds-trending-badge i {
+    animation: fire-flicker 1.5s ease-in-out infinite;
+}
+
+@keyframes fire-flicker {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* Arena Badge */
+.ds-arena-badge {
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+}
+
+/* Improved Card Hover Effects */
+.ds-notebook-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.ds-notebook-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.5s ease;
+}
+
+.ds-notebook-card:hover::after {
+    left: 100%;
+}
+
+/* Professional Card Shadows */
+.ds-notebook-card:hover {
+    box-shadow: 
+        0 15px 40px rgba(131, 9, 213, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ds-notebook-card.ds-featured:hover {
+    box-shadow: 
+        0 20px 50px rgba(131, 9, 213, 0.3),
+        0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Improved Button Styling */
+.ds-card-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.ds-card-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.ds-card-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Professional Typography */
+.ds-card-title {
+    transition: color 0.3s ease;
+}
+
+.ds-notebook-card:hover .ds-card-title {
+    color: #09C1D5;
+}
+
+/* Smooth Metric Animations */
+.ds-metric {
+    transition: all 0.3s ease;
+}
+
+.ds-notebook-card:hover .ds-metric {
+    transform: translateY(-2px);
+}
+
+.ds-metric.highlight {
+    position: relative;
+}
+
+.ds-metric.highlight::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border-radius: 2px;
+}
+
+/* Professional Tag Styling */
+.ds-tag {
+    transition: all 0.3s ease;
+}
+
+.ds-tag:hover {
+    background: rgba(131, 9, 213, 0.3);
+    border-color: rgba(131, 9, 213, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Responsive Badge Adjustments */
+@media (max-width: 768px) {
+    .ds-title-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .ds-header-logo {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .kaggle-eap-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .ds-badges {
+        gap: 0.4rem;
+    }
+    
+    .ds-trending-badge,
+    .ds-arena-badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.8rem;
+    }
+}
+
+/* Loading Animation for Cards */
+@keyframes card-load {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ds-notebook-card {
+    animation: card-load 0.6s ease-out backwards;
+}
+
+.ds-notebook-card:nth-child(1) { animation-delay: 0.1s; }
+.ds-notebook-card:nth-child(2) { animation-delay: 0.2s; }
+.ds-notebook-card:nth-child(3) { animation-delay: 0.3s; }
+.ds-notebook-card:nth-child(4) { animation-delay: 0.4s; }
+.ds-notebook-card:nth-child(5) { animation-delay: 0.5s; }
+.ds-notebook-card:nth-child(6) { animation-delay: 0.6s; }
+.ds-notebook-card:nth-child(7) { animation-delay: 0.7s; }
+.ds-notebook-card:nth-child(8) { animation-delay: 0.8s; }
+
+/* Professional Focus States for Accessibility */
+.ds-tab:focus,
+.ds-card-button:focus,
+.ds-cta-button:focus {
+    outline: 2px solid #09C1D5;
+    outline-offset: 2px;
+}
+
+/* Smooth Transitions for All Interactive Elements */
+* {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
