@@ -8,7 +8,7 @@ import json
 
 def test_chatbot_local():
     """Test the chatbot with local backend"""
-    url = "http://localhost:3001/api/chat"
+    url = "http://localhost:5000/api/chat"
     
     test_messages = [
         "Tell me about Gaston's AI projects",
@@ -31,14 +31,14 @@ def test_chatbot_local():
             else:
                 print(f"\n❌ Error {response.status_code}: {response.text}")
         except requests.exceptions.ConnectionError:
-            print(f"\n❌ Connection Error: Make sure backend is running on localhost:3001")
+            print(f"\n❌ Connection Error: Make sure backend is running on localhost:5000")
             break
         except Exception as e:
             print(f"\n❌ Error: {e}")
 
 def test_projects_endpoint():
     """Test the projects endpoint"""
-    url = "http://localhost:3001/api/projects"
+    url = "http://localhost:5000/api/projects"
     
     try:
         response = requests.get(url)

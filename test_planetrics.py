@@ -8,7 +8,7 @@ import json
 
 def test_project_knowledge():
     """Test that chatbot knows about all projects"""
-    url = "http://localhost:3001/api/chat"
+    url = "http://localhost:5000/api/chat"
     
     test_questions = [
         "What is Planetrics?",

@@ -408,18 +408,23 @@ mock_projects_data = {
     ],
     "skills": [
         {"id": "python", "name": "Python", "category": "Language", "level": "expert"},
-        {"id": "rag", "name": "RAG", "category": "AI", "level": "expert"},
+        {"id": "rag", "name": "RAG & Multi-Agent", "category": "AI", "level": "expert"},
         {"id": "ai_agents", "name": "AI Agents", "category": "AI", "level": "expert"},
+        {"id": "model_eval", "name": "Model Evaluation", "category": "AI", "level": "expert"},
+        {"id": "benchmarking", "name": "LLM Benchmarking", "category": "AI", "level": "advanced"},
+        {"id": "multi_agent", "name": "Multi-Agent Systems", "category": "AI", "level": "expert"},
+        {"id": "computer_vision", "name": "Computer Vision", "category": "AI", "level": "advanced"},
+        {"id": "adobe_creative", "name": "Adobe Creative Suite", "category": "Multimodal", "level": "expert"},
+        {"id": "visual_narratives", "name": "Visual Narratives", "category": "Multimodal", "level": "advanced"},
+        {"id": "v0", "name": "Vercel v0", "category": "Multimodal", "level": "advanced"},
         {"id": "neo4j", "name": "Neo4j", "category": "Database", "level": "advanced"},
         {"id": "mongodb", "name": "MongoDB", "category": "Database", "level": "advanced"},
-        {"id": "computer_vision", "name": "Computer Vision", "category": "AI", "level": "intermediate"},
         {"id": "gis", "name": "GIS", "category": "Geospatial", "level": "advanced"},
-        {"id": "multi_agent", "name": "Multi-Agent Systems", "category": "AI", "level": "advanced"},
         {"id": "gaming", "name": "Gaming", "category": "Domain", "level": "advanced"},
-        {"id": "security", "name": "Security", "category": "Domain", "level": "intermediate"},
         {"id": "data_viz", "name": "Data Visualization", "category": "Domain", "level": "advanced"},
-        {"id": "api", "name": "API Integration", "category": "Domain", "level": "expert"},
-        {"id": "react", "name": "React", "category": "Language", "level": "advanced"}
+        {"id": "react", "name": "React", "category": "Language", "level": "advanced"},
+        {"id": "security", "name": "Security", "category": "Engineering", "level": "advanced"},
+        {"id": "api", "name": "API Integration", "category": "Engineering", "level": "advanced"}
     ],
     "evolution_links": [
         {"source": "peata", "target": "relic", "relationship": "evolved_into", "description": "Expanded RAG concepts from pet recovery to archaeological research"},
@@ -462,15 +467,14 @@ PORTFOLIO_CONTEXT = """
 You are an AI assistant for Gaston Dana's portfolio website. You are knowledgeable about his work, projects, and experience.
 
 ABOUT GASTON:
-- Early Access Program Tester for Kaggle and Vercel
-- Full-Stack Developer & AI Engineer specializing in cutting-edge AI/ML systems
-- Specializes in RAG systems, multi-agent AI, and production-ready AI/ML solutions
+- Multimodal Technologist | AI Engineer | Content Creator
+- Early Access Program (EAP) Member for Kaggle Benchmarks, Adobe Insider, and Vercel v0
+- Focuses on a "Technical-Creative" hybrid approach: validating LLMs and visualizing results
+- Core expertise: Model Evaluation, LLM Benchmarking, RAG systems, and Multi-Agent AI
+- Adobe Insider: Stress-testing Generative Systems and Adobe Creative Suite
+- Kaggle Benchmarks EAP: Designing custom evaluation tasks for high-density industrial telemetry
 - Active mentor through Ambition in Motion (NSCS partnership) and ALPFA community
-- Beta tester for cutting-edge development tools and platforms
-- Participates in early access programs for both frontend and backend software
-- 7+ hackathons participated with multiple placements
-- First SESA proposal submitted to NASA (2025)
-- Guides next generation of technologists through mentorship programs
+- Guides the next generation of technologists through technical-creative mentorship
 
 KEY PROJECTS:
 1. **Peata** - Character-driven, RAG-backed virtual assistant for pet recovery using image-matching and conversational AI to help reunite lost pets with families
@@ -590,6 +594,12 @@ def get_local_response(message):
     """Local fallback responses when AI is unavailable"""
     lowerMessage = message.lower()
     
+    if 'multimodal' in lowerMessage or 'adobe' in lowerMessage or 'insider' in lowerMessage:
+        return "🎨 Gaston is a Multimodal Technologist and an Adobe Insider! He works at the intersection of AI Engineering and Content Creation, using a 'Technical-Creative' hybrid approach to validate LLMs and visualize results using the Adobe Creative Suite and Vercel v0."
+
+    if 'benchmarking' in lowerMessage or 'evaluation' in lowerMessage or 'kaggle' in lowerMessage:
+        return "📊 Gaston is an Early Access Program member for Kaggle Benchmarks! He specializes in Model Evaluation, specifically designing custom tasks to test how leading LLMs interpret high-density industrial data and physical telemetry."
+
     if 'room designer' in lowerMessage or 'ai room' in lowerMessage or 'rooms through time' in lowerMessage:
         return "🏠 The AI Room Designer (Rooms Through Time) is Gaston's latest multi-modal AI platform! It features dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Built with React, Python, FastAPI, Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs for voice narration, and includes a local gpt-oss agent for offline AI consultation!"
     
