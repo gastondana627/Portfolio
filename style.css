@@ -97,7 +97,7 @@ a, button, .button, [role="button"],
   cursor: default;
   background: var(--galaxy-bg);
   position: relative;
-  min-height: 600px;
+  min-height: 750px; /* Increased from 600px for more room */
 }
 
 #graph-container::before {

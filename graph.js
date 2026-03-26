@@ -9,11 +9,11 @@ console.log('✅ Container found');
 
 const scene = new THREE.Scene();
 console.log('✅ Scene created');
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 15;
+const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+camera.position.z = 18; // Pulled back slightly for more "air"
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(container.clientWidth, container.clientHeight);
 container.appendChild(renderer.domElement);
 
 const clock = new THREE.Clock();
@@ -48,6 +48,17 @@ const prismMaterial = new THREE.MeshBasicMaterial({
     opacity: 0.9
 });
 const prism = new THREE.Mesh(prismGeometry, prismMaterial);
+
+// Larger hitbox for better click "bite"
+const prismHitboxGeometry = new THREE.CylinderGeometry(2.5, 2.5, 5, 6);
+const prismHitboxMaterial = new THREE.MeshBasicMaterial({
+    transparent: true,
+    opacity: 0,
+    visible: false
+});
+const prismHitbox = new THREE.Mesh(prismHitboxGeometry, prismHitboxMaterial);
+prism.add(prismHitbox);
+prism.userData.isPrism = true;
 
 const innerPrismGeometry = new THREE.CylinderGeometry(0.8, 0.8, 2.8, 6);
 const innerPrismMaterial = new THREE.MeshBasicMaterial({
@@ -190,7 +201,7 @@ async function loadProjects() {
 // --- CREATE NODES ---
 function createProjectNodes() {
     console.log('🎨 Creating', projectData.length, 'nodes');
-    const radius = 8;
+    const radius = 10; // Increased from 8 to 10 for more space
     const angleStep = (Math.PI * 2) / projectData.length;
     
     projectData.forEach((project, index) => {
@@ -203,7 +214,7 @@ function createProjectNodes() {
         const nodeColor = colors.main;
         const outlineColor = colors.outline;
         
-        const nodeGeometry = new THREE.SphereGeometry(0.9, 32, 32);
+        const nodeGeometry = new THREE.SphereGeometry(0.7, 32, 32); // Slightly smaller (0.9 -> 0.7)
         const nodeMaterial = new THREE.MeshBasicMaterial({ 
             color: nodeColor,
             transparent: true,
@@ -211,7 +222,7 @@ function createProjectNodes() {
         });
         const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
         
-        const hitboxGeometry = new THREE.SphereGeometry(1.5, 8, 8);
+        const hitboxGeometry = new THREE.SphereGeometry(1.2, 8, 8); // Adjusted hitbox
         const hitboxMaterial = new THREE.MeshBasicMaterial({
             transparent: true,
             opacity: 0,
@@ -266,7 +277,7 @@ function createSkillNodes() {
         const skillColor = colors.main;
         const outlineColor = colors.outline;
         
-        const skillGeometry = new THREE.OctahedronGeometry(0.5, 0);
+        const skillGeometry = new THREE.OctahedronGeometry(0.4, 0); // Slightly smaller (0.5 -> 0.4)
         const skillMaterial = new THREE.MeshBasicMaterial({
             color: skillColor,
             transparent: true,
@@ -277,7 +288,7 @@ function createSkillNodes() {
         
         skillNode.position.set(x, y, z);
         
-        const hitboxGeometry = new THREE.OctahedronGeometry(1.0, 0);
+        const hitboxGeometry = new THREE.OctahedronGeometry(0.8, 0); // Adjusted hitbox
         const hitboxMaterial = new THREE.MeshBasicMaterial({
             transparent: true,
             opacity: 0,
@@ -440,6 +451,7 @@ function createPathParticles(curve, color) {
 
 // --- MOUSE INTERACTION ---
 let hoveredPrism = false;
+let isOrbiting = true;
 
 function onMouseMove(event) {
     // Calculate mouse coordinates relative to the container
@@ -450,48 +462,39 @@ function onMouseMove(event) {
     raycaster.setFromCamera(mouse, camera);
     
     let closestNode = null;
-    let closestDistance = Infinity;
     
-    // Only check for node interactions if we have valid mouse coordinates
-    if (Math.abs(mouse.x) <= 1 && Math.abs(mouse.y) <= 1) {
-        projectNodes.forEach(node => {
-            const nodeScreenPos = node.position.clone().project(camera);
-            const dx = nodeScreenPos.x - mouse.x;
-            const dy = nodeScreenPos.y - mouse.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 0.25 && distance < closestDistance) {
-                closestDistance = distance;
-                closestNode = node;
-            }
-        });
-        
-        skillNodes.forEach(node => {
-            const nodeScreenPos = node.position.clone().project(camera);
-            const dx = nodeScreenPos.x - mouse.x;
-            const dy = nodeScreenPos.y - mouse.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 0.20 && distance < closestDistance) {
-                closestDistance = distance;
-                closestNode = node;
-            }
-        });
-    }
+    // Check all objects for raycasting
+    const intersects = raycaster.intersectObjects(scene.children, true);
     
-    if (!closestNode) {
-        const prismIntersects = raycaster.intersectObject(prism, true);
-        if (prismIntersects.length > 0) {
-            hoveredPrism = true;
-            container.classList.add('hovering');
-            showTooltip('💬 Ask me anything!', event.clientX, event.clientY);
-        } else if (hoveredPrism) {
-            hoveredPrism = false;
-            container.classList.remove('hovering');
-            hideTooltip();
+    // Filter out lines and find the closest node or prism
+    for (let i = 0; i < intersects.length; i++) {
+        const obj = intersects[i].object;
+        // Check if it's a hitbox or the node itself
+        let target = obj;
+        if (obj.parent && (obj.parent.userData.isNode || obj.parent.userData.isSkill || obj.parent === prism)) {
+            target = obj.parent;
         }
-    } else {
+
+        if (target.userData.isNode || target.userData.isSkill) {
+            closestNode = target;
+            break;
+        }
+        if (target === prism || obj.userData.isPrism) {
+            hoveredPrism = true;
+            break;
+        }
+    }
+
+    if (hoveredPrism && !intersects.find(i => i.object === prism || i.object.parent === prism || i.object.userData.isPrism)) {
         hoveredPrism = false;
+        container.classList.remove('hovering');
+        hideTooltip();
+    }
+
+    if (hoveredPrism) {
+        container.classList.add('hovering');
+        showTooltip('💬 Ask me anything!', event.clientX, event.clientY);
+        closestNode = null; // Prioritize prism if both hit? Or vice versa?
     }
     
     if (hoveredNode && hoveredNode !== closestNode) {
@@ -791,17 +794,19 @@ function animate() {
         line.material.opacity = line.userData.baseOpacity + Math.sin(elapsedTime * 2) * 0.1;
     });
     
-    projectNodes.forEach((node, index) => {
-        if (!selectedNode || selectedNode !== node) {
-            const orbitSpeed = 0.1;
-            const angle = (elapsedTime * orbitSpeed) + (index * (Math.PI * 2 / projectNodes.length));
-            const radius = 8;
-            
-            node.position.x = Math.cos(angle) * radius;
-            node.position.z = Math.sin(angle) * radius;
-            node.position.y = node.userData.originalPosition.y + Math.sin(elapsedTime + index) * 0.3;
-        }
-    });
+    if (isOrbiting) {
+        projectNodes.forEach((node, index) => {
+            if (!selectedNode || selectedNode !== node) {
+                const orbitSpeed = 0.05; // Slower orbit (0.1 -> 0.05)
+                const angle = (elapsedTime * orbitSpeed) + (index * (Math.PI * 2 / projectNodes.length));
+                const radius = 10; // Match increased radius
+
+                node.position.x = Math.cos(angle) * radius;
+                node.position.z = Math.sin(angle) * radius;
+                node.position.y = node.userData.originalPosition.y + Math.sin(elapsedTime + index) * 0.3;
+            }
+        });
+    }
     
     renderer.render(scene, camera);
 }
@@ -829,14 +834,31 @@ container.addEventListener('mouseleave', () => {
     });
 });
 window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(container.clientWidth, container.clientHeight);
 });
 
 document.querySelector('.modal-close').addEventListener('click', closeModal);
 document.getElementById('graph-modal-overlay').addEventListener('click', closeModal);
 document.getElementById('graph-modal').addEventListener('click', (e) => e.stopPropagation());
+
+// UI Controls
+document.getElementById('reset-view').addEventListener('click', () => {
+    zoomOut();
+    if (selectedNode) {
+        selectedNode.material.opacity = 0.8;
+        selectedNode.scale.set(1, 1, 1);
+        selectedNode = null;
+    }
+});
+
+const orbitBtn = document.getElementById('toggle-orbit');
+orbitBtn.classList.add('active');
+orbitBtn.addEventListener('click', () => {
+    isOrbiting = !isOrbiting;
+    orbitBtn.classList.toggle('active');
+});
 
 // --- INITIALIZE ---
 console.log('🎬 Starting animation...');

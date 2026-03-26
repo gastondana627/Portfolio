@@ -205,7 +205,7 @@ GOOGLE_CLOUD_LOCATION=us-central1
 ### Professional
 - Early Access Tester (Kaggle, Vercel)
 - Active Google Labs member
-- NASA Collaboration (SESA 2025)
+- NASA Collaboration (SESA)
 - Mentorship (NSCS, ALPFA)
 - 7+ Hackathons
 

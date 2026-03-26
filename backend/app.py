@@ -385,7 +385,7 @@ mock_projects_data = {
             "group": "AI Projects",
             "label": "Planetrics",
             "description": "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog. Built with Plotly Studio, featuring live data from NASA Exoplanet Archive API, discovery trends, and curated milestone content.",
-            "year": 2025,
+            "year": 2026,
             "skills": ["Python", "Plotly", "Pandas", "NASA API", "Data Visualization"],
             "links": [
                 {"type": "video", "url": "https://www.linkedin.com/posts/gaston-d-859653184_plotly-python-datascience-activity-7380386160432500736-P6OA?utm_source=share&utm_medium=member_desktop&rcm=ACoAACuFtgUBVdf9kFE9Wlxn2qi6FBP2M0VX6Ds"}
@@ -396,7 +396,7 @@ mock_projects_data = {
             "group": "AI Projects",
             "label": "AI Room Designer",
             "description": "Multi-modal AI interior design platform with dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Features Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs voice narration, and local gpt-oss agent for offline AI consultation.",
-            "year": 2025,
+            "year": 2026,
             "skills": ["React", "Python", "FastAPI", "Gemini 2.5", "Fal.ai", "ElevenLabs", "TypeScript", "Tailwind CSS"],
             "links": [
                 {"type": "demo", "url": "https://rooms-through-time-production.up.railway.app"},
@@ -410,7 +410,7 @@ mock_projects_data = {
             "group": "Content Creation",
             "label": "Vitrine Steganos",
             "description": "An AI-powered video series exploring Predictive Policing and visual narratives. Includes the 'Ally & Ivan' podcast and themed editions like the 'VS_XMas Edition'.",
-            "year": 2025,
+            "year": 2026,
             "skills": ["Adobe Creative Suite", "Visual Narratives", "AI Video", "Content Strategy"],
             "links": []
         },
@@ -419,7 +419,7 @@ mock_projects_data = {
             "group": "Content Creation",
             "label": "Intergalactic BurgerShack",
             "description": "A conceptual AI-generated advertising campaign featuring high-fidelity planetary editions for Mars, Earth, and Venus.",
-            "year": 2025,
+            "year": 2026,
             "skills": ["Generative AI", "Adobe Creative Suite", "Visual Branding", "Video Ads"],
             "links": []
         },
@@ -428,7 +428,7 @@ mock_projects_data = {
             "group": "Content Creation",
             "label": "Quarters",
             "description": "A collection of hyper-realistic AI-generated imagery and video content focusing on high-fidelity environmental captures.",
-            "year": 2025,
+            "year": 2026,
             "skills": ["Generative AI", "Visual Narratives", "High-Fidelity Rendering"],
             "links": []
         },
@@ -437,7 +437,7 @@ mock_projects_data = {
             "group": "Content Creation",
             "label": "Multimodal Technical Narratives",
             "description": "A series of high-impact technical videos and visual case studies translating complex AI breakthroughs into compelling narratives for a global audience.",
-            "year": 2025,
+            "year": 2026,
             "skills": ["Adobe Creative Suite", "Visual Narratives", "Video Editing", "AI Content"],
             "links": [
                 {"type": "video", "url": "#"},
@@ -669,7 +669,7 @@ def get_local_response(message):
         return "🎮 Project Stargate is all about gaming mentorship! Gaston created interactive digital personas for gaming coaching and player development. It's a unique blend of AI agents and gaming expertise."
     
     if 'nasa' in lowerMessage or 'space' in lowerMessage or 'exoplanet' in lowerMessage:
-        return "🚀 Gaston has worked on several NASA-related projects! His NASA Knowledge Graph maps biological data into Neo4j for astronaut health reasoning, Astro Archive uses memory-aware agents for space data, and Planetrics visualizes NASA's 6,000+ exoplanet catalog. His SESA proposal was submitted to NASA in 2025!"
+        return "🚀 Gaston has worked on several NASA-related projects! His NASA Knowledge Graph maps biological data into Neo4j for astronaut health reasoning, Astro Archive uses memory-aware agents for space data, and Planetrics visualizes NASA's 6,000+ exoplanet catalog. His SESA proposal was submitted to NASA!"
     
     if 'rag' in lowerMessage or 'retrieval' in lowerMessage:
         return "🔍 Gaston is an expert in RAG (Retrieval-Augmented Generation) systems! He's implemented RAG in multiple projects like Peata (pet recovery), Relic (archaeological research), and others, combining document retrieval with generative AI to create context-aware assistants."
