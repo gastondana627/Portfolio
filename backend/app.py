@@ -468,7 +468,8 @@ You are an AI assistant for Gaston Dana's portfolio website. You are knowledgeab
 
 ABOUT GASTON:
 - Multimodal Technologist | AI Engineer | Content Creator
-- Early Access Program (EAP) Member for Kaggle Benchmarks, Adobe Insider, and Vercel v0
+- Early Access Program (EAP) Member for Kaggle Benchmarks, Adobe Insider, Google Labs, and Vercel v0
+- Active Google Labs member
 - Focuses on a "Technical-Creative" hybrid approach: validating LLMs and visualizing results
 - Core expertise: Model Evaluation, LLM Benchmarking, RAG systems, and Multi-Agent AI
 - Adobe Insider: Stress-testing Generative Systems and Adobe Creative Suite
@@ -594,11 +595,11 @@ def get_local_response(message):
     """Local fallback responses when AI is unavailable"""
     lowerMessage = message.lower()
     
-    if 'multimodal' in lowerMessage or 'adobe' in lowerMessage or 'insider' in lowerMessage:
-        return "🎨 Gaston is a Multimodal Technologist and an Adobe Insider! He works at the intersection of AI Engineering and Content Creation, using a 'Technical-Creative' hybrid approach to validate LLMs and visualize results using the Adobe Creative Suite and Vercel v0."
+    if 'multimodal' in lowerMessage or 'adobe' in lowerMessage or 'insider' in lowerMessage or 'google labs' in lowerMessage:
+        return "🎨 Gaston is a Multimodal Technologist, an Adobe Insider, and an Active Google Labs member! He works at the intersection of AI Engineering and Content Creation, using a 'Technical-Creative' hybrid approach to validate LLMs and visualize results using the Adobe Creative Suite, Google Labs tools, and Vercel v0."
 
     if 'benchmarking' in lowerMessage or 'evaluation' in lowerMessage or 'kaggle' in lowerMessage:
-        return "📊 Gaston is an Early Access Program member for Kaggle Benchmarks! He specializes in Model Evaluation, specifically designing custom tasks to test how leading LLMs interpret high-density industrial data and physical telemetry."
+        return "📊 Gaston is an Early Access Program member for Kaggle Benchmarks and an Active Google Labs member! He specializes in Model Evaluation, specifically designing custom tasks to test how leading LLMs interpret high-density industrial data and physical telemetry."
 
     if 'room designer' in lowerMessage or 'ai room' in lowerMessage or 'rooms through time' in lowerMessage:
         return "🏠 The AI Room Designer (Rooms Through Time) is Gaston's latest multi-modal AI platform! It features dual modes: Generate New (text-to-image) and Redesign My Room (image transformation). Built with React, Python, FastAPI, Gemini 2.5 Flash for redesign, Fal.ai for 3D reconstruction, ElevenLabs for voice narration, and includes a local gpt-oss agent for offline AI consultation!"
