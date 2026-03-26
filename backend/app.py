@@ -404,6 +404,18 @@ mock_projects_data = {
                 {"type": "github", "url": "https://github.com/gastondana627/Rooms-Through-Time"},
                 {"type": "info", "url": "https://youtu.be/Gh2-ltEzjr0?si=J3W58BHmcdWNWA5k"}
             ]
+        },
+        {
+            "id": "visual-narratives",
+            "group": "Content Creation",
+            "label": "Multimodal Technical Narratives",
+            "description": "A series of high-impact technical videos and visual case studies translating complex AI breakthroughs into compelling narratives for a global audience.",
+            "year": 2025,
+            "skills": ["Adobe Creative Suite", "Visual Narratives", "Video Editing", "AI Content"],
+            "links": [
+                {"type": "video", "url": "#"},
+                {"type": "info", "url": "#"}
+            ]
         }
     ],
     "skills": [
@@ -459,12 +471,19 @@ mock_projects_data = {
         {"project": "ai-room-designer", "skill": "python"},
         {"project": "ai-room-designer", "skill": "react"},
         {"project": "ai-room-designer", "skill": "ai_agents"},
-        {"project": "ai-room-designer", "skill": "computer_vision"}
+        {"project": "ai-room-designer", "skill": "computer_vision"},
+        {"project": "visual-narratives", "skill": "adobe_creative"},
+        {"project": "visual-narratives", "skill": "visual_narratives"}
     ]
 }
 
 PORTFOLIO_CONTEXT = """
-You are an AI assistant for Gaston Dana's portfolio website. You are knowledgeable about his work, projects, and experience.
+You are an AI assistant for Gaston Dana's multi-portfolio ecosystem. You are knowledgeable about Gaston's work across Tech, Gaming, and Content Creation.
+
+ECOSYSTEM OVERVIEW:
+1. Tech Portfolio: AI/ML engineering, RAG systems, and full-stack development.
+2. Gaming Portfolio: Game development, QA testing, and AI-driven mentorship.
+3. Content Creation: Technical video production, social media, and creative visual narratives.
 
 ABOUT GASTON:
 - Multimodal Technologist | AI Engineer | Content Creator
@@ -622,10 +641,13 @@ def get_local_response(message):
     if 'contact' in lowerMessage or 'reach' in lowerMessage or 'email' in lowerMessage:
         return "📧 You can reach Gaston through LinkedIn (https://www.linkedin.com/in/gaston-d-859653184/), GitHub (https://github.com/gastondana627), or the contact form on this website!"
     
+    if 'portfolio' in lowerMessage or 'ecosystem' in lowerMessage:
+        return "🌐 Gaston's portfolio is a multi-disciplinary ecosystem divided into three main areas: 1) Tech Portfolio (AI/ML Engineering), 2) Gaming Portfolio (Game Dev & AI Mentorship), and 3) Content Creation (Visual Technical Narratives). Each section showcases his specialized skills in those domains."
+
     if 'project' in lowerMessage and ('main' in lowerMessage or 'top' in lowerMessage):
-        return "🚀 Gaston's main AI projects include Peata (pet recovery), Relic (archaeological research), NASA Knowledge Graph, AI Room Designer, Planetrics (exoplanet dashboard), Astro Archive (space data agents), and Project Stargate (gaming mentorship). Each showcases different AI/ML capabilities!"
+        return "🚀 Gaston's main projects across his ecosystem include Peata (pet recovery), Relic (archaeological research), NASA Knowledge Graph, AI Room Designer, Planetrics (exoplanet dashboard), Astro Archive (space data agents), and Project Stargate (gaming mentorship). He also creates high-impact technical narratives as part of his content creation portfolio!"
     
-    return "That's an interesting question! Gaston has worked on many AI projects involving RAG systems, multi-agent architectures, and knowledge graphs. Could you be more specific about what you'd like to know?"
+    return "That's an interesting question! Gaston has worked on many projects across Tech, Gaming, and Content Creation. He specializes in RAG systems, multi-agent architectures, and knowledge graphs. Could you be more specific about what you'd like to know?"
 
 # ============================================
 # API ENDPOINTS

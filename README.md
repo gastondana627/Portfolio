@@ -204,6 +204,7 @@ GOOGLE_CLOUD_LOCATION=us-central1
 
 ### Professional
 - Early Access Tester (Kaggle, Vercel)
+- Active Google Labs member
 - NASA Collaboration (SESA 2025)
 - Mentorship (NSCS, ALPFA)
 - 7+ Hackathons
@@ -294,7 +295,7 @@ GOOGLE_CLOUD_LOCATION=us-central1
 
 ## 📄 License
 
-© 2025 Gaston Dana. All rights reserved.
+© 2026 Gaston Dana. All rights reserved.
 
 ---
 
