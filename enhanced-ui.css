@@ -1,0 +1,263 @@
+/* ============================================
+   ENHANCED ECOSYSTEM & CONTENT SHOWCASE
+   ============================================ */
+
+/* Main Ecosystem Section Enhancement */
+.ecosystem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.ecosystem-card {
+    background: rgba(26, 26, 46, 0.4) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.ecosystem-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top left, rgba(131, 9, 213, 0.1), transparent 70%);
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.ecosystem-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(131, 9, 213, 0.4);
+    box-shadow: 0 20px 50px rgba(131, 9, 213, 0.2);
+    background: rgba(26, 26, 46, 0.6) !important;
+}
+
+.ecosystem-card:hover::before {
+    opacity: 0.8;
+}
+
+/* Specific Card Themes */
+.ecosystem-card.tech { border-bottom: 4px solid #09C1D5; }
+.ecosystem-card.gaming { border-bottom: 4px solid #FF8800; }
+.ecosystem-card.content { border-bottom: 4px solid #8309D5; }
+
+/* Icon Styling */
+.ecosystem-icon-wrapper {
+    width: 65px;
+    height: 65px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    color: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.ecosystem-card:hover .ecosystem-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+    background: linear-gradient(135deg, #8309D5, #09C1D5);
+}
+
+.ecosystem-card.tech:hover .ecosystem-icon-wrapper { background: linear-gradient(135deg, #09C1D5, #00D2FF); }
+.ecosystem-card.gaming:hover .ecosystem-icon-wrapper { background: linear-gradient(135deg, #FF8800, #FF5500); }
+.ecosystem-card.content:hover .ecosystem-icon-wrapper { background: linear-gradient(135deg, #8309D5, #D509C1); }
+
+/* Typography */
+.ecosystem-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #FFFFFF !important;
+    background: none !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.ecosystem-role {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.ecosystem-card.tech .ecosystem-role { color: #09C1D5; }
+.ecosystem-card.gaming .ecosystem-role { color: #FF8800; }
+.ecosystem-card.content .ecosystem-role { color: #8309D5; }
+
+.ecosystem-desc {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    flex-grow: 1;
+}
+
+/* Button Styling */
+.ecosystem-btn {
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ecosystem-card.tech .ecosystem-btn:hover { background: #09C1D5; border-color: #09C1D5; box-shadow: 0 5px 15px rgba(9, 193, 213, 0.4); }
+.ecosystem-card.gaming .ecosystem-btn:hover { background: #FF8800; border-color: #FF8800; box-shadow: 0 5px 15px rgba(255, 136, 0, 0.4); }
+.ecosystem-card.content .ecosystem-btn:hover { background: #8309D5; border-color: #8309D5; box-shadow: 0 5px 15px rgba(131, 9, 213, 0.4); }
+
+/* Showcase Item Styling */
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.showcase-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-radius: 16px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.showcase-card:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(131, 9, 213, 0.3);
+    transform: translateY(-5px);
+}
+
+.showcase-card i {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #8309D5, #09C1D5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.showcase-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    color: white !important;
+    background: none !important;
+    -webkit-text-fill-color: white !important;
+}
+
+.showcase-card p {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.showcase-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.showcase-tag {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    background: rgba(131, 9, 213, 0.15);
+    border: 1px solid rgba(131, 9, 213, 0.3);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+@media (max-width: 768px) {
+    .ecosystem-grid { grid-template-columns: 1fr; }
+    .ecosystem-card { padding: 30px; }
+}
+
+/* ============================================
+   HERO & ABOUT ENHANCEMENTS
+   ============================================ */
+
+/* Hero Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.hero-image img {
+    animation: float 6s ease-in-out infinite;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-stat {
+    transition: all 0.3s ease;
+}
+
+.hero-stat:hover {
+    transform: translateY(-5px);
+}
+
+.hero-stat-number {
+    background: linear-gradient(135deg, #8309D5, #09C1D5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* About Highlights Refinement */
+.about-highlights {
+    gap: 20px !important;
+}
+
+.highlight-item {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-left: 4px solid #8309D5 !important;
+    padding: 15px 20px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.highlight-item:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    transform: translateX(10px);
+    border-left-color: #09C1D5 !important;
+    box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.highlight-item i {
+    font-size: 1.3rem !important;
+    transition: transform 0.3s ease;
+}
+
+.highlight-item:hover i {
+    transform: scale(1.2);
+}
+
+/* Glassmorphism for About Text */
+.about-text {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}

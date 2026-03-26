@@ -21,12 +21,13 @@
 }
 
 .featured-project-card {
-    background: rgba(232, 232, 240, 0.05);
+    background: rgba(26, 26, 46, 0.6);
     backdrop-filter: blur(15px);
-    border: 2px solid rgba(184, 184, 208, 0.1);
-    border-radius: 16px;
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 }
@@ -88,12 +89,19 @@
 }
 
 .tech-tag {
-    background: rgba(131, 9, 213, 0.1);
-    color: #8309D5;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    background: rgba(131, 9, 213, 0.2);
+    color: #09C1D5;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(131, 9, 213, 0.3);
+    transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+    background: rgba(131, 9, 213, 0.4);
+    transform: translateY(-2px);
 }
 
 .project-carousel-links {
@@ -148,8 +156,8 @@
 }
 
 .stat-label {
-    color: #666;
-    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
     margin-top: 8px;
     text-transform: uppercase;
     letter-spacing: 1.5px;

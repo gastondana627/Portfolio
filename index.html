@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="data-science-styles.css">
     <link rel="stylesheet" href="graph-modal.css">
     <link rel="stylesheet" href="project-carousel.css">
+    <link rel="stylesheet" href="enhanced-ui.css">
     <link rel="stylesheet" href="chatbot.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -186,44 +187,50 @@
 <section id="portfolios" class="section">
     <div class="container">
         <h2 class="section-title">Multi-Portfolio Ecosystem</h2>
-        <p class="section-description" style="text-align: center; margin-bottom: 40px;">
+        <p class="section-description" style="text-align: center; margin-bottom: 50px;">
             Explore my work across three specialized areas of expertise.
         </p>
-        <div class="mentorship-grid">
-            <div class="mentorship-card">
-                <div class="mentorship-icon">
+        <div class="ecosystem-grid">
+            <div class="ecosystem-card tech">
+                <div class="ecosystem-icon-wrapper">
                     <i class="fas fa-microchip"></i>
                 </div>
                 <h3>Tech Portfolio</h3>
-                <p class="mentorship-role">AI/ML & Full-Stack Engineering</p>
-                <p class="mentorship-description">
+                <p class="ecosystem-role">AI/ML & Engineering</p>
+                <p class="ecosystem-desc">
                     Advanced AI/ML projects including RAG systems, knowledge graphs, and full-stack production deployments.
                 </p>
-                <a href="#projects" class="button button-small">Explore Tech</a>
+                <a href="#projects" class="ecosystem-btn">
+                    Explore Tech <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
 
-            <div class="mentorship-card">
-                <div class="mentorship-icon">
+            <div class="ecosystem-card gaming">
+                <div class="ecosystem-icon-wrapper">
                     <i class="fas fa-gamepad"></i>
                 </div>
                 <h3>Gaming Portfolio</h3>
-                <p class="mentorship-role">Game Dev & AI Mentorship</p>
-                <p class="mentorship-description">
+                <p class="ecosystem-role">Game Dev & AI Agents</p>
+                <p class="ecosystem-desc">
                     Interactive digital personas for gaming mentorship and coaching using behavioral AI agents.
                 </p>
-                <a href="#" class="button button-small">View Gaming</a>
+                <a href="#" class="ecosystem-btn">
+                    View Gaming <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
 
-            <div class="mentorship-card">
-                <div class="mentorship-icon">
+            <div class="ecosystem-card content">
+                <div class="ecosystem-icon-wrapper">
                     <i class="fas fa-clapperboard"></i>
                 </div>
                 <h3>Content Creation</h3>
-                <p class="mentorship-role">Visual Narratives & Media</p>
-                <p class="mentorship-description">
-                    Translating technical breakthroughs into compelling visual narratives. Featuring <strong>Vitrine Steganos</strong>, <strong>Intergalactic BurgerShack</strong>, and <strong>Quarters</strong>.
+                <p class="ecosystem-role">Visual Narratives & Media</p>
+                <p class="ecosystem-desc">
+                    Translating technical breakthroughs into compelling visual narratives using advanced generative AI suites.
                 </p>
-                <a href="#content-showcase" class="button button-small">See Media</a>
+                <a href="#content-showcase" class="ecosystem-btn">
+                    See Media <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -500,55 +507,40 @@
     </div>
 </section>
 -->
-<section id="content-showcase" class="section" style="background: rgba(255,255,255,0.02);">
+<section id="content-showcase" class="section" style="background: rgba(255,255,255,0.01);">
     <div class="container">
         <h2 class="section-title">Visual Content Showcase</h2>
-        <p class="section-description" style="text-align: center; margin-bottom: 40px;">
+        <p class="section-description" style="text-align: center; margin-bottom: 50px;">
             Exploring the intersection of AI and visual storytelling through high-fidelity narratives and conceptual campaigns.
         </p>
-        <div class="mentorship-grid">
-            <div class="mentorship-card">
-                <div class="mentorship-icon">
-                    <i class="fas fa-video"></i>
-                </div>
+        <div class="showcase-grid">
+            <div class="showcase-card">
+                <i class="fas fa-video"></i>
                 <h3>Vitrine Steganos</h3>
-                <p class="mentorship-role">AI Video Series</p>
-                <p class="mentorship-description">
-                    Exploring predictive policing and technical narratives through a multi-part AI video series and podcast.
-                </p>
-                <div class="ds-card-tags" style="justify-content: center; margin-top: 15px;">
-                    <span class="ds-tag">AI Video</span>
-                    <span class="ds-tag">Predictive Policing</span>
+                <p>Exploring predictive policing and technical narratives through a multi-part AI video series and podcast.</p>
+                <div class="showcase-tags">
+                    <span class="showcase-tag">AI Video</span>
+                    <span class="showcase-tag">Narrative</span>
                 </div>
             </div>
 
-            <div class="mentorship-card">
-                <div class="mentorship-icon">
-                    <i class="fas fa-rocket"></i>
-                </div>
+            <div class="showcase-card">
+                <i class="fas fa-rocket"></i>
                 <h3>Intergalactic BurgerShack</h3>
-                <p class="mentorship-role">Conceptual AI Campaign</p>
-                <p class="mentorship-description">
-                    A planetary-themed AI advertising campaign featuring high-fidelity visuals for Mars, Earth, and Venus editions.
-                </p>
-                <div class="ds-card-tags" style="justify-content: center; margin-top: 15px;">
-                    <span class="ds-tag">Generative AI</span>
-                    <span class="ds-tag">Branding</span>
+                <p>A planetary-themed AI advertising campaign featuring high-fidelity visuals for Mars, Earth, and Venus editions.</p>
+                <div class="showcase-tags">
+                    <span class="showcase-tag">Generative AI</span>
+                    <span class="showcase-tag">Branding</span>
                 </div>
             </div>
 
-            <div class="mentorship-card">
-                <div class="mentorship-icon">
-                    <i class="fas fa-expand"></i>
-                </div>
+            <div class="showcase-card">
+                <i class="fas fa-expand-arrows-alt"></i>
                 <h3>Quarters</h3>
-                <p class="mentorship-role">High-Fidelity AI Imagery</p>
-                <p class="mentorship-description">
-                    Collection of hyper-realistic environmental captures and cinematic video content demonstrating advanced visual AI.
-                </p>
-                <div class="ds-card-tags" style="justify-content: center; margin-top: 15px;">
-                    <span class="ds-tag">High-Fidelity</span>
-                    <span class="ds-tag">Environments</span>
+                <p>Collection of hyper-realistic environmental captures and cinematic video content demonstrating advanced visual AI.</p>
+                <div class="showcase-tags">
+                    <span class="showcase-tag">High-Fidelity</span>
+                    <span class="showcase-tag">AI Cinematics</span>
                 </div>
             </div>
         </div>
