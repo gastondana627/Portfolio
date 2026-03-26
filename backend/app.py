@@ -406,6 +406,33 @@ mock_projects_data = {
             ]
         },
         {
+            "id": "vitrine-steganos",
+            "group": "Content Creation",
+            "label": "Vitrine Steganos",
+            "description": "An AI-powered video series exploring Predictive Policing and visual narratives. Includes the 'Ally & Ivan' podcast and themed editions like the 'VS_XMas Edition'.",
+            "year": 2025,
+            "skills": ["Adobe Creative Suite", "Visual Narratives", "AI Video", "Content Strategy"],
+            "links": []
+        },
+        {
+            "id": "intergalactic-burgershack",
+            "group": "Content Creation",
+            "label": "Intergalactic BurgerShack",
+            "description": "A conceptual AI-generated advertising campaign featuring high-fidelity planetary editions for Mars, Earth, and Venus.",
+            "year": 2025,
+            "skills": ["Generative AI", "Adobe Creative Suite", "Visual Branding", "Video Ads"],
+            "links": []
+        },
+        {
+            "id": "quarters",
+            "group": "Content Creation",
+            "label": "Quarters",
+            "description": "A collection of hyper-realistic AI-generated imagery and video content focusing on high-fidelity environmental captures.",
+            "year": 2025,
+            "skills": ["Generative AI", "Visual Narratives", "High-Fidelity Rendering"],
+            "links": []
+        },
+        {
             "id": "visual-narratives",
             "group": "Content Creation",
             "label": "Multimodal Technical Narratives",
@@ -483,7 +510,7 @@ You are an AI assistant for Gaston Dana's multi-portfolio ecosystem. You are kno
 ECOSYSTEM OVERVIEW:
 1. Tech Portfolio: AI/ML engineering, RAG systems, and full-stack development.
 2. Gaming Portfolio: Game development, QA testing, and AI-driven mentorship.
-3. Content Creation: Technical video production, social media, and creative visual narratives.
+3. Content Creation: Technical video production, creative visual narratives (Vitrine Steganos, Intergalactic BurgerShack), and hyper-realistic AI imagery (Quarters).
 
 ABOUT GASTON:
 - Multimodal Technologist | AI Engineer | Content Creator
@@ -614,6 +641,15 @@ def get_local_response(message):
     """Local fallback responses when AI is unavailable"""
     lowerMessage = message.lower()
     
+    if 'steganos' in lowerMessage or 'vitrine' in lowerMessage:
+        return "🎬 Vitrine Steganos is an AI-powered video series by Gaston exploring Predictive Policing and visual narratives. It includes the 'Ally & Ivan' podcast and specialized editions like the Christmas special."
+
+    if 'burgershack' in lowerMessage or 'burger shack' in lowerMessage:
+        return "🍔 Intergalactic BurgerShack is a conceptual AI-generated advertising campaign showcasing Gaston's ability to create high-fidelity branding across planetary themes like Mars, Earth, and Venus."
+
+    if 'quarters' in lowerMessage:
+        return "📐 Quarters is a collection of hyper-realistic AI-generated imagery and video content focusing on high-fidelity environmental captures, demonstrating Gaston's expertise in generative visual systems."
+
     if 'multimodal' in lowerMessage or 'adobe' in lowerMessage or 'insider' in lowerMessage or 'google labs' in lowerMessage:
         return "🎨 Gaston is a Multimodal Technologist, an Adobe Insider, and an Active Google Labs member! He works at the intersection of AI Engineering and Content Creation, using a 'Technical-Creative' hybrid approach to validate LLMs and visualize results using the Adobe Creative Suite, Google Labs tools, and Vercel v0."
 
@@ -645,7 +681,7 @@ def get_local_response(message):
         return "🌐 Gaston's portfolio is a multi-disciplinary ecosystem divided into three main areas: 1) Tech Portfolio (AI/ML Engineering), 2) Gaming Portfolio (Game Dev & AI Mentorship), and 3) Content Creation (Visual Technical Narratives). Each section showcases his specialized skills in those domains."
 
     if 'project' in lowerMessage and ('main' in lowerMessage or 'top' in lowerMessage):
-        return "🚀 Gaston's main projects across his ecosystem include Peata (pet recovery), Relic (archaeological research), NASA Knowledge Graph, AI Room Designer, Planetrics (exoplanet dashboard), Astro Archive (space data agents), and Project Stargate (gaming mentorship). He also creates high-impact technical narratives as part of his content creation portfolio!"
+        return "🚀 Gaston's main projects across his ecosystem include Peata (pet recovery), Relic (archaeological research), NASA Knowledge Graph, AI Room Designer, Planetrics (exoplanet dashboard), Astro Archive (space data agents), and Project Stargate (gaming mentorship). His Content Creation work includes series like Vitrine Steganos, Intergalactic BurgerShack, and Quarters!"
     
     return "That's an interesting question! Gaston has worked on many projects across Tech, Gaming, and Content Creation. He specializes in RAG systems, multi-agent architectures, and knowledge graphs. Could you be more specific about what you'd like to know?"
 
