@@ -64,7 +64,7 @@
     setupGlobalErrorHandler();
 
     // Step 5: Preload critical images if online
-    if (ContentNetworkHandler && ContentNetworkHandler.checkOnlineStatus()) {
+    if (typeof ContentNetworkHandler !== 'undefined' && ContentNetworkHandler.checkOnlineStatus()) {
       preloadCriticalAssets();
     }
 

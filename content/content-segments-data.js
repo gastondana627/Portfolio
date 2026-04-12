@@ -14,18 +14,18 @@ const ContentSegmentsData = {
                 id: "q1-2024",
                 title: "Q1 2024 Highlights",
                 period: "January - March 2024",
-                thumbnailPath: "/assets/content/segments/quarters/quarter1/1.png",
+                thumbnailPath:  "assets/content/segments/quarters/quarter1/1.png",
                 images: [
-                    "/assets/content/segments/quarters/quarter1/1.png",
-                    "/assets/content/segments/quarters/quarter1/2.png",
-                    "/assets/content/segments/quarters/quarter1/3.png",
-                    "/assets/content/segments/quarters/quarter1/4.png",
-                    "/assets/content/segments/quarters/quarter1/5.png",
-                    "/assets/content/segments/quarters/quarter1/6.png",
-                    "/assets/content/segments/quarters/quarter1/7.png",
-                    "/assets/content/segments/quarters/quarter1/8.png",
-                    "/assets/content/segments/quarters/quarter1/9.png",
-                    "/assets/content/segments/quarters/quarter1/10.png"
+                     "assets/content/segments/quarters/quarter1/1.png",
+                     "assets/content/segments/quarters/quarter1/2.png",
+                     "assets/content/segments/quarters/quarter1/3.png",
+                     "assets/content/segments/quarters/quarter1/4.png",
+                     "assets/content/segments/quarters/quarter1/5.png",
+                     "assets/content/segments/quarters/quarter1/6.png",
+                     "assets/content/segments/quarters/quarter1/7.png",
+                     "assets/content/segments/quarters/quarter1/8.png",
+                     "assets/content/segments/quarters/quarter1/9.png",
+                     "assets/content/segments/quarters/quarter1/10.png"
                 ],
                 description: "Major projects and achievements from Q1 2024"
             },
@@ -33,10 +33,10 @@ const ContentSegmentsData = {
                 id: "q2-2024",
                 title: "Q2 2024 Highlights",
                 period: "April - June 2024",
-                thumbnailPath: "/assets/content/segments/quarters/quarter2/Thumby_Quarters.png",
-                videoPath: "/assets/content/segments/quarters/quarter2/A hyper-realistic image captures a black Cairn Terrier in a full NASA-engineered spacesuit confidently exploring a Martian ridge, accompanied by a humanoid robotic assistant and a floating AI self.mp4",
+                thumbnailPath:  "assets/content/segments/quarters/quarter2/Thumby_Quarters.png",
+                videoPath:  "assets/content/segments/quarters/quarter2/A hyper-realistic image captures a black Cairn Terrier in a full NASA-engineered spacesuit confidently exploring a Martian ridge, accompanied by a humanoid robotic assistant and a floating AI self.mp4",
                 images: [
-                    "/assets/content/segments/quarters/quarter2/Thumby_Quarters.png"
+                     "assets/content/segments/quarters/quarter2/Thumby_Quarters.png"
                 ],
                 description: "Key developments and milestones from Q2 2024"
             },
@@ -44,10 +44,10 @@ const ContentSegmentsData = {
                 id: "q3-2024",
                 title: "Q3 2024 Highlights",
                 period: "July - September 2024",
-                thumbnailPath: "/assets/content/segments/quarters/quarter3/Thumby.png",
-                videoPath: "/assets/content/segments/quarters/quarter3/Quarters 3.mp4",
+                thumbnailPath:  "assets/content/segments/quarters/quarter3/Thumby.png",
+                videoPath:  "assets/content/segments/quarters/quarter3/Quarters 3.mp4",
                 images: [
-                    "/assets/content/segments/quarters/quarter3/Thumby.png"
+                     "assets/content/segments/quarters/quarter3/Thumby.png"
                 ],
                 description: "Progress and achievements from Q3 2024"
             }
@@ -67,8 +67,8 @@ const ContentSegmentsData = {
                 title: "Surf's Up - January",
                 month: "January",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/January/Thumby.png",
-                videoPath: "/assets/content/segments/promptofthemonth/January/Prompt of the Month-Surfs Up.mp4",
+                thumbnailPath:  "assets/content/segments/promptofthemonth/January/Thumby.png",
+                videoPath:  "assets/content/segments/promptofthemonth/January/Prompt of the Month-Surfs Up.mp4",
                 duration: "1:30",
                 prompt: "Surf's Up",
                 description: "Exploring fresh perspectives and creative beginnings with ocean vibes"
@@ -78,8 +78,8 @@ const ContentSegmentsData = {
                 title: "February",
                 month: "February",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/February/Thumby.png",
-                videoPath: "/assets/content/segments/promptofthemonth/February/Prompt Of The Month - February.mp4",
+                thumbnailPath:  "assets/content/segments/promptofthemonth/February/Thumby.png",
+                videoPath:  "assets/content/segments/promptofthemonth/February/Prompt Of The Month - February.mp4",
                 duration: "1:45",
                 prompt: "Love and Connection",
                 description: "Visual interpretations of human connection and emotion"
@@ -89,8 +89,8 @@ const ContentSegmentsData = {
                 title: "RadCliffe Wave - March",
                 month: "March",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/March/Prompt of the Month RadCliffe Wave-Where the Stars Are Born.png",
-                videoPath: "/assets/content/segments/promptofthemonth/March/Radcliffe Wave.mp4",
+                thumbnailPath:  "assets/content/segments/promptofthemonth/March/Prompt of the Month RadCliffe Wave-Where the Stars Are Born.png",
+                videoPath:  "assets/content/segments/promptofthemonth/March/Radcliffe Wave.mp4",
                 duration: "2:00",
                 prompt: "RadCliffe Wave - Where the Stars Are Born",
                 description: "Cosmic exploration and stellar formation visualization"
@@ -100,8 +100,8 @@ const ContentSegmentsData = {
                 title: "MAJORANA - April",
                 month: "April",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/April/Prompt of the Month.png",
-                videoPath: "/assets/content/segments/promptofthemonth/April/MAJORANA.mp4",
+                thumbnailPath:  "assets/content/segments/promptofthemonth/April/Prompt of the Month.png",
+                videoPath:  "assets/content/segments/promptofthemonth/April/MAJORANA.mp4",
                 duration: "1:50",
                 prompt: "MAJORANA",
                 description: "Exploring quantum physics and particle mysteries"
@@ -111,8 +111,8 @@ const ContentSegmentsData = {
                 title: "10 CVEs of 2025 - May",
                 month: "May",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/May/FMU.png",
-                videoPath: "/assets/content/segments/promptofthemonth/May/Prompt of the Month - 10 CVEs of 2025-2.mp4",
+                thumbnailPath:  "assets/content/segments/promptofthemonth/May/FMU.png",
+                videoPath:  "assets/content/segments/promptofthemonth/May/Prompt of the Month - 10 CVEs of 2025-2.mp4",
                 duration: "2:15",
                 prompt: "10 CVEs of 2025",
                 description: "Cybersecurity vulnerabilities and future tech challenges"
@@ -122,8 +122,8 @@ const ContentSegmentsData = {
                 title: "June",
                 month: "June",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/June/Prompt of the Month June Thumbnail 1_1.png",
-                videoPath: "/assets/content/segments/promptofthemonth/June/PromptoftheMonth_June.mp4",
+                thumbnailPath:  "assets/content/segments/promptofthemonth/June/Prompt of the Month June Thumbnail 1_1.png",
+                videoPath:  "assets/content/segments/promptofthemonth/June/PromptoftheMonth_June.mp4",
                 duration: "1:55",
                 prompt: "Summer Solstice",
                 description: "Light, energy, and creative peak expression"
@@ -133,8 +133,8 @@ const ContentSegmentsData = {
                 title: "Ocean's Heartbeat - July",
                 month: "July",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/July/PofT Oceans HeartBeat July_Final_Thumbie_2.png",
-                videoPath: "/assets/content/segments/promptofthemonth/July/Prompt of the Month July 1_by_1.mp4",
+                thumbnailPath:  "assets/content/segments/promptofthemonth/July/PofT Oceans HeartBeat July_Final_Thumbie_2.png",
+                videoPath:  "assets/content/segments/promptofthemonth/July/Prompt of the Month July 1_by_1.mp4",
                 duration: "2:10",
                 prompt: "Ocean's Heartbeat",
                 description: "Exploring the rhythm and life of our oceans"
@@ -144,8 +144,8 @@ const ContentSegmentsData = {
                 title: "FMU - September",
                 month: "September",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/September/FMU.png",
-                videoPath: "/assets/content/segments/promptofthemonth/September/Prompt of the Month - September (FMU).mp4",
+                thumbnailPath:  "assets/content/segments/promptofthemonth/September/FMU.png",
+                videoPath:  "assets/content/segments/promptofthemonth/September/Prompt of the Month - September (FMU).mp4",
                 duration: "1:40",
                 prompt: "Future Meets Universe",
                 description: "Change, transformation, and creative evolution"
@@ -165,8 +165,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-ep2",
                 title: "Vitrine Steganos - Final Version",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/section702/Thumb_Extras_1.png",
-                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_2_Final Version.mp4",
+                thumbnailPath:  "content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/section702/Thumb_Extras_1.png",
+                videoPath: "content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_2_Final Version.mp4",
                 duration: "45:30",
                 description: "Deep dive into surveillance and privacy implications"
             },
@@ -174,8 +174,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-ep3",
                 title: "Vitrine Steganos - AI Predictive Policing",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/predictivepolicing/PP_ThumbNail.png",
-                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_3_Ai_Predictive Policing.mp4",
+                thumbnailPath:  "content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/predictivepolicing/PP_ThumbNail.png",
+                videoPath: "content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_3_Ai_Predictive Policing.mp4",
                 duration: "52:15",
                 description: "Exploring the ethics and technology of AI in law enforcement"
             },
@@ -183,8 +183,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-ep5-part1",
                 title: "Vitrine Steganos Episode 5 - Part I Finale",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/placeholder.png",
-                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_5_Part_I_Finale.mp4",
+                thumbnailPath:  "assets/content/segments/vitrinesteganos/placeholder.png",
+                videoPath: "content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_5_Part_I_Finale.mp4",
                 duration: "38:45",
                 description: "Season finale part one - Creative technology retrospective"
             },
@@ -192,8 +192,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-ep5-part2",
                 title: "Vitrine Steganos Episode 5 - Part II",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/placeholder.png",
-                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_5_Part II.mp4",
+                thumbnailPath:  "assets/content/segments/vitrinesteganos/placeholder.png",
+                videoPath: "content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_5_Part II.mp4",
                 duration: "41:20",
                 description: "Season finale part two - Future of creative AI"
             },
@@ -201,8 +201,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-xmas",
                 title: "VS Xmas Edition",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/Xmas_Edition_2024/Thumbnail Shot.png",
-                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/VS_XMas Edition.mp4",
+                thumbnailPath:  "content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/Xmas_Edition_2024/Thumbnail Shot.png",
+                videoPath:  "content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/VS_XMas Edition.mp4",
                 duration: "35:10",
                 description: "Special holiday episode celebrating creativity and innovation"
             }
@@ -221,8 +221,8 @@ const ContentSegmentsData = {
                 id: "vs-burger-earth",
                 title: "Burger Shack - Earth Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/earth/IGCD_terra.png",
-                videoPath: "/content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_1_Earth_Edition.mp4",
+                thumbnailPath:  "content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/earth/IGCD_terra.png",
+                videoPath: "content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_1_Earth_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Earth location"
             },
@@ -230,8 +230,8 @@ const ContentSegmentsData = {
                 id: "vs-burger-mars",
                 title: "Burger Shack - Mars Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/mars/IGC_Main_Thumby.png",
-                videoPath: "/content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Buger_Shack_Ad_2_Mars_Edition.mp4",
+                thumbnailPath:  "content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/mars/IGC_Main_Thumby.png",
+                videoPath: "content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Buger_Shack_Ad_2_Mars_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Mars location"
             },
@@ -239,8 +239,8 @@ const ContentSegmentsData = {
                 id: "vs-burger-venus",
                 title: "Burger Shack - Venus Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/venus/venusthumby.png",
-                videoPath: "/content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_3_Venus_Edition.mp4",
+                thumbnailPath:  "content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/venus/venusthumby.png",
+                videoPath: "content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_3_Venus_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Venus location"
             }

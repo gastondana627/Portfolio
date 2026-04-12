@@ -132,9 +132,51 @@ document.addEventListener('DOMContentLoaded', function() {
     if (backgroundMusic && playPauseButton && volumeSlider) {
         let isPlaying = false;
         let audioInitialized = false;
+        let audioError = false;
+
+        const handleAudioError = () => {
+            if (audioError) return;
+            console.error("Audio failed to load:", backgroundMusic.src);
+            audioError = true;
+            playPauseButton.classList.add('audio-error');
+            playPauseButton.setAttribute('title', 'Audio asset missing in production');
+
+            if (!document.querySelector('.audio-error-toast')) {
+                const toast = document.createElement('div');
+                toast.className = 'audio-error-toast';
+                toast.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Background music not available (size constraints)`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.classList.add('show'), 100);
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 500);
+                }, 5000);
+            }
+        };
+
+        // Handle audio loading errors
+        backgroundMusic.addEventListener('error', handleAudioError);
+
+        // Also check if there's already an error or if the source is likely to fail
+        if (backgroundMusic.error) {
+            handleAudioError();
+        }
+
+        // Periodic check in case the error event was missed (some browsers are finicky with 404s on audio)
+        const errorCheckInterval = setInterval(() => {
+            if (backgroundMusic.error) {
+                handleAudioError();
+                clearInterval(errorCheckInterval);
+            }
+        }, 1000);
 
         // Play/Pause
         playPauseButton.addEventListener('click', () => {
+            if (audioError) {
+                console.warn("Cannot play: Audio asset is missing.");
+                return;
+            }
+
             // Initialize audio analyzer on first interaction
             if (!audioInitialized && typeof initAudio === 'function') {
                 try {

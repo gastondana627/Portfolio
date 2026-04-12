@@ -2439,3 +2439,40 @@ body::after {
         font-size: 0.9rem;
     }
 }
+
+/* Audio Error Styles */
+#play-pause-button.audio-error {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #EA4335;
+    color: #EA4335;
+}
+
+.audio-error-toast {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background: rgba(30, 30, 35, 0.95);
+    color: #EA4335;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #EA4335;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    transform: translateX(120%);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+}
+
+.audio-error-toast.show {
+    transform: translateX(0);
+}
+
+.audio-error-toast i {
+    font-size: 1.1rem;
+}

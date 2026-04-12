@@ -1795,8 +1795,32 @@ function populateAdvancingXVideos() {
     videosGrid.innerHTML = '';
     
     videos.forEach((video, index) => {
-        const videoItem = createVideoItem(video, index, 'advancingx');
-        videosGrid.appendChild(videoItem);
+        // Create video item element inline to avoid dependency issues
+        const item = document.createElement('div');
+        item.className = 'video-item';
+        item.setAttribute('data-video-id', video.id);
+        item.setAttribute('data-video-index', index);
+
+        item.innerHTML = `
+            <div class="video-thumbnail-wrapper">
+                <img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail" loading="lazy"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22225%22%3E%3Crect fill=%22%23808080%22 width=%22400%22 height=%22225%22/%3E%3Ctext fill=%22%23fff%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EVideo Thumbnail%3C/text%3E%3C/svg%3E'">
+                <div class="video-overlay">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <span class="video-duration">${video.duration}</span>
+            </div>
+            <div class="video-info">
+                <h4 class="video-title">${video.title}</h4>
+                <div class="video-meta">
+                    <span class="video-date">
+                        <i class="fas fa-calendar"></i> ${formatDate(video.publishDate)}
+                    </span>
+                </div>
+            </div>
+        `;
+
+        videosGrid.appendChild(item);
     });
 }
 

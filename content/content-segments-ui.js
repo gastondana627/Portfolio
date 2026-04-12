@@ -167,8 +167,8 @@ class ContentSegmentsUI {
                 const sources = videoElement.querySelectorAll('source');
                 const lastSource = sources[sources.length - 1];
 
-                const handleVideoError = () => {
-                    console.error('Video failed to load:', item.videoPath);
+                const handleVideoError = (e) => {
+                    console.error('Video failed to load:', item.videoPath, e);
                     playerContainer.innerHTML = `
                         <div class="video-error-message">
                             <i class="fas fa-exclamation-triangle"></i>
@@ -178,21 +178,45 @@ class ContentSegmentsUI {
                     `;
                 };
 
+                // Better error handling for LFS pointers
+                const checkLFS = async () => {
+                    try {
+                        const response = await fetch(item.videoPath, { method: 'HEAD' });
+                        const size = response.headers.get('content-length');
+                        // LFS pointers are usually very small (around 130-200 bytes)
+                        if (size && parseInt(size) < 1000) {
+                            console.warn('LFS pointer detected for video:', item.videoPath);
+                            handleVideoError();
+                            return true;
+                        }
+                    } catch (e) {
+                        console.error('Error checking video size:', e);
+                    }
+                    return false;
+                };
+
                 if (lastSource) {
-                    lastSource.onerror = handleVideoError;
+                    lastSource.addEventListener('error', handleVideoError);
                 }
-                videoElement.onerror = handleVideoError;
+                videoElement.addEventListener('error', handleVideoError);
 
                 videoThumb.style.display = 'none';
                 playerContainer.style.display = 'block';
 
-                const playPromise = videoElement.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.error('Playback failed:', error);
-                        // If it's a loading error, the onerror above will handle it
-                    });
-                }
+                checkLFS().then(isLFS => {
+                    if (!isLFS) {
+                        const playPromise = videoElement.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                console.error('Playback failed:', error);
+                                // Check if it's already showing error message
+                                if (!playerContainer.querySelector('.video-error-message')) {
+                                    handleVideoError(error);
+                                }
+                            });
+                        }
+                    }
+                });
             });
         }
         
