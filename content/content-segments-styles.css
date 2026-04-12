@@ -544,3 +544,31 @@
 .segments-empty p {
     font-size: 1rem;
 }
+
+/* Video Error Message */
+.video-error-message {
+    padding: 3rem 2rem;
+    background: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    border: 1px dashed rgba(255, 140, 66, 0.5);
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.video-error-message i {
+    font-size: 3rem;
+    color: #FF8C42;
+    margin-bottom: 1rem;
+}
+
+.video-error-message p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.video-error-message small {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    word-break: break-all;
+}

@@ -1,4 +1,4 @@
-// Content Segments Data - Simplified Structure
+// Content Segments Data - Updated with correct paths
 // This file manages the actual segment content that users can browse
 
 const ContentSegmentsData = {
@@ -165,8 +165,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-ep2",
                 title: "Vitrine Steganos - Final Version",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/Vitrine Steganos_2_Final Version_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/Vitrine Steganos_2_Final Version.mp4",
+                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/section702/Thumb_Extras_1.png",
+                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_2_Final Version.mp4",
                 duration: "45:30",
                 description: "Deep dive into surveillance and privacy implications"
             },
@@ -174,8 +174,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-ep3",
                 title: "Vitrine Steganos - AI Predictive Policing",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/Vitrine Steganos_3_Ai_Predictive Policing_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/Vitrine Steganos_3_Ai_Predictive Policing.mp4",
+                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/predictivepolicing/PP_ThumbNail.png",
+                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_3_Ai_Predictive Policing.mp4",
                 duration: "52:15",
                 description: "Exploring the ethics and technology of AI in law enforcement"
             },
@@ -183,8 +183,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-ep5-part1",
                 title: "Vitrine Steganos Episode 5 - Part I Finale",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/Vitrine Steganos_5_Part_I_Finale_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/Vitrine Steganos_5_Part_I_Finale.mp4",
+                thumbnailPath: "/assets/content/segments/vitrinesteganos/placeholder.png",
+                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_5_Part_I_Finale.mp4",
                 duration: "38:45",
                 description: "Season finale part one - Creative technology retrospective"
             },
@@ -192,8 +192,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-ep5-part2",
                 title: "Vitrine Steganos Episode 5 - Part II",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/Vitrine Steganos_5_Part II_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/Vitrine Steganos_5_Part II.mp4",
+                thumbnailPath: "/assets/content/segments/vitrinesteganos/placeholder.png",
+                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/Vitrine Steganos_5_Part II.mp4",
                 duration: "41:20",
                 description: "Season finale part two - Future of creative AI"
             },
@@ -201,8 +201,8 @@ const ContentSegmentsData = {
                 id: "vs-podcast-xmas",
                 title: "VS Xmas Edition",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/VS_XMas Edition_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/VS_XMas Edition.mp4",
+                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/Ally&IvanPodcast/Xmas_Edition_2024/Thumbnail Shot.png",
+                videoPath: "/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/VS_XMas Edition.mp4",
                 duration: "35:10",
                 description: "Special holiday episode celebrating creativity and innovation"
             }
@@ -221,8 +221,8 @@ const ContentSegmentsData = {
                 id: "vs-burger-earth",
                 title: "Burger Shack - Earth Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_1_Earth_Edition_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_1_Earth_Edition.mp4",
+                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/earth/IGCD_terra.png",
+                videoPath: "/content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_1_Earth_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Earth location"
             },
@@ -230,8 +230,8 @@ const ContentSegmentsData = {
                 id: "vs-burger-mars",
                 title: "Burger Shack - Mars Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Buger_Shack_Ad_2_Mars_Edition_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Buger_Shack_Ad_2_Mars_Edition.mp4",
+                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/mars/IGC_Main_Thumby.png",
+                videoPath: "/content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Buger_Shack_Ad_2_Mars_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Mars location"
             },
@@ -239,8 +239,8 @@ const ContentSegmentsData = {
                 id: "vs-burger-venus",
                 title: "Burger Shack - Venus Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_3_Venus_Edition_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_3_Venus_Edition.mp4",
+                thumbnailPath: "/content/assets/thumbnails/vitrinesteganos/InterGalactiCBurgerShack/venus/venusthumby.png",
+                videoPath: "/content/assets/videos/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_3_Venus_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Venus location"
             }

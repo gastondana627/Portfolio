@@ -159,11 +159,40 @@ class ContentSegmentsUI {
         const videoThumb = modal.querySelector(`#video-thumb-${item.id}`);
         if (videoThumb) {
             videoThumb.addEventListener('click', () => {
-                videoThumb.style.display = 'none';
                 const playerContainer = modal.querySelector(`#video-player-${item.id}`);
                 const videoElement = playerContainer.querySelector('video');
+
+                // Set up error handler for video
+                // For video with source tags, we need to check the last source
+                const sources = videoElement.querySelectorAll('source');
+                const lastSource = sources[sources.length - 1];
+
+                const handleVideoError = () => {
+                    console.error('Video failed to load:', item.videoPath);
+                    playerContainer.innerHTML = `
+                        <div class="video-error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>This video file was not included in the production build due to size constraints.</p>
+                            <small>Path: ${item.videoPath}</small>
+                        </div>
+                    `;
+                };
+
+                if (lastSource) {
+                    lastSource.onerror = handleVideoError;
+                }
+                videoElement.onerror = handleVideoError;
+
+                videoThumb.style.display = 'none';
                 playerContainer.style.display = 'block';
-                videoElement.play();
+
+                const playPromise = videoElement.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.error('Playback failed:', error);
+                        // If it's a loading error, the onerror above will handle it
+                    });
+                }
             });
         }
         
