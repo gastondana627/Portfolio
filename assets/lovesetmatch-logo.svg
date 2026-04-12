@@ -1,0 +1,10 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="200" fill="white" rx="10"/>
+  <text x="200" y="80" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle">
+    <tspan fill="#D946A6">LOVE</tspan><tspan fill="#2563EB">SET</tspan>
+  </text>
+  <text x="200" y="140" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#65A30D" text-anchor="middle">MATCH</text>
+  <circle cx="100" cy="170" r="15" fill="#D946A6"/>
+  <circle cx="200" cy="170" r="15" fill="#2563EB"/>
+  <circle cx="300" cy="170" r="15" fill="#65A30D"/>
+</svg>

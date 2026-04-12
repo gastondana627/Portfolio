@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Navigation Test</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div style="padding: 50px; background: var(--galaxy-bg); min-height: 100vh;">
+        <h1 style="text-align: center; color: white; margin-bottom: 50px;">Portfolio Navigation Test</h1>
+        
+        <!-- Portfolio Navigation Cards -->
+        <div class="portfolio-navigation">
+            <h3 class="portfolio-nav-title">Explore My Expertise</h3>
+            <div class="portfolio-nav-cards">
+                <div class="portfolio-nav-card gaming-card" data-portfolio="gaming">
+                    <div class="portfolio-nav-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="portfolio-nav-content">
+                        <h4>Gaming Ecosystem</h4>
+                        <p>Game Dev • QA Testing • Gaming Content</p>
+                        <span class="portfolio-nav-cta">Explore Gaming Work <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="portfolio-nav-overlay"></div>
+                </div>
+                
+                <div class="portfolio-nav-card content-card" data-portfolio="content">
+                    <div class="portfolio-nav-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="portfolio-nav-content">
+                        <h4>Content Creation</h4>
+                        <p>Video • Design • Brand Partnerships</p>
+                        <span class="portfolio-nav-cta">Discover Creative Work <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="portfolio-nav-overlay"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Test Skills with Portfolio Links -->
+        <div style="margin-top: 80px;">
+            <h3 style="text-align: center; color: white; margin-bottom: 30px;">Skills with Portfolio Links</h3>
+            <div class="skills-grid-enhanced" style="max-width: 800px; margin: 0 auto;">
+                <div class="skill-enhanced" data-level="intermediate" data-portfolio-link="gaming">
+                    <div class="skill-header">
+                        <i class="fas fa-gamepad"></i>
+                        <span class="skill-name">Game Development</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 70%"></div>
+                    </div>
+                    <span class="skill-level">Intermediate</span>
+                    <div class="skill-portfolio-link">
+                        <span>See Gaming Work <i class="fas fa-external-link-alt"></i></span>
+                    </div>
+                </div>
+                
+                <div class="skill-enhanced" data-level="advanced" data-portfolio-link="content">
+                    <div class="skill-header">
+                        <i class="fas fa-video"></i>
+                        <span class="skill-name">Content Creation</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 75%"></div>
+                    </div>
+                    <span class="skill-level">Advanced</span>
+                    <div class="skill-portfolio-link">
+                        <span>Explore Creative Work <i class="fas fa-external-link-alt"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+</script>

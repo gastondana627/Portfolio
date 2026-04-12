@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "name": "Multi-Portfolio CDN Configuration",
+  "description": "CDN optimization settings for gastondana.com portfolio ecosystem",
+  "domains": {
+    "primary": "gastondana.com",
+    "cdn": "cdn.gastondana.com",
+    "assets": "assets.gastondana.com"
+  },
+  "caching": {
+    "static_assets": {
+      "max_age": 31536000,
+      "patterns": ["*.css", "*.js", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.svg", "*.webp", "*.woff", "*.woff2"],
+      "compression": true,
+      "immutable": true
+    },
+    "html_files": {
+      "max_age": 3600,
+      "patterns": ["*.html"],
+      "compression": true,
+      "must_revalidate": true
+    },
+    "api_responses": {
+      "max_age": 300,
+      "patterns": ["/api/*"],
+      "compression": true,
+      "private": true
+    }
+  },
+  "compression": {
+    "enabled": true,
+    "algorithms": ["gzip", "brotli"],
+    "min_size": 1024,
+    "types": ["text/html", "text/css", "application/javascript", "application/json", "image/svg+xml"]
+  },
+  "security": {
+    "ssl_redirect": true,
+    "hsts_max_age": 31536000,
+    "include_subdomains": true,
+    "preload": true
+  },
+  "performance": {
+    "http2_push": true,
+    "prefetch_dns": ["fonts.googleapis.com", "fonts.gstatic.com", "cdnjs.cloudflare.com"],
+    "preload_critical": ["/style.css", "/script.js", "/shared/components.css"]
+  }
+}

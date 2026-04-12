@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Portfolio - Cross-Browser Testing</title>
+    <link rel="stylesheet" href="content-styles.css">
+    <link rel="stylesheet" href="accessibility-styles.css">
+    <link rel="stylesheet" href="content-error-styles.css">
+    <link rel="stylesheet" href="content-network-styles.css">
+    <style>
+        .test-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 300px;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .test-panel h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+        .test-result {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .test-pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .test-fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .test-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .browser-info {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .test-actions {
+            margin-top: 10px;
+        }
+        .test-btn {
+            padding: 6px 12px;
+            margin: 3px;
+            font-size: 11px;
+            cursor: pointer;
+            border: 1px solid #007bff;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-panel">
+        <h3>Cross-Browser Tests</h3>
+        <div class="browser-info" id="browserInfo">Detecting browser...</div>
+        <div id="testResults"></div>
+        <div class="test-actions">
+            <button class="test-btn" onclick="runAllTests()">Run All Tests</button>
+            <button class="test-btn" onclick="clearResults()">Clear</button>
+        </div>
+    </div>
+
+    <!-- Include the actual content portfolio page -->
+    <div id="content-container"></div>
+
+    <script src="content-portfolio-data.js"></script>
+    <script src="lazy-loading.js"></script>
+    <script src="image-optimization.js"></script>
+    <script src="code-splitting.js"></script>
+    <script src="caching-strategy.js"></script>
+    <script src="performance-monitor.js"></script>
+    <script src="content-data-validator.js"></script>
+    <script src="content-media-error-handler.js"></script>
+    <script src="content-network-handler.js"></script>
+    <script src="content-validation-integration.js"></script>
+    <script src="accessibility-keyboard.js"></script>
+    <script src="content-scripts.js"></script>
+
+    <script>
+        // Browser Detection
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            let browserName = 'Unknown';
+            let browserVersion = 'Unknown';
+            let engine = 'Unknown';
+
+            // Chrome
+            if (ua.indexOf('Chrome') > -1 && ua.indexOf('Edg') === -1) {
+                browserName = 'Chrome';
+                browserVersion = ua.match(/Chrome\/(\d+)/)?.[1] || 'Unknown';
+                engine = 'Blink';
+            }
+            // Edge
+            else if (ua.indexOf('Edg') > -1) {
+                browserName = 'Edge';
+                browserVersion = ua.match(/Edg\/(\d+)/)?.[1] || 'Unknown';
+                engine = 'Blink';
+            }
+            // Firefox
+            else if (ua.indexOf('Firefox') > -1) {
+                browserName = 'Firefox';
+                browserVersion = ua.match(/Firefox\/(\d+)/)?.[1] || 'Unknown';
+                engine = 'Gecko';
+            }
+            // Safari
+            else if (ua.indexOf('Safari') > -1 && ua.indexOf('Chrome') === -1) {
+                browserName = 'Safari';
+                browserVersion = ua.match(/Version\/(\d+)/)?.[1] || 'Unknown';
+                engine = 'WebKit';
+            }
+
+            // Mobile detection
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
+            const isIOS = /iPhone|iPad|iPod/i.test(ua);
+            const isAndroid = /Android/i.test(ua);
+
+            return {
+                name: browserName,
+                version: browserVersion,
+                engine: engine,
+                isMobile: isMobile,
+                isIOS: isIOS,
+                isAndroid: isAndroid,
+                userAgent: ua
+            };
+        }
+
+        // Display browser info
+        function displayBrowserInfo() {
+            const browser = detectBrowser();
+            const info = document.getElementById('browserInfo');
+            info.innerHTML = `
+                <strong>${browser.name} ${browser.version}</strong><br>
+                Engine: ${browser.engine}<br>
+                ${browser.isMobile ? `Mobile: ${browser.isIOS ? 'iOS' : browser.isAndroid ? 'Android' : 'Yes'}` : 'Desktop'}
+            `;
+        }
+
+        // Test Results
+        const testResults = [];
+
+        function addTestResult(name, passed, message = '') {
+            testResults.push({ name, passed, message });
+            displayResults();
+        }
+
+        function displayResults() {
+            const container = document.getElementById('testResults');
+            container.innerHTML = testResults.map(result => `
+                <div class="test-result ${result.passed ? 'test-pass' : 'test-fail'}">
+                    ${result.passed ? '✓' : '✗'} ${result.name}
+                    ${result.message ? `<br><small>${result.message}</small>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function clearResults() {
+            testResults.length = 0;
+            displayResults();
+        }
+
+        // Cross-Browser Tests
+        async function runAllTests() {
+            clearResults();
+            
+            // Test 1: CSS Grid Support
+            testCSSGridSupport();
+            
+            // Test 2: Flexbox Support
+            testFlexboxSupport();
+            
+            // Test 3: CSS Custom Properties
+            testCSSCustomProperties();
+            
+            // Test 4: Intersection Observer
+            testIntersectionObserver();
+            
+            // Test 5: Fetch API
+            testFetchAPI();
+            
+            // Test 6: ES6 Features
+            testES6Features();
+            
+            // Test 7: Touch Events (mobile)
+            testTouchEvents();
+            
+            // Test 8: Video/Audio Support
+            testMediaSupport();
+            
+            // Test 9: LocalStorage
+            testLocalStorage();
+            
+            // Test 10: Service Worker Support
+            testServiceWorkerSupport();
+            
+            // Test 11: WebP Support
+            await testWebPSupport();
+            
+            // Test 12: Modal Functionality
+            testModalFunctionality();
+            
+            // Test 13: Carousel Navigation
+            testCarouselNavigation();
+            
+            // Test 14: Video Gallery
+            testVideoGallery();
+            
+            // Test 15: Responsive Breakpoints
+            testResponsiveBreakpoints();
+        }
+
+        function testCSSGridSupport() {
+            const supported = CSS.supports('display', 'grid');
+            addTestResult('CSS Grid', supported, supported ? 'Grid layout supported' : 'Grid not supported');
+        }
+
+        function testFlexboxSupport() {
+            const supported = CSS.supports('display', 'flex');
+            addTestResult('Flexbox', supported, supported ? 'Flexbox supported' : 'Flexbox not supported');
+        }
+
+        function testCSSCustomProperties() {
+            const supported = CSS.supports('--test', '0');
+            addTestResult('CSS Variables', supported, supported ? 'Custom properties supported' : 'Custom properties not supported');
+        }
+
+        function testIntersectionObserver() {
+            const supported = 'IntersectionObserver' in window;
+            addTestResult('Intersection Observer', supported, supported ? 'Lazy loading available' : 'Lazy loading fallback needed');
+        }
+
+        function testFetchAPI() {
+            const supported = 'fetch' in window;
+            addTestResult('Fetch API', supported, supported ? 'Modern fetch available' : 'XMLHttpRequest fallback needed');
+        }
+
+        function testES6Features() {
+            try {
+                eval('const test = () => {}; class Test {}; const {a, b} = {a:1, b:2};');
+                addTestResult('ES6 Features', true, 'Arrow functions, classes, destructuring supported');
+            } catch (e) {
+                addTestResult('ES6 Features', false, 'ES6 not fully supported - transpilation needed');
+            }
+        }
+
+        function testTouchEvents() {
+            const supported = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            addTestResult('Touch Events', supported, supported ? 'Touch interactions available' : 'Mouse-only device');
+        }
+
+        function testMediaSupport() {
+            const video = document.createElement('video');
+            const audio = document.createElement('audio');
+            const videoSupported = video.canPlayType('video/mp4') !== '';
+            const audioSupported = audio.canPlayType('audio/mpeg') !== '';
+            addTestResult('Media Support', videoSupported && audioSupported, 
+                `Video: ${videoSupported ? 'Yes' : 'No'}, Audio: ${audioSupported ? 'Yes' : 'No'}`);
+        }
+
+        function testLocalStorage() {
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                addTestResult('LocalStorage', true, 'Storage available for caching');
+            } catch (e) {
+                addTestResult('LocalStorage', false, 'Storage not available');
+            }
+        }
+
+        function testServiceWorkerSupport() {
+            const supported = 'serviceWorker' in navigator;
+            addTestResult('Service Worker', supported, supported ? 'Offline support possible' : 'No offline support');
+        }
+
+        async function testWebPSupport() {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    addTestResult('WebP Support', true, 'Modern image format supported');
+                    resolve();
+                };
+                img.onerror = () => {
+                    addTestResult('WebP Support', false, 'Fallback to JPEG/PNG needed');
+                    resolve();
+                };
+                img.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=';
+            });
+        }
+
+        function testModalFunctionality() {
+            try {
+                // Test if modal elements exist and can be manipulated
+                const testModal = document.createElement('div');
+                testModal.className = 'modal';
+                testModal.style.display = 'none';
+                document.body.appendChild(testModal);
+                
+                testModal.style.display = 'flex';
+                const displayed = window.getComputedStyle(testModal).display === 'flex';
+                
+                document.body.removeChild(testModal);
+                addTestResult('Modal Display', displayed, 'Modal system functional');
+            } catch (e) {
+                addTestResult('Modal Display', false, 'Modal system error: ' + e.message);
+            }
+        }
+
+        function testCarouselNavigation() {
+            try {
+                // Test carousel data structure
+                const hasCarousels = window.ContentPortfolioData && 
+                                    window.ContentPortfolioData.advancingX && 
+                                    Array.isArray(window.ContentPortfolioData.advancingX.carousels);
+                addTestResult('Carousel Data', hasCarousels, 
+                    hasCarousels ? `${window.ContentPortfolioData.advancingX.carousels.length} carousels loaded` : 'No carousel data');
+            } catch (e) {
+                addTestResult('Carousel Data', false, 'Carousel data error: ' + e.message);
+            }
+        }
+
+        function testVideoGallery() {
+            try {
+                // Test video data structure
+                const hasSegments = window.ContentPortfolioData && 
+                                   Array.isArray(window.ContentPortfolioData.segmentThemes);
+                const videoCount = hasSegments ? 
+                    window.ContentPortfolioData.segmentThemes.reduce((sum, seg) => sum + (seg.videos?.length || 0), 0) : 0;
+                addTestResult('Video Gallery', hasSegments, 
+                    hasSegments ? `${videoCount} videos across ${window.ContentPortfolioData.segmentThemes.length} segments` : 'No video data');
+            } catch (e) {
+                addTestResult('Video Gallery', false, 'Video gallery error: ' + e.message);
+            }
+        }
+
+        function testResponsiveBreakpoints() {
+            const width = window.innerWidth;
+            let breakpoint = 'Unknown';
+            
+            if (width < 768) breakpoint = 'Mobile (< 768px)';
+            else if (width < 1024) breakpoint = 'Tablet (768-1024px)';
+            else if (width < 1440) breakpoint = 'Desktop (1024-1440px)';
+            else breakpoint = 'Large Desktop (> 1440px)';
+            
+            addTestResult('Responsive Layout', true, `Current: ${breakpoint} (${width}px)`);
+        }
+
+        // Initialize
+        displayBrowserInfo();
+        
+        // Auto-run tests on load
+        window.addEventListener('load', () => {
+            setTimeout(runAllTests, 500);
+        });
+    </script>
+</body>
+</html>

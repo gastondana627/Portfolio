@@ -1,0 +1,15 @@
+# Netlify redirects file for portfolio routing
+# This file handles URL routing for the multi-portfolio ecosystem
+
+# Gaming portfolio routes
+/gaming             /gaming/index.html    200
+/gaming/            /gaming/index.html    200
+/gaming/*           /gaming/index.html    200
+
+# Content creation portfolio routes  
+/content            /content/index.html   200
+/content/           /content/index.html   200
+/content/*          /content/index.html   200
+
+# Main tech portfolio (fallback)
+/*                  /index.html           200

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Portfolio Ecosystem Monitoring Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #141416, #1C1C1F);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #D4AF37, #FF8C42);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .status-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .status-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .status-card h3 {
+            margin-bottom: 15px;
+            color: #FF8C42;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-healthy { background-color: #4CAF50; }
+        .status-warning { background-color: #FF9800; }
+        .status-error { background-color: #F44336; }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #D4AF37, #FF8C42);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .log-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+        .log-info { background-color: rgba(33, 150, 243, 0.2); }
+        .log-success { background-color: rgba(76, 175, 80, 0.2); }
+        .log-warning { background-color: rgba(255, 152, 0, 0.2); }
+        .log-error { background-color: rgba(244, 67, 54, 0.2); }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .status-overview,
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>Multi-Portfolio Ecosystem Monitor</h1>
+            <p>Real-time monitoring of gastondana.com portfolio ecosystem</p>
+            <button class="refresh-btn" onclick="refreshAllData()">🔄 Refresh Data</button>
+            <button class="refresh-btn" onclick="runHealthCheck()">🏥 Health Check</button>
+        </div>
+
+        <div class="status-overview">
+            <div class="status-card">
+                <h3>Portfolio Status</h3>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="main-status"></div>
+                    <span>Main Tech Portfolio</span>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="gaming-status"></div>
+                    <span>Gaming Ecosystem</span>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="content-status"></div>
+                    <span>Content Creation</span>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <h3>Backend Services</h3>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="api-status"></div>
+                    <span>API Server</span>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="chatbot-status"></div>
+                    <span>AI Chatbot</span>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="analytics-status"></div>
+                    <span>Analytics</span>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <h3>Performance</h3>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="performance-status"></div>
+                    <span>Overall Performance</span>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="security-status"></div>
+                    <span>Security Headers</span>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-dot status-healthy" id="seo-status"></div>
+                    <span>SEO Configuration</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value" id="total-visitors">0</div>
+                <div class="metric-label">Total Visitors (24h)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="portfolio-switches">0</div>
+                <div class="metric-label">Portfolio Switches</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="avg-response-time">0ms</div>
+                <div class="metric-label">Avg Response Time</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="uptime">99.9%</div>
+                <div class="metric-label">Uptime</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>Navigation Patterns</h3>
+            <canvas id="navigationChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h3>System Logs</h3>
+            <div class="log-container" id="system-logs">
+                <div class="log-entry log-info">[INFO] Monitoring dashboard initialized</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="health-check.js"></script>
+    <script src="validate-deployment.js"></script>
+    <script>
+        class MonitoringDashboard {
+            constructor() {
+                this.healthChecker = new PortfolioHealthChecker();
+                this.validator = new DeploymentValidator();
+                this.logs = [];
+                this.metrics = {
+                    visitors: 0,
+                    portfolioSwitches: 0,
+                    responseTime: 0,
+                    uptime: 99.9
+                };
+                
+                this.init();
+            }
+
+            init() {
+                this.log('info', 'Dashboard initialized');
+                this.startPeriodicUpdates();
+                this.simulateMetrics(); // For demo purposes
+            }
+
+            log(level, message) {
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = {
+                    timestamp,
+                    level,
+                    message
+                };
+                
+                this.logs.unshift(logEntry);
+                if (this.logs.length > 50) {
+                    this.logs.pop();
+                }
+                
+                this.updateLogDisplay();
+            }
+
+            updateLogDisplay() {
+                const logContainer = document.getElementById('system-logs');
+                logContainer.innerHTML = this.logs.map(log => 
+                    `<div class="log-entry log-${log.level}">[${log.timestamp}] [${log.level.toUpperCase()}] ${log.message}</div>`
+                ).join('');
+            }
+
+            async runHealthCheck() {
+                this.log('info', 'Starting health check...');
+                
+                try {
+                    const results = await this.healthChecker.runHealthCheck();
+                    
+                    // Update status indicators
+                    this.updateStatusIndicator('main-status', results.main?.ok);
+                    this.updateStatusIndicator('gaming-status', results.gaming?.ok);
+                    this.updateStatusIndicator('content-status', results.content?.ok);
+                    this.updateStatusIndicator('api-status', results.backend?.ok);
+                    this.updateStatusIndicator('seo-status', results.sitemap?.ok && results.robots?.ok);
+                    
+                    // Update metrics
+                    const avgResponseTime = Object.values(results)
+                        .filter(r => r.responseTime)
+                        .reduce((sum, r) => sum + r.responseTime, 0) / 
+                        Object.values(results).filter(r => r.responseTime).length;
+                    
+                    document.getElementById('avg-response-time').textContent = `${Math.round(avgResponseTime)}ms`;
+                    
+                    this.log('success', 'Health check completed successfully');
+                } catch (error) {
+                    this.log('error', `Health check failed: ${error.message}`);
+                }
+            }
+
+            updateStatusIndicator(elementId, isHealthy) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.className = `status-dot ${isHealthy ? 'status-healthy' : 'status-error'}`;
+                }
+            }
+
+            simulateMetrics() {
+                // Simulate real-time metrics for demo
+                setInterval(() => {
+                    this.metrics.visitors += Math.floor(Math.random() * 5);
+                    this.metrics.portfolioSwitches += Math.floor(Math.random() * 2);
+                    this.metrics.responseTime = Math.floor(Math.random() * 100) + 50;
+                    
+                    document.getElementById('total-visitors').textContent = this.metrics.visitors;
+                    document.getElementById('portfolio-switches').textContent = this.metrics.portfolioSwitches;
+                    document.getElementById('avg-response-time').textContent = `${this.metrics.responseTime}ms`;
+                    
+                    // Simulate occasional events
+                    if (Math.random() < 0.1) {
+                        const events = [
+                            'User navigated from tech to gaming portfolio',
+                            'New visitor from search engine',
+                            'Contact form submission received',
+                            'AI chatbot conversation started'
+                        ];
+                        const randomEvent = events[Math.floor(Math.random() * events.length)];
+                        this.log('info', randomEvent);
+                    }
+                }, 5000);
+            }
+
+            startPeriodicUpdates() {
+                // Run health check every 5 minutes
+                setInterval(() => {
+                    this.runHealthCheck();
+                }, 300000);
+                
+                // Initial health check
+                setTimeout(() => {
+                    this.runHealthCheck();
+                }, 2000);
+            }
+
+            async refreshAllData() {
+                this.log('info', 'Refreshing all data...');
+                await this.runHealthCheck();
+                this.log('success', 'Data refresh completed');
+            }
+        }
+
+        // Global functions for buttons
+        let dashboard;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard = new MonitoringDashboard();
+        });
+
+        function refreshAllData() {
+            if (dashboard) {
+                dashboard.refreshAllData();
+            }
+        }
+
+        function runHealthCheck() {
+            if (dashboard) {
+                dashboard.runHealthCheck();
+            }
+        }
+    </script>
+</body>
+</html>

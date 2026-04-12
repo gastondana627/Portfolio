@@ -1,0 +1,97 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    CONTENT SEGMENTS - STRUCTURE DIAGRAM                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              USER INTERFACE                                  │
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────┐    │
+│  │  Navigation Tabs                                                    │    │
+│  │  [All Segments] [Quarters] [Prompt of Month] [Vitrine Steganos]   │    │
+│  └────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
+│  │  ┌────────┐  │  │  ┌────────┐  │  │  ┌────────┐  │  │  ┌────────┐  │  │
+│  │  │ Image  │  │  │  │ Image  │  │  │  │ Video  │  │  │  │ Image  │  │  │
+│  │  │Thumb   │  │  │  │Thumb   │  │  │  │ ▶️     │  │  │  │Thumb   │  │  │
+│  │  └────────┘  │  │  └────────┘  │  │  └────────┘  │  │  └────────┘  │  │
+│  │  Q1 2024     │  │  January     │  │  Episode 1   │  │  Q2 2024     │  │
+│  └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘  │
+│                                                                              │
+│  Click any item → Opens modal with full content                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              DATA LAYER                                      │
+│                                                                              │
+│  content-segments-data.js                                                   │
+│  ├── ContentSegmentsData                                                    │
+│  │   ├── quarters                                                           │
+│  │   │   └── items[] → Q1, Q2, Q3                                          │
+│  │   ├── promptOfTheMonth                                                   │
+│  │   │   └── items[] → Jan, Feb, Mar, Apr, May, Jun, Jul, Sep             │
+│  │   └── vitrineSteganos                                                    │
+│  │       └── items[] → 5 podcasts + 3 commercials                          │
+│  └── SegmentHelpers                                                         │
+│      ├── getActiveSegments()                                                │
+│      ├── getSegmentById()                                                   │
+│      └── getLatestItems()                                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              FILE STRUCTURE                                  │
+│                                                                              │
+│  content/assets/                                                            │
+│  │                                                                           │
+│  ├── thumbnails/segments/                                                   │
+│  │   ├── quarters/                                                          │
+│  │   │   ├── quarter1/  [10 images] ✅                                     │
+│  │   │   ├── quarter2/  [1 image]   ✅                                     │
+│  │   │   └── quarter3/  [1 image]   ✅                                     │
+│  │   └── promptofthemonth/                                                  │
+│  │       ├── January/   [1 image]   ✅                                     │
+│  │       ├── February/  [1 image]   ✅                                     │
+│  │       ├── March/     [1 image]   ✅                                     │
+│  │       ├── April/     [1 image]   ✅                                     │
+│  │       ├── May/       [1 image]   ✅                                     │
+│  │       ├── June/      [1 image]   ✅                                     │
+│  │       ├── July/      [1 image]   ✅                                     │
+│  │       └── September/ [1 image]   ✅                                     │
+│  │                                                                           │
+│  └── videos/segments/                                                        │
+│      └── vitrinesteganos/                                                    │
+│          ├── Ally&Ivan_Podcast/        [5 videos] ✅                        │
+│          └── Intergalactic_BurgerShack/ [3 videos] ✅                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         HOW TO ADD NEW CONTENT                               │
+│                                                                              │
+│  Step 1: Upload File                                                        │
+│  ├── Images → content/assets/thumbnails/segments/[type]/[folder]/          │
+│  └── Videos → content/assets/videos/segments/vitrinesteganos/[series]/     │
+│                                                                              │
+│  Step 2: Edit Data                                                          │
+│  └── Open: content/content-segments-data.js                                │
+│      └── Add entry to appropriate items[] array                             │
+│                                                                              │
+│  Step 3: Save & Refresh                                                     │
+│  └── Browser will show new content automatically! ✅                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              DOCUMENTATION                                   │
+│                                                                              │
+│  📄 QUICK-REFERENCE.md           → Quick reference card                     │
+│  📄 HOW-TO-ADD-SEGMENTS.md       → Step-by-step adding guide               │
+│  📄 SEGMENTS-REORGANIZATION.md   → Technical documentation                  │
+│  📄 REORGANIZATION-SUMMARY.md    → Complete overview                        │
+│  📄 STRUCTURE-DIAGRAM.txt        → This diagram                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  STATUS: ✅ COMPLETE & READY TO USE                                         ║
+║  Total Content: 12 images (Quarters) + 8 images (Prompts) + 8 videos       ║
+║  Empty Folders Removed: 6                                                   ║
+║  New Files Created: 7                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════╝

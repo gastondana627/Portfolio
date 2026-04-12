@@ -1,0 +1,19 @@
+node_modules
+.DS_Store
+backend/venv/
+backend/backend/
+backend/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.log
+.vscode/
+*-test.js
+backend/.env
+backend/venv/
+production.env
+*.env
+*.mp4
+*.wav
+Cursor Info/

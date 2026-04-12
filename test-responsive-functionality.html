@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Functionality Test Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: white;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .test-header {
+            font-size: clamp(18px, 4vw, 24px);
+            font-weight: bold;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #D4AF37, #FF8C42);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .viewport-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .info-value {
+            font-size: clamp(16px, 3vw, 20px);
+            font-weight: bold;
+            color: #FF8C42;
+        }
+
+        .touch-test-area {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 20px 0;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .touch-test-area:hover,
+        .touch-test-area:active {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #D4AF37;
+            transform: scale(0.98);
+        }
+
+        .navigation-responsive {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .nav-card-responsive {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .nav-card-responsive:hover,
+        .nav-card-responsive:active {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border-color: #D4AF37;
+        }
+
+        .gaming-card {
+            background: linear-gradient(135deg, rgba(255, 68, 68, 0.2), rgba(255, 136, 0, 0.2));
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, rgba(44, 44, 44, 0.2), rgba(128, 128, 128, 0.2));
+        }
+
+        .media-gallery-test {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .media-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .media-item:hover,
+        .media-item:active {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .perf-metric {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .test-results {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: clamp(12px, 2.5vw, 14px);
+        }
+
+        .test-warning {
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid #ffff00;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .test-error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        /* Mobile-first responsive breakpoints */
+        @media (max-width: 480px) {
+            .test-container {
+                padding: 10px;
+            }
+            
+            .test-section {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            .navigation-responsive {
+                grid-template-columns: 1fr;
+            }
+            
+            .media-gallery-test {
+                grid-template-columns: 1fr;
+            }
+            
+            .performance-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .touch-test-area {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .navigation-responsive {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .media-gallery-test {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .performance-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .navigation-responsive {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .media-gallery-test {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .navigation-responsive {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .media-gallery-test {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Orientation-specific styles */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .test-container {
+                padding: 10px;
+            }
+            
+            .test-section {
+                padding: 15px;
+                margin: 10px 0;
+            }
+        }
+
+        /* High DPI display support */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .test-header {
+                text-rendering: optimizeLegibility;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-header">Responsive Functionality Test Suite</h1>
+        
+        <div class="test-section">
+            <h2 class="test-header">Viewport Information</h2>
+            <div class="viewport-info">
+                <div class="info-card">
+                    <div class="info-value" id="screenWidth">--</div>
+                    <div>Screen Width</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-value" id="screenHeight">--</div>
+                    <div>Screen Height</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-value" id="viewportWidth">--</div>
+                    <div>Viewport Width</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-value" id="viewportHeight">--</div>
+                    <div>Viewport Height</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-value" id="devicePixelRatio">--</div>
+                    <div>Pixel Ratio</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-value" id="orientation">--</div>
+                    <div>Orientation</div>
+                </div>
+            </div>
+            <div id="viewportResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-header">Touch Interaction Tests</h2>
+            <div class="touch-test-area" id="touchTestArea">
+                <h3>Touch/Click Test Area</h3>
+                <p>Tap, click, or interact with this area</p>
+                <p id="touchCounter">Interactions: 0</p>
+            </div>
+            <div id="touchResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-header">Navigation System Responsiveness</h2>
+            <div class="navigation-responsive">
+                <div class="nav-card-responsive" onclick="testResponsiveNavigation('tech')">
+                    <h3>Tech Portfolio</h3>
+                    <p>Main portfolio navigation</p>
+                </div>
+                <div class="nav-card-responsive gaming-card" onclick="testResponsiveNavigation('gaming')">
+                    <h3>Gaming Ecosystem</h3>
+                    <p>Gaming portfolio with fire theme</p>
+                </div>
+                <div class="nav-card-responsive content-card" onclick="testResponsiveNavigation('content')">
+                    <h3>Content Creation</h3>
+                    <p>Content portfolio with chrome theme</p>
+                </div>
+            </div>
+            <div id="navigationResponsiveResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-header">Media Gallery Responsiveness</h2>
+            <div class="media-gallery-test">
+                <div class="media-item" onclick="testMediaInteraction(1)">
+                    <div>Media Item 1</div>
+                </div>
+                <div class="media-item" onclick="testMediaInteraction(2)">
+                    <div>Media Item 2</div>
+                </div>
+                <div class="media-item" onclick="testMediaInteraction(3)">
+                    <div>Media Item 3</div>
+                </div>
+                <div class="media-item" onclick="testMediaInteraction(4)">
+                    <div>Media Item 4</div>
+                </div>
+                <div class="media-item" onclick="testMediaInteraction(5)">
+                    <div>Media Item 5</div>
+                </div>
+                <div class="media-item" onclick="testMediaInteraction(6)">
+                    <div>Media Item 6</div>
+                </div>
+            </div>
+            <div id="mediaResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-header">Performance Metrics</h2>
+            <div class="performance-grid">
+                <div class="perf-metric">
+                    <div class="info-value" id="loadTime">--</div>
+                    <div>Load Time</div>
+                </div>
+                <div class="perf-metric">
+                    <div class="info-value" id="renderTime">--</div>
+                    <div>Render Time</div>
+                </div>
+                <div class="perf-metric">
+                    <div class="info-value" id="memoryUsage">--</div>
+                    <div>Memory (MB)</div>
+                </div>
+                <div class="perf-metric">
+                    <div class="info-value" id="connectionType">--</div>
+                    <div>Connection</div>
+                </div>
+            </div>
+            <div id="performanceResponsiveResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-header">Responsive Breakpoint Tests</h2>
+            <div id="breakpointResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-header">Test Summary</h2>
+            <div id="responsiveTestSummary"></div>
+        </div>
+    </div>
+
+    <script src="test-responsive-functionality.js"></script>
+</body>
+</html>

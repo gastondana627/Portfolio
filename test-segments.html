@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Segments Test</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="content/content-styles.css">
+    <link rel="stylesheet" href="content/content-segments-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .test-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .test-header p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+        .test-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .test-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .test-info ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .test-info li {
+            margin: 5px 0;
+            color: #666;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎬 Content Segments Test</h1>
+            <p>Testing the new segments browser interface</p>
+        </div>
+
+        <div class="test-info">
+            <h3>📊 Test Information</h3>
+            <ul>
+                <li><strong>Frontend Server:</strong> <span class="status-badge status-success">Running on http://localhost:8000</span></li>
+                <li><strong>Test Page:</strong> <span class="status-badge status-info">test-segments.html</span></li>
+                <li><strong>Active Segments:</strong> Quarters (12 images), Prompt of Month (8 images), Vitrine Steganos (8 videos)</li>
+            </ul>
+            <h3>✅ What to Test:</h3>
+            <ul>
+                <li>Tab navigation (All Segments, Quarters, Prompt of Month, Vitrine Steganos)</li>
+                <li>Grid layout and thumbnail display</li>
+                <li>Click items to open modal detail view</li>
+                <li>Video playback in modal</li>
+                <li>Image gallery display</li>
+                <li>Close modal functionality</li>
+                <li>Responsive design (resize browser)</li>
+                <li>Mobile view (use browser dev tools)</li>
+            </ul>
+        </div>
+
+        <!-- Segments Container -->
+        <div id="content-segments-container" role="region" aria-label="Content segments browser">
+            <!-- Segments will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="content/content-segments-data.js"></script>
+    <script src="content/content-segments-ui.js"></script>
+    
+    <script>
+        // Initialize segments on load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Initializing Content Segments Test');
+            console.log('📊 Segments Data:', ContentSegmentsData);
+            console.log('🔧 Helper Functions:', SegmentHelpers);
+            
+            // Check if data loaded
+            if (typeof ContentSegmentsData !== 'undefined') {
+                console.log('✅ Segments data loaded successfully');
+                const activeSegments = SegmentHelpers.getActiveSegments();
+                console.log(`✅ Found ${activeSegments.length} active segments`);
+                activeSegments.forEach(segment => {
+                    console.log(`   - ${segment.title}: ${segment.items.length} items`);
+                });
+            } else {
+                console.error('❌ Segments data not loaded');
+            }
+        });
+    </script>
+</body>
+</html>

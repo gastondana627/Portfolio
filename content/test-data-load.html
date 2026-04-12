@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Load Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #0f0; }
+        .pass { color: #0f0; }
+        .fail { color: #f00; }
+        pre { background: #000; padding: 10px; border: 1px solid #0f0; }
+    </style>
+</head>
+<body>
+    <h1>Content Segments Data Load Test</h1>
+    <div id="results"></div>
+
+    <script src="content-portfolio-data.js?v=2"></script>
+    <script src="content-segments-data.js?v=2"></script>
+    
+    <script>
+        const results = document.getElementById('results');
+        
+        function test(name, condition, details) {
+            const status = condition ? '<span class="pass">✅ PASS</span>' : '<span class="fail">❌ FAIL</span>';
+            results.innerHTML += `<p>${status} - ${name}</p>`;
+            if (details) {
+                results.innerHTML += `<pre>${details}</pre>`;
+            }
+        }
+
+        // Test ContentPortfolioData
+        test('ContentPortfolioData exists', typeof ContentPortfolioData !== 'undefined');
+        test('segmentThemes exists', ContentPortfolioData && ContentPortfolioData.segmentThemes);
+        test('segmentThemes count = 3', ContentPortfolioData.segmentThemes && ContentPortfolioData.segmentThemes.length === 3,
+            `Found: ${ContentPortfolioData.segmentThemes ? ContentPortfolioData.segmentThemes.length : 0} segments`);
+        
+        if (ContentPortfolioData.segmentThemes) {
+            results.innerHTML += '<h2>Segment Themes:</h2>';
+            ContentPortfolioData.segmentThemes.forEach((seg, i) => {
+                results.innerHTML += `<pre>${i+1}. ${seg.name}\n   Thumbnail: ${seg.thumbnail}</pre>`;
+            });
+        }
+
+        // Test ContentSegmentsData
+        test('ContentSegmentsData exists', typeof ContentSegmentsData !== 'undefined');
+        
+        if (ContentSegmentsData) {
+            results.innerHTML += '<h2>Content Segments:</h2>';
+            Object.keys(ContentSegmentsData).forEach(key => {
+                const seg = ContentSegmentsData[key];
+                results.innerHTML += `<pre>${seg.title}: ${seg.items ? seg.items.length : 0} items</pre>`;
+            });
+        }
+
+        // Test for old dummy data
+        const hasDummyData = ContentPortfolioData.segmentThemes && 
+            ContentPortfolioData.segmentThemes.some(s => 
+                s.name === 'Datúm Scio' || 
+                s.name === 'Ethical Hackathons' ||
+                s.name === 'Food For Thought'
+            );
+        
+        test('No dummy data (Datum Scio, etc.)', !hasDummyData,
+            hasDummyData ? 'WARNING: Old dummy data still present!' : 'Clean data confirmed');
+    </script>
+</body>
+</html>

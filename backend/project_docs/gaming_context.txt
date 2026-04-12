@@ -1,0 +1,243 @@
+GASTON DANA - GAMING ECOSYSTEM CONTEXT
+
+=== CURRENT GAMING ACTIVITY ===
+Currently Playing: Raid Shadow Legends
+- Daily active player with 500+ hours invested
+- Specializes in end-game team composition optimization and clan boss strategies
+- Creates strategy guides and tutorials for the community
+- Maintains Arena Gold IV ranking and has cleared Nightmare clan boss
+- Active content creator focusing on advanced team compositions and character optimization
+- Enjoys the deep strategic elements and mathematical optimization aspects
+
+Upcoming Games of Interest: Ghost of Yotei
+- Extremely highly anticipated sequel to Ghost of Tsushima
+- Excited about new protagonist Atsu and the 1603 Edo period setting
+- Following all development updates, trailers, and PlayStation announcements closely
+- Planning comprehensive content coverage including preview analysis and strategy guides
+- Particularly interested in enhanced combat mechanics and open-world improvements
+- Already preparing content strategy for launch coverage and gameplay analysis
+
+=== GAME DEVELOPMENT EXPERIENCE ===
+
+Unity Projects:
+- Developed multiple game prototypes using Unity 2D and 3D
+- Experience with C# scripting for game mechanics and UI systems
+- Implemented player movement, combat systems, and inventory management
+- Created procedural generation systems for dungeon crawlers
+- Built multiplayer networking components using Unity Netcode
+
+Unreal Engine Experience:
+- Worked with Blueprint visual scripting for rapid prototyping
+- Developed VR game experiences using Unreal's VR template
+- Created interactive environments with physics-based puzzles
+- Implemented AI behavior trees for NPC characters
+
+Godot Projects:
+- Explored GDScript for indie game development
+- Built 2D platformer mechanics and animation systems
+- Experimented with node-based scene architecture
+- Created mobile-friendly touch controls and UI
+
+Game Jam Participation:
+- Participated in 7+ game jams with multiple placements
+- Specializes in rapid prototyping and core gameplay loop development
+- Strong collaboration skills in team-based jam environments
+- Experience with time-constrained development and scope management
+
+=== QA TESTING EXPERTISE ===
+
+Testing Methodologies:
+- Functional Testing: Comprehensive gameplay feature validation
+- Regression Testing: Ensuring updates don't break existing functionality
+- Performance Testing: Frame rate analysis and optimization validation
+- Compatibility Testing: Multi-platform and device testing
+- User Experience Testing: Player journey and accessibility evaluation
+
+Tools and Platforms:
+- TestRail: Test case management and execution tracking
+- JIRA: Bug reporting and issue lifecycle management
+- Unity Test Runner: Automated unit and integration testing
+- Steam Playtest: Beta testing coordination and feedback collection
+- Console Development Kits: Testing on PlayStation, Xbox, and Nintendo Switch
+
+QA Project Experience:
+- Led testing initiatives for indie game releases
+- Documented critical bugs and provided reproduction steps
+- Collaborated with development teams on bug prioritization
+- Created comprehensive test plans for major feature releases
+- Mentored junior testers on best practices and methodologies
+
+Certifications and Training:
+- ISTQB Foundation Level certification (in progress)
+- Agile Testing methodologies training
+- Game-specific testing workshops and conferences
+- Beta testing programs for major game publishers
+
+=== GAMING CONTENT CREATION ===
+
+Streaming and Video Content:
+- Twitch streaming with focus on strategy games and indie titles
+- YouTube content featuring game reviews and development insights
+- Live coding sessions showing game development process
+- Tutorial content for Unity and game development concepts
+
+Community Engagement:
+- Active in game development Discord communities
+- Participates in developer forums and feedback sessions
+- Mentors aspiring game developers through online platforms
+- Contributes to open-source game development tools and resources
+
+Content Metrics and Achievements:
+- Growing follower base across streaming platforms
+- Viral clips featuring exceptional gameplay moments
+- Community-driven content based on viewer requests
+- Collaboration with other content creators and developers
+
+Brand Partnerships:
+- Sponsored content for indie game releases
+- Hardware reviews for gaming peripherals
+- Software tool demonstrations for game development
+- Early access content for upcoming game releases
+
+=== GAMING INDUSTRY INSIGHTS ===
+
+Current Trends:
+- AI integration in game development and procedural content generation
+- Cross-platform gaming and cloud gaming services
+- Indie game market growth and accessibility improvements
+- VR/AR gaming evolution and mainstream adoption
+
+Technical Interests:
+- Machine learning applications in game AI and procedural generation
+- Real-time ray tracing and advanced graphics techniques
+- Multiplayer networking optimization and anti-cheat systems
+- Accessibility features and inclusive game design
+
+Professional Network:
+- Connections with indie developers and small studios
+- Relationships with QA professionals and testing communities
+- Mentorship network through gaming education programs
+- Industry contacts through hackathons and game jams
+
+=== GAMING SKILLS AND TECHNOLOGIES ===
+
+Programming Languages:
+- C# (Expert) - Unity game development and scripting
+- C++ (Intermediate) - Unreal Engine and performance-critical systems
+- GDScript (Intermediate) - Godot engine development
+- JavaScript (Advanced) - Web-based games and tools
+- Python (Expert) - Game development tools and automation
+
+Game Engines:
+- Unity (Expert) - 2D/3D game development, VR/AR, mobile
+- Unreal Engine (Intermediate) - AAA-style development and VR
+- Godot (Intermediate) - Indie development and rapid prototyping
+- GameMaker Studio (Beginner) - 2D game development
+
+Development Tools:
+- Version Control: Git, GitHub, Perforce
+- Art Tools: Blender (3D modeling), Aseprite (pixel art)
+- Audio: Audacity, FMOD integration
+- Project Management: Trello, Notion, Slack
+
+Testing and Analytics:
+- Unity Analytics and performance profiling
+- Steam analytics and player behavior tracking
+- A/B testing for game mechanics and monetization
+- User research and playtesting methodologies
+
+=== GAMING ACHIEVEMENTS AND RECOGNITION ===
+
+Recent Major Achievements (2024):
+- Unity Developer Relations Partnership - Official educational content creator
+- Twitch Partner Status - Achieved through consistent educational streaming
+- YouTube Silver Play Button - 100K+ subscribers for Unity tutorials
+- ISTQB Foundation Level Certification - Professional QA testing certification
+- VR Accessibility Excellence Award - Industry recognition for inclusive design
+- Game Developer Conference Speaker - Presented on VR accessibility standards
+
+Competition Results:
+- Global Game Jam 2024 - 1st Place Innovation Award for Quantum Leap
+- Unity Community Showcase - Featured multiple projects
+- Indie Game Festival Finalist - Multiple entries recognized
+- VR Developer Challenge Winner - Physics Playground project
+- Community Choice Awards - Best Educational Content Creator 2024
+
+Community Contributions:
+- Mentored 50+ aspiring game developers into industry roles
+- Created comprehensive tutorial series with 285K+ views
+- Built thriving Discord community of 2400+ game developers
+- Established indie game discovery network promoting 120+ games
+- Open-source contributions to Unity ML-Agents and accessibility tools
+- Speaking engagements at 8+ industry conferences and events
+
+Professional Recognition:
+- Featured in Unity's weekly newsletter 8 times
+- Official content partnerships with Unity Technologies, Steam, and itch.io
+- Advisory board member for 3 game development education programs
+- Consultant for indie game incubator programs
+- Industry thought leader on LinkedIn with 1200+ professional connections
+
+=== CURRENT GAMING PROJECTS ===
+
+Active Development:
+- Procedural RPG Framework (75% complete) - Unity-based RPG with AI-driven quest generation
+- Currently finalizing AI behavior systems and multiplayer integration
+- Developing accessibility-focused game design patterns and inclusive interfaces
+- Building cross-platform multiplayer framework using Unity Netcode
+- Recently published VR Physics Playground with 95% comfort rating and accessibility awards
+
+Testing Initiatives:
+- Leading comprehensive QA for multiple indie game releases
+- Specializing in VR accessibility testing and motion comfort validation
+- Conducting beta testing coordination for competitive multiplayer games
+- Providing expert feedback on game accessibility features and inclusive design
+- Testing mobile game performance optimization across diverse device configurations
+
+Content Pipeline:
+- Weekly live development streams on Twitch (Partner status achieved)
+- Advanced Unity tutorial series with 285K+ views and Unity partnership
+- Indie game discovery and review content with 450K+ total views
+- Strategy gaming content focusing on Raid Shadow Legends optimization
+- Community building and mentorship programs with 2400+ Discord members
+- Regular Ghost of Yotei anticipation and analysis content
+
+=== GAMING PHILOSOPHY AND APPROACH ===
+
+Design Philosophy:
+- Player-first approach to game design and user experience
+- Emphasis on accessibility and inclusive gaming
+- Balance between innovation and proven gameplay mechanics
+- Focus on meaningful player choice and agency
+
+Development Approach:
+- Iterative development with regular playtesting
+- Data-driven decision making using analytics
+- Collaborative development with cross-functional teams
+- Emphasis on code quality and maintainable architecture
+
+Community Focus:
+- Building games that bring people together
+- Creating content that educates and inspires
+- Supporting indie developers and small studios
+- Promoting diversity and inclusion in gaming
+
+=== GAMING INDUSTRY CONNECTIONS ===
+
+Professional Network:
+- Indie game developers and studio founders
+- QA professionals and testing specialists
+- Content creators and streaming personalities
+- Game industry recruiters and talent acquisition
+
+Mentorship and Education:
+- Mentors aspiring game developers through structured programs
+- Provides career guidance for QA testers entering the industry
+- Shares knowledge through workshops and speaking engagements
+- Contributes to game development education initiatives
+
+Industry Involvement:
+- Participates in game development conferences and events
+- Contributes to industry discussions on social media
+- Provides feedback on industry tools and services
+- Supports indie game marketing and promotion efforts

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Routing Test</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #1C1C1F;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .test-button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background: linear-gradient(135deg, #D4AF37, #FF8C42);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+        .gaming-button {
+            background: linear-gradient(135deg, #FF4444, #FF8800, #FFDD00);
+        }
+        .content-button {
+            background: linear-gradient(135deg, #2C2C2C, #808080, #E8E8E8);
+        }
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Portfolio Routing Test</h1>
+        <p>Test the multi-portfolio navigation system</p>
+        
+        <div class="navigation-tests">
+            <h3>Direct Navigation Tests</h3>
+            <a href="/" class="test-button">Main Tech Portfolio</a>
+            <a href="/gaming" class="test-button gaming-button">Gaming Portfolio</a>
+            <a href="/content" class="test-button content-button">Content Portfolio</a>
+        </div>
+        
+        <div class="status">
+            <h4>Current Location</h4>
+            <p id="current-url"></p>
+            <p id="current-path"></p>
+        </div>
+        
+        <div class="status">
+            <h4>Browser History</h4>
+            <button onclick="goBack()" class="test-button">Go Back</button>
+            <button onclick="goForward()" class="test-button">Go Forward</button>
+            <p id="history-length"></p>
+        </div>
+        
+        <div class="status">
+            <h4>Test Results</h4>
+            <div id="test-results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Display current location info
+        document.getElementById('current-url').textContent = `URL: ${window.location.href}`;
+        document.getElementById('current-path').textContent = `Path: ${window.location.pathname}`;
+        document.getElementById('history-length').textContent = `History Length: ${window.history.length}`;
+        
+        // Navigation functions
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                alert('No previous page in history');
+            }
+        }
+        
+        function goForward() {
+            window.history.forward();
+        }
+        
+        // Test routing functionality
+        function runRoutingTests() {
+            const results = document.getElementById('test-results');
+            let testResults = [];
+            
+            // Test 1: Check if we're on the correct page
+            const currentPath = window.location.pathname;
+            if (currentPath === '/test-routing.html' || currentPath.includes('test-routing')) {
+                testResults.push('✅ Test page loaded correctly');
+            } else {
+                testResults.push('❌ Test page path issue');
+            }
+            
+            // Test 2: Check if history API is available
+            if (window.history && window.history.pushState) {
+                testResults.push('✅ History API available');
+            } else {
+                testResults.push('❌ History API not available');
+            }
+            
+            // Test 3: Check if portfolio directories exist
+            fetch('/gaming/index.html')
+                .then(response => {
+                    if (response.ok) {
+                        testResults.push('✅ Gaming portfolio accessible');
+                    } else {
+                        testResults.push('❌ Gaming portfolio not accessible');
+                    }
+                    updateResults();
+                })
+                .catch(() => {
+                    testResults.push('❌ Gaming portfolio fetch failed');
+                    updateResults();
+                });
+            
+            fetch('/content/index.html')
+                .then(response => {
+                    if (response.ok) {
+                        testResults.push('✅ Content portfolio accessible');
+                    } else {
+                        testResults.push('❌ Content portfolio not accessible');
+                    }
+                    updateResults();
+                })
+                .catch(() => {
+                    testResults.push('❌ Content portfolio fetch failed');
+                    updateResults();
+                });
+            
+            function updateResults() {
+                results.innerHTML = testResults.map(result => `<p>${result}</p>`).join('');
+            }
+            
+            // Initial update with synchronous tests
+            updateResults();
+        }
+        
+        // Run tests on page load
+        document.addEventListener('DOMContentLoaded', runRoutingTests);
+        
+        // Handle popstate for testing
+        window.addEventListener('popstate', function(event) {
+            console.log('Popstate event:', event.state);
+            document.getElementById('current-url').textContent = `URL: ${window.location.href}`;
+            document.getElementById('current-path').textContent = `Path: ${window.location.pathname}`;
+        });
+    </script>
+</body>
+</html>

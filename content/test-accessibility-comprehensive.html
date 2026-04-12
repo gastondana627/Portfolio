@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Portfolio - Accessibility Testing</title>
+    <link rel="stylesheet" href="content-styles.css">
+    <link rel="stylesheet" href="accessibility-styles.css">
+    <style>
+        .a11y-panel {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .a11y-panel h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            border-bottom: 2px solid #6f42c1;
+            padding-bottom: 8px;
+        }
+        .test-section {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .test-section h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #495057;
+        }
+        .test-item {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .test-pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .test-fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .test-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .test-icon {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .test-btn {
+            padding: 8px 16px;
+            margin: 5px 0;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #6f42c1;
+            background: #6f42c1;
+            color: white;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .test-btn:hover {
+            background: #5a32a3;
+        }
+        .contrast-checker {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .color-sample {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .contrast-result {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .contrast-ratio {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .wcag-level {
+            font-size: 11px;
+            color: #6c757d;
+        }
+        .keyboard-test {
+            padding: 10px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .keyboard-instruction {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 8px;
+        }
+        .focus-indicator {
+            outline: 3px solid #007bff;
+            outline-offset: 2px;
+        }
+        .summary-score {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .score-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #6f42c1;
+        }
+        .score-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="a11y-panel">
+        <h3>Accessibility Testing</h3>
+        
+        <div class="summary-score">
+            <div class="score-number" id="a11yScore">--</div>
+            <div class="score-label">Accessibility Score</div>
+            <div class="score-label" style="margin-top: 10px;">
+                <span id="issuesFound">0</span> issues found
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h4>Keyboard Navigation</h4>
+            <div class="keyboard-instruction">
+                Press Tab to navigate, Enter/Space to activate
+            </div>
+            <div id="keyboardTests"></div>
+            <button class="test-btn" onclick="testKeyboardNavigation()">Test Keyboard Nav</button>
+        </div>
+
+        <div class="test-section">
+            <h4>ARIA Attributes</h4>
+            <div id="ariaTests"></div>
+            <button class="test-btn" onclick="testARIA()">Test ARIA</button>
+        </div>
+
+        <div class="test-section">
+            <h4>Semantic HTML</h4>
+            <div id="semanticTests"></div>
+            <button class="test-btn" onclick="testSemanticHTML()">Test Semantics</button>
+        </div>
+
+        <div class="test-section">
+            <h4>Color Contrast (WCAG AA)</h4>
+            <div id="contrastTests"></div>
+            <button class="test-btn" onclick="testColorContrast()">Test Contrast</button>
+        </div>
+
+        <div class="test-section">
+            <h4>Images & Alt Text</h4>
+            <div id="imageTests"></div>
+            <button class="test-btn" onclick="testImages()">Test Images</button>
+        </div>
+
+        <div class="test-section">
+            <h4>Form Accessibility</h4>
+            <div id="formTests"></div>
+            <button class="test-btn" onclick="testForms()">Test Forms</button>
+        </div>
+
+        <div class="test-section">
+            <h4>Screen Reader Support</h4>
+            <div id="screenReaderTests"></div>
+            <button class="test-btn" onclick="testScreenReader()">Test Screen Reader</button>
+        </div>
+
+        <button class="test-btn" style="background: #28a745; border-color: #28a745;" onclick="runAllA11yTests()">
+            Run All Tests
+        </button>
+    </div>
+
+    <!-- Content Portfolio -->
+    <div id="content-container"></div>
+
+    <script src="content-portfolio-data.js"></script>
+    <script src="accessibility-keyboard.js"></script>
+    <script src="content-scripts.js"></script>
+
+    <script>
+        // Accessibility Testing Suite
+        const a11yIssues = [];
+
+        function addIssue(category, severity, message) {
+            a11yIssues.push({ category, severity, message });
+            updateScore();
+        }
+
+        function addTestResult(containerId, passed, message) {
+            const container = document.getElementById(containerId);
+            const className = passed ? 'test-pass' : 'test-fail';
+            const icon = passed ? '✓' : '✗';
+            
+            const div = document.createElement('div');
+            div.className = `test-item ${className}`;
+            div.innerHTML = `<span><span class="test-icon">${icon}</span>${message}</span>`;
+            container.appendChild(div);
+
+            if (!passed) {
+                addIssue(containerId, 'error', message);
+            }
+        }
+
+        function clearTestResults(containerId) {
+            document.getElementById(containerId).innerHTML = '';
+        }
+
+        function updateScore() {
+            const totalTests = 100; // Approximate total tests
+            const issueCount = a11yIssues.length;
+            const score = Math.max(0, Math.round(((totalTests - issueCount) / totalTests) * 100));
+            
+            document.getElementById('a11yScore').textContent = score;
+            document.getElementById('issuesFound').textContent = issueCount;
+        }
+
+        // Test 1: Keyboard Navigation
+        function testKeyboardNavigation() {
+            clearTestResults('keyboardTests');
+            
+            // Test focusable elements
+            const focusableElements = document.querySelectorAll(
+                'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            
+            addTestResult('keyboardTests', focusableElements.length > 0, 
+                `Found ${focusableElements.length} focusable elements`);
+
+            // Test tab order
+            let hasNegativeTabIndex = false;
+            let hasPositiveTabIndex = false;
+            
+            focusableElements.forEach(el => {
+                const tabindex = el.getAttribute('tabindex');
+                if (tabindex && parseInt(tabindex) < 0) hasNegativeTabIndex = true;
+                if (tabindex && parseInt(tabindex) > 0) hasPositiveTabIndex = true;
+            });
+
+            addTestResult('keyboardTests', !hasPositiveTabIndex, 
+                hasPositiveTabIndex ? 'Avoid positive tabindex values' : 'Tab order is natural');
+
+            // Test focus indicators
+            const elementsWithFocus = Array.from(focusableElements).filter(el => {
+                const styles = window.getComputedStyle(el, ':focus');
+                return styles.outline !== 'none' && styles.outline !== '0px';
+            });
+
+            addTestResult('keyboardTests', elementsWithFocus.length > 0, 
+                'Focus indicators present');
+
+            // Test modal keyboard traps
+            const modals = document.querySelectorAll('.modal, [role="dialog"]');
+            addTestResult('keyboardTests', true, 
+                `${modals.length} modals found (check for keyboard traps manually)`);
+
+            // Test ESC key handling
+            const hasEscHandlers = document.querySelectorAll('[data-dismiss], .modal-close').length > 0;
+            addTestResult('keyboardTests', hasEscHandlers, 
+                hasEscHandlers ? 'ESC key handlers present' : 'Add ESC key handlers for modals');
+        }
+
+        // Test 2: ARIA Attributes
+        function testARIA() {
+            clearTestResults('ariaTests');
+
+            // Test ARIA labels on buttons without text
+            const iconButtons = document.querySelectorAll('button:not(:has(text))');
+            let missingLabels = 0;
+            
+            iconButtons.forEach(btn => {
+                if (!btn.getAttribute('aria-label') && !btn.getAttribute('aria-labelledby')) {
+                    missingLabels++;
+                }
+            });
+
+            addTestResult('ariaTests', missingLabels === 0, 
+                missingLabels === 0 ? 'All icon buttons have ARIA labels' : 
+                `${missingLabels} icon buttons missing ARIA labels`);
+
+            // Test ARIA roles
+            const landmarks = document.querySelectorAll('[role="navigation"], [role="main"], [role="complementary"], [role="contentinfo"]');
+            addTestResult('ariaTests', landmarks.length > 0, 
+                `${landmarks.length} ARIA landmarks found`);
+
+            // Test ARIA live regions
+            const liveRegions = document.querySelectorAll('[aria-live]');
+            addTestResult('ariaTests', liveRegions.length >= 0, 
+                `${liveRegions.length} ARIA live regions found`);
+
+            // Test ARIA expanded states
+            const expandableElements = document.querySelectorAll('[aria-expanded]');
+            addTestResult('ariaTests', expandableElements.length >= 0, 
+                `${expandableElements.length} elements with aria-expanded`);
+
+            // Test ARIA hidden
+            const hiddenElements = document.querySelectorAll('[aria-hidden="true"]');
+            let hiddenWithFocusable = 0;
+            
+            hiddenElements.forEach(el => {
+                const focusable = el.querySelectorAll('a[href], button, input, select, textarea');
+                if (focusable.length > 0) hiddenWithFocusable++;
+            });
+
+            addTestResult('ariaTests', hiddenWithFocusable === 0, 
+                hiddenWithFocusable === 0 ? 'No focusable elements in aria-hidden' : 
+                `${hiddenWithFocusable} aria-hidden elements contain focusable children`);
+        }
+
+        // Test 3: Semantic HTML
+        function testSemanticHTML() {
+            clearTestResults('semanticTests');
+
+            // Test heading hierarchy
+            const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            const headingLevels = Array.from(headings).map(h => parseInt(h.tagName[1]));
+            
+            let hierarchyValid = true;
+            for (let i = 1; i < headingLevels.length; i++) {
+                if (headingLevels[i] - headingLevels[i-1] > 1) {
+                    hierarchyValid = false;
+                    break;
+                }
+            }
+
+            addTestResult('semanticTests', hierarchyValid, 
+                hierarchyValid ? 'Heading hierarchy is valid' : 'Heading hierarchy has gaps');
+
+            // Test for single h1
+            const h1Count = document.querySelectorAll('h1').length;
+            addTestResult('semanticTests', h1Count === 1, 
+                h1Count === 1 ? 'Single h1 found' : `${h1Count} h1 elements found (should be 1)`);
+
+            // Test semantic elements
+            const hasMain = document.querySelector('main') !== null;
+            addTestResult('semanticTests', hasMain, 
+                hasMain ? 'Main landmark present' : 'Add <main> element');
+
+            const hasNav = document.querySelector('nav') !== null;
+            addTestResult('semanticTests', hasNav, 
+                hasNav ? 'Navigation landmark present' : 'Add <nav> element');
+
+            // Test for divitis (excessive divs)
+            const divs = document.querySelectorAll('div');
+            const semanticElements = document.querySelectorAll('article, section, aside, header, footer, nav, main');
+            const ratio = semanticElements.length / divs.length;
+            
+            addTestResult('semanticTests', ratio > 0.1, 
+                ratio > 0.1 ? 'Good use of semantic elements' : 'Consider using more semantic HTML');
+
+            // Test lists
+            const lists = document.querySelectorAll('ul, ol');
+            addTestResult('semanticTests', lists.length > 0, 
+                `${lists.length} lists found`);
+        }
+
+        // Test 4: Color Contrast
+        function testColorContrast() {
+            clearTestResults('contrastTests');
+
+            // Get all text elements
+            const textElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, a, button, span, li');
+            let lowContrastCount = 0;
+            const testedElements = new Set();
+
+            textElements.forEach(el => {
+                if (testedElements.has(el) || !el.textContent.trim()) return;
+                testedElements.add(el);
+
+                const styles = window.getComputedStyle(el);
+                const color = styles.color;
+                const backgroundColor = styles.backgroundColor;
+                const fontSize = parseFloat(styles.fontSize);
+                const fontWeight = styles.fontWeight;
+
+                // Calculate contrast ratio
+                const ratio = calculateContrastRatio(color, backgroundColor);
+                
+                // WCAG AA requirements
+                const isLargeText = fontSize >= 18 || (fontSize >= 14 && parseInt(fontWeight) >= 700);
+                const requiredRatio = isLargeText ? 3 : 4.5;
+
+                if (ratio < requiredRatio) {
+                    lowContrastCount++;
+                }
+            });
+
+            addTestResult('contrastTests', lowContrastCount === 0, 
+                lowContrastCount === 0 ? 'All text meets WCAG AA contrast' : 
+                `${lowContrastCount} elements have low contrast`);
+
+            // Test specific color combinations
+            testSpecificContrast('Primary text', '#333333', '#ffffff');
+            testSpecificContrast('Link color', '#007bff', '#ffffff');
+            testSpecificContrast('Button text', '#ffffff', '#007bff');
+        }
+
+        function testSpecificContrast(label, fg, bg) {
+            const ratio = calculateContrastRatio(fg, bg);
+            const passes = ratio >= 4.5;
+            
+            const container = document.getElementById('contrastTests');
+            const div = document.createElement('div');
+            div.className = 'contrast-checker';
+            div.innerHTML = `
+                <div class="color-sample" style="background: ${fg};"></div>
+                <div class="color-sample" style="background: ${bg};"></div>
+                <div class="contrast-result">
+                    <div class="contrast-ratio" style="color: ${passes ? '#28a745' : '#dc3545'}">
+                        ${ratio.toFixed(2)}:1
+                    </div>
+                    <div class="wcag-level">${label}</div>
+                    <div class="wcag-level">${passes ? '✓ WCAG AA' : '✗ Below WCAG AA'}</div>
+                </div>
+            `;
+            container.appendChild(div);
+
+            if (!passes) {
+                addIssue('contrastTests', 'error', `${label} contrast too low: ${ratio.toFixed(2)}:1`);
+            }
+        }
+
+        function calculateContrastRatio(fg, bg) {
+            const fgLum = getRelativeLuminance(fg);
+            const bgLum = getRelativeLuminance(bg);
+            const lighter = Math.max(fgLum, bgLum);
+            const darker = Math.min(fgLum, bgLum);
+            return (lighter + 0.05) / (darker + 0.05);
+        }
+
+        function getRelativeLuminance(color) {
+            const rgb = parseColor(color);
+            const [r, g, b] = rgb.map(val => {
+                val = val / 255;
+                return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
+            });
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        }
+
+        function parseColor(color) {
+            const div = document.createElement('div');
+            div.style.color = color;
+            document.body.appendChild(div);
+            const computed = window.getComputedStyle(div).color;
+            document.body.removeChild(div);
+            
+            const match = computed.match(/\d+/g);
+            return match ? match.map(Number) : [0, 0, 0];
+        }
+
+        // Test 5: Images & Alt Text
+        function testImages() {
+            clearTestResults('imageTests');
+
+            const images = document.querySelectorAll('img');
+            let missingAlt = 0;
+            let emptyAlt = 0;
+            let decorativeImages = 0;
+
+            images.forEach(img => {
+                if (!img.hasAttribute('alt')) {
+                    missingAlt++;
+                } else if (img.alt === '') {
+                    decorativeImages++;
+                } else if (img.alt.trim() === '') {
+                    emptyAlt++;
+                }
+            });
+
+            addTestResult('imageTests', missingAlt === 0, 
+                missingAlt === 0 ? 'All images have alt attribute' : 
+                `${missingAlt} images missing alt attribute`);
+
+            addTestResult('imageTests', true, 
+                `${decorativeImages} decorative images (alt="")`);
+
+            addTestResult('imageTests', emptyAlt === 0, 
+                emptyAlt === 0 ? 'No images with whitespace-only alt' : 
+                `${emptyAlt} images have whitespace-only alt text`);
+
+            // Test for meaningful alt text
+            const suspiciousAlt = Array.from(images).filter(img => {
+                const alt = img.alt.toLowerCase();
+                return alt.includes('image') || alt.includes('picture') || alt.includes('photo');
+            });
+
+            addTestResult('imageTests', suspiciousAlt.length === 0, 
+                suspiciousAlt.length === 0 ? 'Alt text appears meaningful' : 
+                `${suspiciousAlt.length} images may have generic alt text`);
+        }
+
+        // Test 6: Forms
+        function testForms() {
+            clearTestResults('formTests');
+
+            const inputs = document.querySelectorAll('input, select, textarea');
+            let missingLabels = 0;
+
+            inputs.forEach(input => {
+                const hasLabel = input.labels && input.labels.length > 0;
+                const hasAriaLabel = input.getAttribute('aria-label');
+                const hasAriaLabelledby = input.getAttribute('aria-labelledby');
+                
+                if (!hasLabel && !hasAriaLabel && !hasAriaLabelledby) {
+                    missingLabels++;
+                }
+            });
+
+            addTestResult('formTests', missingLabels === 0, 
+                missingLabels === 0 ? 'All form inputs have labels' : 
+                `${missingLabels} inputs missing labels`);
+
+            // Test required fields
+            const requiredFields = document.querySelectorAll('[required], [aria-required="true"]');
+            addTestResult('formTests', true, 
+                `${requiredFields.length} required fields marked`);
+
+            // Test error messages
+            const errorMessages = document.querySelectorAll('[role="alert"], .error-message, [aria-invalid="true"]');
+            addTestResult('formTests', true, 
+                `${errorMessages.length} error indicators found`);
+        }
+
+        // Test 7: Screen Reader Support
+        function testScreenReader() {
+            clearTestResults('screenReaderTests');
+
+            // Test skip links
+            const skipLinks = document.querySelectorAll('a[href^="#"]');
+            const hasSkipToMain = Array.from(skipLinks).some(link => 
+                link.textContent.toLowerCase().includes('skip') || 
+                link.href.includes('#main')
+            );
+            
+            addTestResult('screenReaderTests', hasSkipToMain, 
+                hasSkipToMain ? 'Skip to main content link found' : 'Consider adding skip link');
+
+            // Test lang attribute
+            const hasLang = document.documentElement.hasAttribute('lang');
+            addTestResult('screenReaderTests', hasLang, 
+                hasLang ? `Language set to: ${document.documentElement.lang}` : 'Add lang attribute to <html>');
+
+            // Test title
+            const hasTitle = document.title && document.title.trim() !== '';
+            addTestResult('screenReaderTests', hasTitle, 
+                hasTitle ? `Page title: "${document.title}"` : 'Add page title');
+
+            // Test for screen reader only text
+            const srOnly = document.querySelectorAll('.sr-only, .visually-hidden');
+            addTestResult('screenReaderTests', true, 
+                `${srOnly.length} screen reader only elements`);
+
+            // Test ARIA live regions for dynamic content
+            const dynamicContent = document.querySelectorAll('[aria-live], [role="status"], [role="alert"]');
+            addTestResult('screenReaderTests', dynamicContent.length > 0, 
+                `${dynamicContent.length} dynamic content announcements`);
+        }
+
+        // Run all tests
+        function runAllA11yTests() {
+            a11yIssues.length = 0;
+            testKeyboardNavigation();
+            testARIA();
+            testSemanticHTML();
+            testColorContrast();
+            testImages();
+            testForms();
+            testScreenReader();
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            setTimeout(runAllA11yTests, 500);
+        });
+    </script>
+</body>
+</html>

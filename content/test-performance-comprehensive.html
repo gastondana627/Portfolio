@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Portfolio - Performance Testing</title>
+    <link rel="stylesheet" href="content-styles.css">
+    <style>
+        .perf-dashboard {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .perf-dashboard h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 8px;
+        }
+        .metric-group {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .metric-group h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #495057;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+        .metric-label {
+            color: #6c757d;
+        }
+        .metric-value {
+            font-weight: 600;
+        }
+        .metric-good {
+            color: #28a745;
+        }
+        .metric-warning {
+            color: #ffc107;
+        }
+        .metric-bad {
+            color: #dc3545;
+        }
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px auto;
+            border: 4px solid;
+        }
+        .score-good {
+            border-color: #28a745;
+            color: #28a745;
+            background: #d4edda;
+        }
+        .score-warning {
+            border-color: #ffc107;
+            color: #856404;
+            background: #fff3cd;
+        }
+        .score-bad {
+            border-color: #dc3545;
+            color: #dc3545;
+            background: #f8d7da;
+        }
+        .test-btn {
+            padding: 8px 16px;
+            margin: 5px;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #007bff;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        .memory-chart {
+            height: 60px;
+            background: #e9ecef;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .memory-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #ffc107, #dc3545);
+            transition: width 0.3s;
+        }
+        .lazy-load-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .stat-box {
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="perf-dashboard">
+        <h3>Performance Dashboard</h3>
+        
+        <div class="metric-group">
+            <h4>Overall Performance Score</h4>
+            <div id="overallScore" class="score-circle score-good">--</div>
+            <div style="text-align: center; font-size: 12px; color: #6c757d;">
+                Target: > 85
+            </div>
+        </div>
+
+        <div class="metric-group">
+            <h4>Core Web Vitals</h4>
+            <div class="metric">
+                <span class="metric-label">LCP (Largest Contentful Paint)</span>
+                <span class="metric-value" id="lcp">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">FID (First Input Delay)</span>
+                <span class="metric-value" id="fid">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">CLS (Cumulative Layout Shift)</span>
+                <span class="metric-value" id="cls">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">FCP (First Contentful Paint)</span>
+                <span class="metric-value" id="fcp">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">TTI (Time to Interactive)</span>
+                <span class="metric-value" id="tti">--</span>
+            </div>
+        </div>
+
+        <div class="metric-group">
+            <h4>Page Load Metrics</h4>
+            <div class="metric">
+                <span class="metric-label">DOM Content Loaded</span>
+                <span class="metric-value" id="domContentLoaded">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Page Load Complete</span>
+                <span class="metric-value" id="loadComplete">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Total Resources</span>
+                <span class="metric-value" id="resourceCount">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Total Transfer Size</span>
+                <span class="metric-value" id="transferSize">--</span>
+            </div>
+        </div>
+
+        <div class="metric-group">
+            <h4>Lazy Loading Effectiveness</h4>
+            <div class="lazy-load-stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="imagesLoaded">0</div>
+                    <div class="stat-label">Images Loaded</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="imagesPending">0</div>
+                    <div class="stat-label">Images Pending</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="videosLoaded">0</div>
+                    <div class="stat-label">Videos Loaded</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="videosPending">0</div>
+                    <div class="stat-label">Videos Pending</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="metric-group">
+            <h4>Memory Usage</h4>
+            <div class="metric">
+                <span class="metric-label">JS Heap Size</span>
+                <span class="metric-value" id="heapSize">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Heap Limit</span>
+                <span class="metric-value" id="heapLimit">--</span>
+            </div>
+            <div class="memory-chart">
+                <div class="memory-bar" id="memoryBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="metric-group">
+            <h4>Network Performance</h4>
+            <div class="metric">
+                <span class="metric-label">Connection Type</span>
+                <span class="metric-value" id="connectionType">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Effective Type</span>
+                <span class="metric-value" id="effectiveType">--</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Downlink Speed</span>
+                <span class="metric-value" id="downlink">--</span>
+            </div>
+        </div>
+
+        <button class="test-btn" onclick="runPerformanceTests()">Run Performance Tests</button>
+        <button class="test-btn" onclick="testLazyLoading()">Test Lazy Loading</button>
+        <button class="test-btn" onclick="testMemoryUsage()">Monitor Memory</button>
+    </div>
+
+    <!-- Content Portfolio -->
+    <div id="content-container"></div>
+
+    <script src="content-portfolio-data.js"></script>
+    <script src="lazy-loading.js"></script>
+    <script src="image-optimization.js"></script>
+    <script src="performance-monitor.js"></script>
+    <script src="content-scripts.js"></script>
+
+    <script>
+        // Performance Testing Suite
+        const perfMetrics = {
+            lcp: null,
+            fid: null,
+            cls: null,
+            fcp: null,
+            tti: null
+        };
+
+        // Observe Core Web Vitals
+        function observeWebVitals() {
+            // LCP - Largest Contentful Paint
+            if ('PerformanceObserver' in window) {
+                try {
+                    const lcpObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        const lastEntry = entries[entries.length - 1];
+                        perfMetrics.lcp = lastEntry.renderTime || lastEntry.loadTime;
+                        updateMetric('lcp', perfMetrics.lcp, 2500, 4000);
+                    });
+                    lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+                } catch (e) {
+                    console.log('LCP observation not supported');
+                }
+
+                // FID - First Input Delay
+                try {
+                    const fidObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        entries.forEach((entry) => {
+                            perfMetrics.fid = entry.processingStart - entry.startTime;
+                            updateMetric('fid', perfMetrics.fid, 100, 300);
+                        });
+                    });
+                    fidObserver.observe({ entryTypes: ['first-input'] });
+                } catch (e) {
+                    console.log('FID observation not supported');
+                }
+
+                // CLS - Cumulative Layout Shift
+                try {
+                    let clsValue = 0;
+                    const clsObserver = new PerformanceObserver((list) => {
+                        for (const entry of list.getEntries()) {
+                            if (!entry.hadRecentInput) {
+                                clsValue += entry.value;
+                                perfMetrics.cls = clsValue;
+                                updateMetric('cls', perfMetrics.cls, 0.1, 0.25, true);
+                            }
+                        }
+                    });
+                    clsObserver.observe({ entryTypes: ['layout-shift'] });
+                } catch (e) {
+                    console.log('CLS observation not supported');
+                }
+            }
+        }
+
+        // Update metric display
+        function updateMetric(id, value, goodThreshold, badThreshold, lowerIsBetter = false) {
+            const element = document.getElementById(id);
+            if (!element) return;
+
+            let displayValue = value;
+            let className = 'metric-good';
+
+            if (id === 'cls') {
+                displayValue = value.toFixed(3);
+                if (value > badThreshold) className = 'metric-bad';
+                else if (value > goodThreshold) className = 'metric-warning';
+            } else {
+                displayValue = `${Math.round(value)}ms`;
+                if (lowerIsBetter) {
+                    if (value > badThreshold) className = 'metric-bad';
+                    else if (value > goodThreshold) className = 'metric-warning';
+                } else {
+                    if (value < goodThreshold) className = 'metric-good';
+                    else if (value < badThreshold) className = 'metric-warning';
+                    else className = 'metric-bad';
+                }
+            }
+
+            element.textContent = displayValue;
+            element.className = `metric-value ${className}`;
+        }
+
+        // Run comprehensive performance tests
+        function runPerformanceTests() {
+            // Navigation Timing
+            const perfData = performance.timing;
+            const navigationStart = perfData.navigationStart;
+
+            // DOM Content Loaded
+            const domContentLoaded = perfData.domContentLoadedEventEnd - navigationStart;
+            updateMetric('domContentLoaded', domContentLoaded, 1500, 3000);
+
+            // Page Load Complete
+            const loadComplete = perfData.loadEventEnd - navigationStart;
+            updateMetric('loadComplete', loadComplete, 3000, 5000);
+
+            // FCP - First Contentful Paint
+            const paintEntries = performance.getEntriesByType('paint');
+            const fcpEntry = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+            if (fcpEntry) {
+                perfMetrics.fcp = fcpEntry.startTime;
+                updateMetric('fcp', perfMetrics.fcp, 1500, 2500);
+            }
+
+            // Resource metrics
+            const resources = performance.getEntriesByType('resource');
+            document.getElementById('resourceCount').textContent = resources.length;
+
+            const totalSize = resources.reduce((sum, resource) => {
+                return sum + (resource.transferSize || 0);
+            }, 0);
+            document.getElementById('transferSize').textContent = formatBytes(totalSize);
+
+            // Calculate overall score
+            calculateOverallScore();
+
+            // Network information
+            updateNetworkInfo();
+        }
+
+        // Calculate overall performance score (Lighthouse-style)
+        function calculateOverallScore() {
+            let score = 100;
+            
+            // LCP scoring (weight: 25%)
+            if (perfMetrics.lcp) {
+                if (perfMetrics.lcp > 4000) score -= 25;
+                else if (perfMetrics.lcp > 2500) score -= 15;
+                else if (perfMetrics.lcp > 1500) score -= 5;
+            }
+
+            // FID scoring (weight: 25%)
+            if (perfMetrics.fid) {
+                if (perfMetrics.fid > 300) score -= 25;
+                else if (perfMetrics.fid > 100) score -= 15;
+                else if (perfMetrics.fid > 50) score -= 5;
+            }
+
+            // CLS scoring (weight: 25%)
+            if (perfMetrics.cls !== null) {
+                if (perfMetrics.cls > 0.25) score -= 25;
+                else if (perfMetrics.cls > 0.1) score -= 15;
+                else if (perfMetrics.cls > 0.05) score -= 5;
+            }
+
+            // FCP scoring (weight: 25%)
+            if (perfMetrics.fcp) {
+                if (perfMetrics.fcp > 3000) score -= 25;
+                else if (perfMetrics.fcp > 1800) score -= 15;
+                else if (perfMetrics.fcp > 1000) score -= 5;
+            }
+
+            score = Math.max(0, Math.round(score));
+
+            const scoreElement = document.getElementById('overallScore');
+            scoreElement.textContent = score;
+            
+            if (score >= 85) {
+                scoreElement.className = 'score-circle score-good';
+            } else if (score >= 70) {
+                scoreElement.className = 'score-circle score-warning';
+            } else {
+                scoreElement.className = 'score-circle score-bad';
+            }
+        }
+
+        // Test lazy loading effectiveness
+        function testLazyLoading() {
+            const allImages = document.querySelectorAll('img');
+            const allVideos = document.querySelectorAll('video, iframe[src*="youtube"], iframe[src*="vimeo"]');
+
+            let imagesLoaded = 0;
+            let imagesPending = 0;
+            let videosLoaded = 0;
+            let videosPending = 0;
+
+            allImages.forEach(img => {
+                if (img.complete && img.naturalHeight !== 0) {
+                    imagesLoaded++;
+                } else {
+                    imagesPending++;
+                }
+            });
+
+            allVideos.forEach(video => {
+                if (video.readyState >= 2 || video.src) {
+                    videosLoaded++;
+                } else {
+                    videosPending++;
+                }
+            });
+
+            document.getElementById('imagesLoaded').textContent = imagesLoaded;
+            document.getElementById('imagesPending').textContent = imagesPending;
+            document.getElementById('videosLoaded').textContent = videosLoaded;
+            document.getElementById('videosPending').textContent = videosPending;
+
+            // Calculate lazy loading effectiveness
+            const totalMedia = imagesLoaded + imagesPending + videosLoaded + videosPending;
+            const loadedMedia = imagesLoaded + videosLoaded;
+            const effectiveness = totalMedia > 0 ? ((loadedMedia / totalMedia) * 100).toFixed(1) : 0;
+
+            console.log(`Lazy Loading Effectiveness: ${effectiveness}% (${loadedMedia}/${totalMedia} loaded)`);
+        }
+
+        // Monitor memory usage
+        function testMemoryUsage() {
+            if (performance.memory) {
+                const used = performance.memory.usedJSHeapSize;
+                const limit = performance.memory.jsHeapSizeLimit;
+                const percentage = (used / limit) * 100;
+
+                document.getElementById('heapSize').textContent = formatBytes(used);
+                document.getElementById('heapLimit').textContent = formatBytes(limit);
+                document.getElementById('memoryBar').style.width = percentage + '%';
+
+                // Color code based on usage
+                const memoryBar = document.getElementById('memoryBar');
+                if (percentage > 80) {
+                    memoryBar.style.background = '#dc3545';
+                } else if (percentage > 60) {
+                    memoryBar.style.background = '#ffc107';
+                } else {
+                    memoryBar.style.background = '#28a745';
+                }
+            } else {
+                document.getElementById('heapSize').textContent = 'Not available';
+                document.getElementById('heapLimit').textContent = 'Not available';
+            }
+        }
+
+        // Update network information
+        function updateNetworkInfo() {
+            if ('connection' in navigator) {
+                const conn = navigator.connection;
+                document.getElementById('connectionType').textContent = conn.type || 'Unknown';
+                document.getElementById('effectiveType').textContent = conn.effectiveType || 'Unknown';
+                document.getElementById('downlink').textContent = conn.downlink ? `${conn.downlink} Mbps` : 'Unknown';
+            } else {
+                document.getElementById('connectionType').textContent = 'Not available';
+                document.getElementById('effectiveType').textContent = 'Not available';
+                document.getElementById('downlink').textContent = 'Not available';
+            }
+        }
+
+        // Utility: Format bytes
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            observeWebVitals();
+            setTimeout(() => {
+                runPerformanceTests();
+                testLazyLoading();
+                testMemoryUsage();
+            }, 1000);
+
+            // Update memory every 5 seconds
+            setInterval(testMemoryUsage, 5000);
+            
+            // Update lazy loading stats every 3 seconds
+            setInterval(testLazyLoading, 3000);
+        });
+    </script>
+</body>
+</html>

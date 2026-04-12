@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdvancingX Section Test</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="content/content-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #1A1A1A;
+            color: #FFFFFF;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .test-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(44, 44, 44, 0.5), rgba(26, 26, 26, 0.5));
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        .test-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+        }
+        .test-header p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .test-results {
+            background: rgba(44, 44, 44, 0.3);
+            border: 1px solid rgba(128, 128, 128, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .test-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .test-item.pass {
+            color: #4ECDC4;
+        }
+        .test-item.fail {
+            color: #FF6B6B;
+        }
+        .test-item i {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>AdvancingX Section Test</h1>
+        <p>Testing the AdvancingX professional work section implementation</p>
+    </div>
+
+    <div class="test-results" id="test-results">
+        <h2>Test Results</h2>
+        <div id="test-output"></div>
+    </div>
+
+    <!-- Include the AdvancingX section from content/index.html -->
+    <section id="advancingx-work" class="section advancingx-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">AdvancingX Professional Work</h2>
+                <p class="section-description">
+                    Content creation and social media management during professional tenure
+                    <span class="tenure-badge">June 2023 - March 2024</span>
+                </p>
+            </div>
+            
+            <!-- Social Media Links Showcase -->
+            <div class="social-media-showcase">
+                <h3 class="subsection-title">
+                    <i class="fas fa-share-alt"></i> Managed Social Media Accounts
+                </h3>
+                <div class="social-links-grid" id="advancingx-social-links">
+                    <!-- Social media links will be dynamically loaded -->
+                </div>
+            </div>
+            
+            <!-- Carousel Posts Section -->
+            <div class="carousel-posts-section">
+                <h3 class="subsection-title">
+                    <i class="fas fa-images"></i> Carousel Posts
+                </h3>
+                <p class="subsection-description">
+                    Multi-slide social media posts created for X (Twitter) and LinkedIn platforms
+                </p>
+                
+                <!-- Platform Filter Tabs -->
+                <div class="platform-filter-tabs">
+                    <button class="platform-tab active" data-platform="all">
+                        <i class="fas fa-th"></i> All Platforms
+                    </button>
+                    <button class="platform-tab" data-platform="X">
+                        <i class="fab fa-x-twitter"></i> X (Twitter)
+                    </button>
+                    <button class="platform-tab" data-platform="LinkedIn">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </button>
+                </div>
+                
+                <div class="carousel-posts-grid" id="advancingx-carousel-posts">
+                    <!-- Carousel post cards will be dynamically loaded -->
+                </div>
+            </div>
+            
+            <!-- AdvancingX Videos Section -->
+            <div class="advancingx-videos-section">
+                <h3 class="subsection-title">
+                    <i class="fas fa-video"></i> Video Content
+                </h3>
+                <p class="subsection-description">
+                    Professional video content created during AdvancingX tenure
+                </p>
+                <div class="video-gallery-grid" id="advancingx-videos">
+                    <!-- Video items will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carousel Viewer Modal -->
+    <div id="carousel-viewer-modal" class="carousel-viewer-modal">
+        <div class="modal-backdrop"></div>
+        <div class="carousel-viewer-container">
+            <button class="modal-close" id="carousel-viewer-close" aria-label="Close carousel viewer">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="carousel-viewer">
+                <button class="carousel-nav carousel-prev" id="carousel-prev-btn" aria-label="Previous slide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="carousel-slides-container" id="carousel-slides-container">
+                    <!-- Slides will be dynamically loaded -->
+                </div>
+                
+                <button class="carousel-nav carousel-next" id="carousel-next-btn" aria-label="Next slide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="carousel-indicators" id="carousel-indicators">
+                <!-- Indicator dots will be dynamically generated -->
+            </div>
+            
+            <div class="carousel-info">
+                <h3 class="carousel-title" id="carousel-title">Carousel Title</h3>
+                <p class="carousel-description" id="carousel-description">Carousel description</p>
+                <div class="carousel-meta">
+                    <span class="carousel-counter">
+                        Slide <span class="current-slide" id="current-slide-num">1</span> of <span class="total-slides" id="total-slides-num">1</span>
+                    </span>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="view-original-post" id="view-original-post">
+                        <i class="fas fa-external-link-alt"></i> View Original Post
+                    </a>
+                </div>
+                <div class="carousel-engagement" id="carousel-engagement">
+                    <!-- Engagement metrics will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="content/content-portfolio-data.js"></script>
+    <script>
+        // Test runner
+        const testOutput = document.getElementById('test-output');
+        const tests = [];
+
+        function addTest(name, passed, message = '') {
+            tests.push({ name, passed, message });
+            const testItem = document.createElement('div');
+            testItem.className = `test-item ${passed ? 'pass' : 'fail'}`;
+            testItem.innerHTML = `
+                <i class="fas fa-${passed ? 'check-circle' : 'times-circle'}"></i>
+                <span><strong>${name}:</strong> ${passed ? 'PASS' : 'FAIL'} ${message ? `- ${message}` : ''}</span>
+            `;
+            testOutput.appendChild(testItem);
+        }
+
+        // Run tests after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                // Test 1: Check if ContentPortfolioData is loaded
+                addTest('ContentPortfolioData loaded', typeof ContentPortfolioData !== 'undefined');
+
+                // Test 2: Check if AdvancingX data exists
+                addTest('AdvancingX data exists', 
+                    ContentPortfolioData && ContentPortfolioData.advancingX !== undefined);
+
+                // Test 3: Check if social media links are populated
+                const socialLinksGrid = document.getElementById('advancingx-social-links');
+                const socialLinksCount = socialLinksGrid ? socialLinksGrid.children.length : 0;
+                addTest('Social media links populated', 
+                    socialLinksCount > 0, 
+                    `Found ${socialLinksCount} social links`);
+
+                // Test 4: Check if carousel posts are populated
+                const carouselGrid = document.getElementById('advancingx-carousel-posts');
+                const carouselCount = carouselGrid ? carouselGrid.children.length : 0;
+                addTest('Carousel posts populated', 
+                    carouselCount > 0, 
+                    `Found ${carouselCount} carousel posts`);
+
+                // Test 5: Check if videos are populated
+                const videosGrid = document.getElementById('advancingx-videos');
+                const videosCount = videosGrid ? videosGrid.children.length : 0;
+                addTest('Videos populated', 
+                    videosCount > 0, 
+                    `Found ${videosCount} videos`);
+
+                // Test 6: Check if platform filter tabs exist
+                const filterTabs = document.querySelectorAll('.platform-tab');
+                addTest('Platform filter tabs exist', 
+                    filterTabs.length === 3, 
+                    `Found ${filterTabs.length} filter tabs`);
+
+                // Test 7: Check if carousel viewer modal exists
+                const carouselModal = document.getElementById('carousel-viewer-modal');
+                addTest('Carousel viewer modal exists', carouselModal !== null);
+
+                // Test 8: Check if modal has navigation buttons
+                const prevBtn = document.getElementById('carousel-prev-btn');
+                const nextBtn = document.getElementById('carousel-next-btn');
+                addTest('Carousel navigation buttons exist', 
+                    prevBtn !== null && nextBtn !== null);
+
+                // Summary
+                const passedTests = tests.filter(t => t.passed).length;
+                const totalTests = tests.length;
+                const summaryDiv = document.createElement('div');
+                summaryDiv.style.cssText = 'margin-top: 20px; padding: 15px; background: rgba(78, 205, 196, 0.2); border: 1px solid #4ECDC4; border-radius: 10px; text-align: center;';
+                summaryDiv.innerHTML = `
+                    <h3 style="margin: 0 0 10px 0;">Test Summary</h3>
+                    <p style="margin: 0; font-size: 1.2rem;">
+                        <strong>${passedTests}/${totalTests}</strong> tests passed
+                        ${passedTests === totalTests ? ' 🎉' : ''}
+                    </p>
+                `;
+                testOutput.appendChild(summaryDiv);
+
+                // Test carousel click functionality
+                console.log('Testing carousel click functionality...');
+                const firstCarousel = document.querySelector('.carousel-post-card');
+                if (firstCarousel) {
+                    console.log('First carousel card found, click handler should be attached');
+                }
+            }, 1000);
+        });
+    </script>
+    <script src="content/content-scripts.js"></script>
+</body>
+</html>

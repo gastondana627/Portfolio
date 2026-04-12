@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Projects Integration Test - Planetrics & AI Room Designer</title>
+    <style>
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .test-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .test-header {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #D4AF37, #FF8C42);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #FF8C42;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .test-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .test-card:hover {
+            border-color: #D4AF37;
+            transform: translateY(-2px);
+        }
+
+        .test-card h4 {
+            color: #FF8C42;
+            margin-top: 0;
+        }
+
+        .test-results {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .test-error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .test-warning {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid #ffa500;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .browser-info {
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #FF8C42;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #D4AF37, #FF8C42);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .test-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .test-button:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 768px) {
+            .test-container {
+                padding: 10px;
+            }
+            
+            .test-header {
+                font-size: 24px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-header">🚀 New Projects Integration Test Suite</h1>
+        <p style="text-align: center; color: #aaa;">Testing Planetrics & AI Room Designer across browsers and devices</p>
+
+        <div class="browser-info">
+            <h3 style="margin-top: 0;">Browser & Device Information</h3>
+            <div id="browserDetails"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="section-title">1. Knowledge Graph Node Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h4>Planetrics Node</h4>
+                    <button class="test-button" onclick="testProjectNode('planetrics')">Test Node</button>
+                    <div id="planetricsNodeResults"></div>
+                </div>
+                <div class="test-card">
+                    <h4>AI Room Designer Node</h4>
+                    <button class="test-button" onclick="testProjectNode('ai-room-designer')">Test Node</button>
+                    <div id="aiRoomDesignerNodeResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="section-title">2. Project Carousel Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h4>Planetrics Carousel</h4>
+                    <button class="test-button" onclick="testCarouselProject('planetrics')">Test Carousel</button>
+                    <div id="planetricsCarouselResults"></div>
+                </div>
+                <div class="test-card">
+                    <h4>AI Room Designer Carousel</h4>
+                    <button class="test-button" onclick="testCarouselProject('ai-room-designer')">Test Carousel</button>
+                    <div id="aiRoomDesignerCarouselResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="section-title">3. Skill Connection Tests</h2>
+            <div id="skillConnectionResults"></div>
+            <button class="test-button" onclick="testSkillConnections()">Run Skill Connection Tests</button>
+        </div>
+
+        <div class="test-section">
+            <h2 class="section-title">4. Evolution Path Tests</h2>
+            <div id="evolutionPathResults"></div>
+            <button class="test-button" onclick="testEvolutionPaths()">Run Evolution Path Tests</button>
+        </div>
+
+        <div class="test-section">
+            <h2 class="section-title">5. External Links Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h4>Planetrics Links</h4>
+                    <div id="planetricsLinksResults"></div>
+                </div>
+                <div class="test-card">
+                    <h4>AI Room Designer Links</h4>
+                    <div id="aiRoomDesignerLinksResults"></div>
+                </div>
+            </div>
+            <button class="test-button" onclick="testExternalLinks()">Test All Links</button>
+        </div>
+
+        <div class="test-section">
+            <h2 class="section-title">6. Touch & Mobile Interaction Tests</h2>
+            <div id="touchTestArea" style="background: rgba(212, 175, 55, 0.2); padding: 40px; border-radius: 10px; text-align: center; cursor: pointer; margin: 20px 0;">
+                <p>👆 Tap/Click here to test touch interactions</p>
+                <p id="touchCounter">Interactions: 0</p>
+            </div>
+            <div id="touchResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="section-title">7. Performance Metrics</h2>
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value" id="totalProjects">--</div>
+                    <div class="metric-label">Total Projects</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="newProjects">2</div>
+                    <div class="metric-label">New Projects</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="loadTime">--</div>
+                    <div class="metric-label">Load Time (ms)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="testsPassed">--</div>
+                    <div class="metric-label">Tests Passed</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="section-title">8. Test Summary</h2>
+            <div id="testSummary"></div>
+            <button class="test-button" onclick="runAllTests()">🚀 Run All Tests</button>
+        </div>
+    </div>
+
+    <script src="test-new-projects-integration.js"></script>
+</body>
+</html>

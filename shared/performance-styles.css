@@ -1,0 +1,293 @@
+/**
+ * Performance Optimization Styles
+ * Handles loading states, lazy loading, and progressive enhancement
+ */
+
+/* Lazy Loading Styles */
+.lazy-image {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.lazy-image.loaded {
+    opacity: 1;
+}
+
+/* Loading Placeholders */
+.loading-placeholder {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Progressive Loading */
+.progressive-image {
+    filter: blur(2px);
+    transition: filter 0.3s ease-in-out;
+}
+
+.progressive-image.loaded {
+    filter: none;
+}
+
+/* Low Bandwidth Mode */
+.low-bandwidth .fancy-animation {
+    animation: none !important;
+}
+
+.low-bandwidth .complex-gradient {
+    background: #f5f5f5 !important;
+}
+
+.low-bandwidth .shadow-heavy {
+    box-shadow: none !important;
+}
+
+/* Bundle Loading States */
+.bundle-loading {
+    position: relative;
+}
+
+.bundle-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.bundle-loading::after {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Performance Optimized Animations */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.slide-up {
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.4s ease-out forwards;
+}
+
+.scale-in {
+    transform: scale(0.9);
+    opacity: 0;
+    animation: scaleIn 0.3s ease-out forwards;
+}
+
+/* Keyframes */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Critical CSS for above-the-fold content */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.hero-image {
+    flex: 1;
+    position: relative;
+}
+
+/* Responsive Performance */
+@media (max-width: 768px) {
+    .lazy-image {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .loading-placeholder {
+        min-height: 200px;
+    }
+}
+
+/* Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .lazy-image,
+    .progressive-image,
+    .fade-in,
+    .slide-up,
+    .scale-in {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .spinner {
+        animation: none !important;
+    }
+    
+    .loading-placeholder {
+        animation: none !important;
+        background: #f0f0f0 !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .loading-placeholder {
+        background: #000;
+        color: #fff;
+    }
+    
+    .spinner {
+        border-color: #fff;
+        border-top-color: #000;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .loading-placeholder,
+    .spinner,
+    .bundle-loading::before,
+    .bundle-loading::after {
+        display: none !important;
+    }
+    
+    .lazy-image {
+        opacity: 1 !important;
+    }
+}
+
+/* Performance Monitoring Styles */
+.performance-monitor {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 9999;
+    display: none;
+}
+
+.performance-monitor.show {
+    display: block;
+}
+
+.performance-metric {
+    margin: 2px 0;
+}
+
+/* Asset Loading Indicators */
+.asset-loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #007bff, #00d4ff);
+    transition: width 0.3s ease;
+    z-index: 10000;
+}
+
+.asset-loading-bar.complete {
+    width: 100%;
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.5s ease 0.3s;
+}
+
+/* Critical Resource Hints */
+.critical-resource {
+    position: relative;
+}
+
+.critical-resource::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    animation: criticalPulse 2s infinite;
+}
+
+@keyframes criticalPulse {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.3; }
+}
+
+/* Intersection Observer Fallback */
+.no-intersection-observer .lazy-image {
+    opacity: 1;
+}
+
+.no-intersection-observer .loading-placeholder {
+    display: none;
+}

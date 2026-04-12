@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics System Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #141416, #1C1C1F);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #D4AF37, #FF8C42);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .portfolio-nav-card {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .portfolio-nav-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .status-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .gaming-portfolio .portfolio-nav-card {
+            background: rgba(255, 136, 0, 0.2);
+            border-color: rgba(255, 136, 0, 0.3);
+        }
+        
+        .content-portfolio .portfolio-nav-card {
+            background: rgba(128, 128, 128, 0.2);
+            border-color: rgba(128, 128, 128, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-chart-bar"></i> Analytics & Contact System Test</h1>
+        <p>This page tests the unified analytics tracking and contact system across all portfolios.</p>
+        
+        <!-- Portfolio Context Switcher -->
+        <div class="test-section">
+            <h3>Portfolio Context</h3>
+            <p>Current Portfolio: <span id="current-portfolio">tech</span></p>
+            <button class="test-button" onclick="switchPortfolio('tech')">Tech Portfolio</button>
+            <button class="test-button" onclick="switchPortfolio('gaming')">Gaming Ecosystem</button>
+            <button class="test-button" onclick="switchPortfolio('content')">Content Creation</button>
+        </div>
+        
+        <!-- Analytics Test Section -->
+        <div class="test-section">
+            <h3>Analytics Tracking Test</h3>
+            <p>Test various analytics events to see tracking in action:</p>
+            
+            <!-- Portfolio Navigation Cards -->
+            <div class="portfolio-nav-card" data-portfolio="gaming">
+                <i class="fas fa-gamepad"></i> Gaming Ecosystem
+            </div>
+            <div class="portfolio-nav-card" data-portfolio="content">
+                <i class="fas fa-video"></i> Content Creation
+            </div>
+            
+            <!-- Project Cards -->
+            <div class="project-card">
+                <h3>Test Project 1</h3>
+                <p>Click to test project interaction tracking</p>
+            </div>
+            <div class="project-card">
+                <h3>Test Project 2</h3>
+                <p>Another project for testing</p>
+            </div>
+            
+            <!-- Manual Event Triggers -->
+            <div style="margin-top: 20px;">
+                <button class="test-button" onclick="triggerTestEvent('manual_test', {test_type: 'button_click'})">
+                    Trigger Test Event
+                </button>
+                <button class="test-button" onclick="showAnalyticsSummary()">
+                    Show Analytics Summary
+                </button>
+                <button class="test-button" onclick="clearAnalyticsData()">
+                    Clear Analytics Data
+                </button>
+            </div>
+            
+            <div class="status-display" id="analytics-status">
+                Analytics events will appear here...
+            </div>
+        </div>
+        
+        <!-- Contact System Test -->
+        <div class="test-section">
+            <h3>Contact System Test</h3>
+            <p>Test the unified contact form system:</p>
+            
+            <form id="test-contact-form" action="https://formspree.io/f/meoerdwl" method="POST">
+                <input type="hidden" name="_next" value="thankyou.html">
+                <input type="hidden" name="portfolio_context" value="Tech Portfolio">
+                
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Test User" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" placeholder="test@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="message" rows="4" placeholder="This is a test message for the analytics and contact system..." required></textarea>
+                </div>
+                
+                <button type="submit" class="test-button">
+                    <i class="fas fa-paper-plane"></i> Send Test Message
+                </button>
+            </form>
+            
+            <div id="test-form-status" class="status-display">
+                Contact form status will appear here...
+            </div>
+        </div>
+        
+        <!-- Privacy Controls Test -->
+        <div class="test-section">
+            <h3>Privacy Controls Test</h3>
+            <p>Test privacy consent and data management:</p>
+            
+            <button class="test-button" onclick="testPrivacyConsent(true)">Accept Analytics</button>
+            <button class="test-button" onclick="testPrivacyConsent(false)">Decline Analytics</button>
+            <button class="test-button" onclick="exportUserData()">Export User Data</button>
+            <button class="test-button" onclick="deleteUserData()">Delete User Data</button>
+            
+            <div class="status-display" id="privacy-status">
+                Privacy actions will appear here...
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the analytics and contact system scripts -->
+    <script src="shared/analytics.js"></script>
+    <script src="shared/analytics-dashboard.js"></script>
+    <script src="shared/contact-system.js"></script>
+
+    <script>
+        // Test functions
+        function switchPortfolio(portfolioType) {
+            // Remove existing portfolio classes
+            document.body.classList.remove('gaming-portfolio', 'content-portfolio');
+            
+            // Add new portfolio class
+            if (portfolioType === 'gaming') {
+                document.body.classList.add('gaming-portfolio');
+            } else if (portfolioType === 'content') {
+                document.body.classList.add('content-portfolio');
+            }
+            
+            // Update display
+            document.getElementById('current-portfolio').textContent = portfolioType;
+            
+            // Update portfolio context input
+            const contextInput = document.querySelector('input[name="portfolio_context"]');
+            if (contextInput) {
+                const portfolioNames = {
+                    tech: 'Tech Portfolio',
+                    gaming: 'Gaming Ecosystem',
+                    content: 'Content Creation'
+                };
+                contextInput.value = portfolioNames[portfolioType];
+            }
+            
+            // Trigger analytics event
+            if (window.portfolioAnalytics) {
+                window.portfolioAnalytics.trackEvent('test_portfolio_switch', {
+                    to_portfolio: portfolioType,
+                    test_mode: true
+                });
+            }
+            
+            logStatus('analytics-status', `Switched to ${portfolioType} portfolio`);
+        }
+        
+        function triggerTestEvent(eventName, eventData) {
+            if (window.portfolioAnalytics) {
+                window.portfolioAnalytics.trackEvent(eventName, {
+                    ...eventData,
+                    test_mode: true,
+                    timestamp: Date.now()
+                });
+                logStatus('analytics-status', `Triggered event: ${eventName}`);
+            } else {
+                logStatus('analytics-status', 'Analytics system not available');
+            }
+        }
+        
+        function showAnalyticsSummary() {
+            if (window.portfolioAnalytics) {
+                const summary = window.portfolioAnalytics.getAnalyticsSummary();
+                logStatus('analytics-status', `Analytics Summary: ${JSON.stringify(summary, null, 2)}`);
+            } else {
+                logStatus('analytics-status', 'Analytics system not available');
+            }
+        }
+        
+        function clearAnalyticsData() {
+            if (window.portfolioAnalytics) {
+                window.portfolioAnalytics.deleteUserData();
+                logStatus('analytics-status', 'Analytics data cleared');
+            } else {
+                logStatus('analytics-status', 'Analytics system not available');
+            }
+        }
+        
+        function testPrivacyConsent(accept) {
+            if (window.portfolioAnalytics) {
+                if (accept) {
+                    window.portfolioAnalytics.enableAnalytics();
+                    logStatus('privacy-status', 'Analytics enabled');
+                } else {
+                    window.portfolioAnalytics.disableAnalytics();
+                    logStatus('privacy-status', 'Analytics disabled');
+                }
+            } else {
+                logStatus('privacy-status', 'Analytics system not available');
+            }
+        }
+        
+        function exportUserData() {
+            if (window.portfolioAnalytics) {
+                const data = window.portfolioAnalytics.exportUserData();
+                logStatus('privacy-status', `Exported data: ${JSON.stringify(data, null, 2)}`);
+            } else {
+                logStatus('privacy-status', 'Analytics system not available');
+            }
+        }
+        
+        function deleteUserData() {
+            if (window.portfolioAnalytics) {
+                window.portfolioAnalytics.deleteUserData();
+                logStatus('privacy-status', 'User data deleted');
+            } else {
+                logStatus('privacy-status', 'Analytics system not available');
+            }
+        }
+        
+        function logStatus(elementId, message) {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            element.innerHTML += `[${timestamp}] ${message}\n`;
+            element.scrollTop = element.scrollHeight;
+        }
+        
+        // Initialize test page
+        document.addEventListener('DOMContentLoaded', () => {
+            logStatus('analytics-status', 'Analytics test page loaded');
+            logStatus('privacy-status', 'Privacy controls ready');
+            
+            // Test initial analytics event
+            setTimeout(() => {
+                triggerTestEvent('test_page_load', {
+                    page: 'analytics-test',
+                    user_agent: navigator.userAgent
+                });
+            }, 1000);
+        });
+        
+        // Monitor analytics events
+        if (window.portfolioAnalytics) {
+            // Override trackEvent to show in status
+            const originalTrackEvent = window.portfolioAnalytics.trackEvent;
+            window.portfolioAnalytics.trackEvent = function(eventName, eventData) {
+                const result = originalTrackEvent.call(this, eventName, eventData);
+                logStatus('analytics-status', `📊 Event: ${eventName} - ${JSON.stringify(eventData)}`);
+                return result;
+            };
+        }
+    </script>
+</body>
+</html>

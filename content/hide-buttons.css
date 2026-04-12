@@ -1,0 +1,52 @@
+/* Hide skip-links div that contains contact/content buttons */
+.skip-links,
+div.skip-links,
+[class*="skip-link"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Aggressively hide unwanted top-left buttons */
+body::before,
+body::after,
+header::before,
+header::after,
+.logo::before,
+.logo::after,
+header nav::before,
+header nav::after {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    content: none !important;
+}
+
+/* Hide any absolutely positioned elements in top left */
+body > div:first-child:not(header):not(nav):not(main):not(section),
+body > a:first-child:not(.skip-link) {
+    display: none !important;
+}
+
+/* Target specific positioning */
+[style*="position: absolute"][style*="top"][style*="left"],
+[style*="position: fixed"][style*="top"][style*="left"]:not(.return-navigation) {
+    display: none !important;
+}
+
+/* Hide elements with contact/content text in top area - but allow sections */
+body > div:not([class]):not([id]),
+body > a:not([class]):not([id]) {
+    display: none !important;
+}
+
+/* Ensure clean header */
+header nav > *:not(.logo):not(.portfolio-indicator):not(.mobile-menu-button):not(.nav-links) {
+    display: none !important;
+}
+
+/* Hide any floating buttons in header only */
+header > button:not(.mobile-menu-button),
+header > a:not(.logo):not([href^="#"]):not(.return-button) {
+    display: none !important;
+}

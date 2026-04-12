@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="content/content-styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1A1A1A;
+        }
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .demo-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(44, 44, 44, 0.5);
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        .demo-header h1 {
+            color: #FFFFFF;
+            margin: 0 0 15px 0;
+        }
+        .demo-section {
+            margin-bottom: 60px;
+        }
+        .demo-title {
+            color: #FFFFFF;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(128, 128, 128, 0.3);
+        }
+    </style>
+</head>
+<body class="content-portfolio">
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1><i class="fas fa-mobile-alt"></i> Responsive Design Demo</h1>
+            <p style="color: rgba(255, 255, 255, 0.8);">Resize your browser to see responsive behavior</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="demo-title">Segment Themes Grid</h2>
+            <div class="segment-grid">
+                <div class="segment-card">
+                    <div class="segment-icon" style="background: linear-gradient(135deg, #FF6B6B, #FF8E8E)">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="segment-name">Prompt of the Month</h3>
+                    <p class="segment-description">Monthly video content exploring creative prompts</p>
+                    <div class="segment-stats">
+                        <span><i class="fas fa-video"></i> 8 Videos</span>
+                        <span><i class="fas fa-eye"></i> 12.5K Views</span>
+                    </div>
+                    <button class="btn-view-segment">View Videos</button>
+                </div>
+                
+                <div class="segment-card">
+                    <div class="segment-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D)">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="segment-name">Quarters</h3>
+                    <p class="segment-description">Quarterly review of top 10 prompts</p>
+                    <div class="segment-stats">
+                        <span><i class="fas fa-video"></i> 4 Videos</span>
+                        <span><i class="fas fa-eye"></i> 8.2K Views</span>
+                    </div>
+                    <button class="btn-view-segment">View Videos</button>
+                </div>
+                
+                <div class="segment-card">
+                    <div class="segment-icon" style="background: linear-gradient(135deg, #95E1D3, #38EF7D)">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="segment-name">Ethical Hackathons</h3>
+                    <p class="segment-description">Hackathon participation and outcomes</p>
+                    <div class="segment-stats">
+                        <span><i class="fas fa-video"></i> 6 Videos</span>
+                        <span><i class="fas fa-eye"></i> 15.3K Views</span>
+                    </div>
+                    <button class="btn-view-segment">View Videos</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="demo-title">Carousel Posts Grid</h2>
+            <div class="carousel-posts-grid">
+                <div class="carousel-post-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23808080' width='400' height='220'/%3E%3Ctext fill='%23fff' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ECarousel Preview%3C/text%3E%3C/svg%3E" alt="Carousel" class="carousel-preview">
+                    <div class="carousel-post-info">
+                        <h4 class="carousel-title">Week 9 Image Carousel</h4>
+                        <p class="carousel-description">Team composition and leadership models</p>
+                        <div class="carousel-meta">
+                            <span class="carousel-date"><i class="fas fa-calendar"></i> Feb 28, 2024</span>
+                            <span class="carousel-slides"><i class="fas fa-images"></i> 5 slides</span>
+                        </div>
+                        <div class="carousel-engagement">
+                            <span><i class="fas fa-heart"></i> 450</span>
+                            <span><i class="fas fa-comment"></i> 23</span>
+                            <span><i class="fas fa-share"></i> 67</span>
+                        </div>
+                        <button class="btn-view-carousel">View Carousel</button>
+                    </div>
+                </div>
+                
+                <div class="carousel-post-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23606060' width='400' height='220'/%3E%3Ctext fill='%23fff' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ECarousel Preview%3C/text%3E%3C/svg%3E" alt="Carousel" class="carousel-preview">
+                    <div class="carousel-post-info">
+                        <h4 class="carousel-title">Week 10 LinkedIn Post</h4>
+                        <p class="carousel-description">Innovation strategies and team dynamics</p>
+                        <div class="carousel-meta">
+                            <span class="carousel-date"><i class="fas fa-calendar"></i> Mar 7, 2024</span>
+                            <span class="carousel-slides"><i class="fas fa-images"></i> 6 slides</span>
+                        </div>
+                        <div class="carousel-engagement">
+                            <span><i class="fas fa-heart"></i> 523</span>
+                            <span><i class="fas fa-comment"></i> 31</span>
+                            <span><i class="fas fa-share"></i> 89</span>
+                        </div>
+                        <button class="btn-view-carousel">View Carousel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="demo-title">Events Grid</h2>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-image-preview">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250'%3E%3Crect fill='%23404040' width='400' height='250'/%3E%3Ctext fill='%23fff' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EEvent Image%3C/text%3E%3C/svg%3E" alt="Event">
+                        <div class="event-image-count"><i class="fas fa-images"></i> 24 Photos</div>
+                        <div class="event-category-badge">Competition</div>
+                    </div>
+                    <div class="event-info">
+                        <h3 class="event-name">Spring Innovation Challenge 2024</h3>
+                        <div class="event-meta">
+                            <span class="event-date"><i class="fas fa-calendar"></i> March 15, 2024</span>
+                            <span class="event-location"><i class="fas fa-map-marker-alt"></i> San Francisco, CA</span>
+                        </div>
+                        <p class="event-description">Captured event highlights and competition moments</p>
+                        <div class="event-outcome"><i class="fas fa-trophy"></i> 2nd Place - Best Documentation</div>
+                        <button class="btn-view-event">View Gallery</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="content/content-scripts.js"></script>
+    <script>
+        console.log('Responsive demo loaded');
+        console.log('Current viewport:', window.innerWidth, 'x', window.innerHeight);
+        
+        // Log breakpoint changes
+        let currentBreakpoint = '';
+        function checkBreakpoint() {
+            const width = window.innerWidth;
+            let breakpoint = '';
+            
+            if (width <= 480) breakpoint = 'Small Mobile';
+            else if (width <= 768) breakpoint = 'Mobile';
+            else if (width <= 1024) breakpoint = 'Tablet';
+            else if (width <= 1440) breakpoint = 'Desktop';
+            else breakpoint = 'Large Desktop';
+            
+            if (breakpoint !== currentBreakpoint) {
+                currentBreakpoint = breakpoint;
+                console.log('Breakpoint changed to:', breakpoint, '(' + width + 'px)');
+            }
+        }
+        
+        checkBreakpoint();
+        window.addEventListener('resize', checkBreakpoint);
+    </script>
+</body>
+</html>
