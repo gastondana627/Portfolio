@@ -17,8 +17,8 @@ class BundleManager {
                     'project-carousel.css'
                 ],
                 assets: [
-                    'assets/Space Meditation.jpg',
-                    'assets/Image 2-2-25 at 9.19 PM.jpg'
+                    '/assets/Space Meditation.jpg',
+                    '/assets/Image 2-2-25 at 9.19 PM.jpg'
                 ]
             },
             gaming: {

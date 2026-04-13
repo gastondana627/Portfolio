@@ -144,8 +144,8 @@ class PerformanceOptimizer {
     getCriticalAssets(portfolio) {
         const assets = {
             tech: [
-                'assets/Space Meditation.jpg',
-                'assets/Image 2-2-25 at 9.19 PM.jpg',
+                '/assets/Space Meditation.jpg',
+                '/assets/Image 2-2-25 at 9.19 PM.jpg',
                 'graph.js',
                 'project-carousel.js'
             ],

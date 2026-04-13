@@ -10,14 +10,14 @@ const SkillExplorerData = {
                 title: 'Lunar Loot',
                 type: 'game',
                 link: 'https://lunar-loot.streamlit.app',
-                image: '../assets/Lunar_Loot/Lunar_Loot_Logo copy.png', 
+                image: '/assets/Lunar_Loot/Lunar_Loot_Logo copy.png',
                 externalLink: 'https://lunar-loot.streamlit.app'
             },
             {
                 title: 'Procedural RPG Framework',
                 type: 'game',
                 link: '/gaming/#unity-rpg-procedural',
-                image: '../assets/SESA_1.png'
+                image: '/assets/SESA_1.png'
             }
         ],
         content: [
@@ -25,7 +25,7 @@ const SkillExplorerData = {
                 title: 'Live Game Development Sessions',
                 type: 'video',
                 link: '/content/#live-development-streams',
-                image: '../assets/The Hero Shot.png'
+                image: '/assets/The Hero Shot.png'
             }
         ],
         tech: [
@@ -33,7 +33,7 @@ const SkillExplorerData = {
                 title: 'Project Stargate',
                 type: 'project',
                 link: '/#project-stargate',
-                image: '../assets/Stargate1.jpg'
+                image: '/assets/Stargate1.jpg'
             }
         ]
     },
@@ -45,7 +45,7 @@ const SkillExplorerData = {
                 title: 'Indie Game Showcase',
                 type: 'video',
                 link: '/gaming/#indie-game-showcase',
-                image: '../assets/Space Meditation.jpg'
+                image: '/assets/Space Meditation.jpg'
             }
         ],
         content: [
@@ -53,13 +53,13 @@ const SkillExplorerData = {
                 title: 'Prompt of the Month',
                 type: 'video',
                 link: '/content/#prompt-of-the-month',
-                image: '../assets/Gen Image to 3D Construct Showcase 1.png'
+                image: '/assets/Gen Image to 3D Construct Showcase 1.png'
             },
             {
                 title: 'Advanced Unity Tutorial Series',
                 type: 'video',
                 link: '/content/#unity-advanced-tutorials',
-                image: '../assets/Image 2-2-25 at 9.19 PM.jpg'
+                image: '/assets/Image 2-2-25 at 9.19 PM.jpg'
             }
         ],
         tech: [
@@ -67,7 +67,7 @@ const SkillExplorerData = {
                 title: 'AI Room Designer',
                 type: 'project',
                 link: '/#ai-room-designer',
-                image: '../assets/ai-room-designer-promo.jpg'
+                image: '/assets/ai-room-designer-promo.jpg'
             }
         ]
     },
@@ -79,7 +79,7 @@ const SkillExplorerData = {
                 title: 'Collaborative Builder Prototype',
                 type: 'game',
                 link: '/gaming/#unity-multiplayer-prototype',
-                image: '../assets/Untitled-15.png'
+                image: '/assets/Untitled-15.png'
             }
         ],
         content: [
@@ -87,7 +87,7 @@ const SkillExplorerData = {
                 title: 'Vitrine Steganos Podcast',
                 type: 'video',
                 link: '/content/#vitrine-steganos',
-                image: '../assets/Thumbnail Google DM_OpenAI Dual Event.jpeg'
+                image: '/assets/Thumbnail Google DM_OpenAI Dual Event.jpeg'
             }
         ],
         tech: [
@@ -95,7 +95,7 @@ const SkillExplorerData = {
                 title: 'Relic / Peata',
                 type: 'project',
                 link: '/#ai-projects',
-                image: '../assets/Peata Intro Promo.png'
+                image: '/assets/Peata Intro Promo.png'
             }
         ]
     }

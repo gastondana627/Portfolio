@@ -27,7 +27,7 @@ if (typeof window.SEOOptimizer === 'undefined') {
                     title: 'Gaston Dana - Content Creation | Video Production & Design',
                     description: 'Professional video production, graphic design, and brand partnerships. Creating compelling visual narratives with technical precision.',
                     keywords: 'Video Production, Content Creation, Graphic Design, Brand Partnerships, Motion Graphics, Adobe Creative Suite',
-                    image: '/content/assets/content-hero.jpg',
+                    image: '/assets/content/images/content-hero.jpg',
                     type: 'website',
                     url: '/content'
                 }

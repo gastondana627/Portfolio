@@ -1,7 +1,5 @@
-// Content Creation Portfolio Data Structure
-// Comprehensive data for video projects, design work, campaigns, and creative processes
-
-const ContentPortfolioData = {
+(function() {
+  const data = {
     // Current Status and Recent Work
     currentStatus: {
         recentProject: {
@@ -81,14 +79,14 @@ const ContentPortfolioData = {
             },
             awards: ["Viral Potential Content 2024"],
             media: {
-                thumbnail: "../assets/ai-room-designer-promo.jpg",
+                thumbnail: "/assets/ai-room-designer-promo.jpg",
                 videoUrl: "https://youtube.com/watch?v=ai-room-designer-demo",
                 screenshots: [
-                    "../assets/ai-room-designer-promo.jpg",
-                    "../assets/ai-room-designer-promo.jpg",
-                    "../assets/ai-room-designer-promo.jpg"
+                    "/assets/ai-room-designer-promo.jpg",
+                    "/assets/ai-room-designer-promo.jpg",
+                    "/assets/ai-room-designer-promo.jpg"
                 ],
-                behindScenes: "../assets/ai-room-designer-promo.jpg"
+                behindScenes: "/assets/ai-room-designer-promo.jpg"
             }
         },
         {
@@ -129,11 +127,11 @@ const ContentPortfolioData = {
                 professionalInquiries: 25
             },
             media: {
-                thumbnail: "../assets/planetrics-dashboard.jpg",
+                thumbnail: "/assets/planetrics-dashboard.jpg",
                 videoUrl: "https://youtube.com/watch?v=planetrics-demo",
                 screenshots: [
-                    "../assets/planetrics-dashboard.jpg",
-                    "../assets/planetrics-dashboard.jpg"
+                    "/assets/planetrics-dashboard.jpg",
+                    "/assets/planetrics-dashboard.jpg"
                 ]
             }
         },
@@ -175,11 +173,11 @@ const ContentPortfolioData = {
                 communityEngagement: "Outstanding"
             },
             media: {
-                thumbnail: "../assets/Gen Image to 3D Construct Showcase 1.png",
+                thumbnail: "/assets/Gen Image to 3D Construct Showcase 1.png",
                 videoUrl: "https://youtube.com/watch?v=unity-tutorials",
                 screenshots: [
-                    "../assets/Gen Image to 3D Construct Showcase 1.png",
-                    "../assets/Gen Image to 3D Construct Showcase 1.png"
+                    "/assets/Gen Image to 3D Construct Showcase 1.png",
+                    "/assets/Gen Image to 3D Construct Showcase 1.png"
                 ]
             }
         },
@@ -221,11 +219,11 @@ const ContentPortfolioData = {
                 industryRecognition: "High"
             },
             media: {
-                thumbnail: "../assets/Space For Health Challenge.png",
+                thumbnail: "/assets/Space For Health Challenge.png",
                 videoUrl: "https://youtube.com/watch?v=nasa-knowledge-graph",
                 screenshots: [
-                    "../assets/Space For Health Challenge.png",
-                    "../assets/SESA_1.png"
+                    "/assets/Space For Health Challenge.png",
+                    "/assets/SESA_1.png"
                 ]
             }
         }
@@ -268,12 +266,12 @@ const ContentPortfolioData = {
                 performanceOptimization: "90+ Lighthouse Score"
             },
             media: {
-                thumbnail: "../assets/ai-room-designer-promo.jpg",
+                thumbnail: "/assets/ai-room-designer-promo.jpg",
                 gallery: [
-                    "../assets/ai-room-designer-promo.jpg",
-                    "../assets/ai-room-designer-promo.jpg",
-                    "../assets/ai-room-designer-promo.jpg",
-                    "../assets/ai-room-designer-promo.jpg"
+                    "/assets/ai-room-designer-promo.jpg",
+                    "/assets/ai-room-designer-promo.jpg",
+                    "/assets/ai-room-designer-promo.jpg",
+                    "/assets/ai-room-designer-promo.jpg"
                 ]
             }
         },
@@ -312,12 +310,12 @@ const ContentPortfolioData = {
                 educationalImpact: "High"
             },
             media: {
-                thumbnail: "../assets/planetrics-dashboard.jpg",
+                thumbnail: "/assets/planetrics-dashboard.jpg",
                 gallery: [
-                    "../assets/planetrics-dashboard.jpg",
-                    "../assets/planetrics-dashboard.jpg",
-                    "../assets/planetrics-dashboard.jpg",
-                    "../assets/planetrics-dashboard.jpg"
+                    "/assets/planetrics-dashboard.jpg",
+                    "/assets/planetrics-dashboard.jpg",
+                    "/assets/planetrics-dashboard.jpg",
+                    "/assets/planetrics-dashboard.jpg"
                 ]
             }
         },
@@ -356,12 +354,12 @@ const ContentPortfolioData = {
                 brandRecognition: "90%"
             },
             media: {
-                thumbnail: "../assets/The Hero Shot.png",
+                thumbnail: "/assets/The Hero Shot.png",
                 gallery: [
-                    "../assets/The Hero Shot.png",
-                    "../assets/Untitled-15.png",
-                    "../assets/The Hero Shot.png",
-                    "../assets/Untitled-15.png"
+                    "/assets/The Hero Shot.png",
+                    "/assets/Untitled-15.png",
+                    "/assets/The Hero Shot.png",
+                    "/assets/Untitled-15.png"
                 ]
             }
         }
@@ -411,11 +409,11 @@ const ContentPortfolioData = {
             },
             testimonial: "The technical depth and clarity of the AI Room Designer showcase was impressive. It perfectly demonstrated the practical applications of advanced AI in creative fields.",
             media: {
-                thumbnail: "../assets/ai-room-designer-promo.jpg",
+                thumbnail: "/assets/ai-room-designer-promo.jpg",
                 campaignAssets: [
-                    "../assets/ai-room-designer-promo.jpg",
-                    "../assets/ai-room-designer-promo.jpg",
-                    "../assets/ai-room-designer-promo.jpg"
+                    "/assets/ai-room-designer-promo.jpg",
+                    "/assets/ai-room-designer-promo.jpg",
+                    "/assets/ai-room-designer-promo.jpg"
                 ]
             }
         },
@@ -461,11 +459,11 @@ const ContentPortfolioData = {
             },
             testimonial: "The data visualization work brings complex astronomical data to life in an accessible and engaging way. Excellent contribution to space science education.",
             media: {
-                thumbnail: "../assets/planetrics-dashboard.jpg",
+                thumbnail: "/assets/planetrics-dashboard.jpg",
                 campaignAssets: [
-                    "../assets/planetrics-dashboard.jpg",
-                    "../assets/Space For Health Challenge.png",
-                    "../assets/SESA_1.png"
+                    "/assets/planetrics-dashboard.jpg",
+                    "/assets/Space For Health Challenge.png",
+                    "/assets/SESA_1.png"
                 ]
             }
         },
@@ -511,11 +509,11 @@ const ContentPortfolioData = {
             },
             testimonial: "The Unity tutorials are incredibly detailed and practical. They've helped countless developers improve their skills and create better games.",
             media: {
-                thumbnail: "../assets/Gen Image to 3D Construct Showcase 1.png",
+                thumbnail: "/assets/Gen Image to 3D Construct Showcase 1.png",
                 campaignAssets: [
-                    "../assets/Gen Image to 3D Construct Showcase 1.png",
-                    "../assets/Gen Image to 3D Construct Showcase 1.png",
-                    "../assets/Gen Image to 3D Construct Showcase 1.png"
+                    "/assets/Gen Image to 3D Construct Showcase 1.png",
+                    "/assets/Gen Image to 3D Construct Showcase 1.png",
+                    "/assets/Gen Image to 3D Construct Showcase 1.png"
                 ]
             }
         },
@@ -561,11 +559,11 @@ const ContentPortfolioData = {
             },
             testimonial: "The multi-portfolio approach is revolutionary for modern professionals. It perfectly demonstrates how to showcase diverse skills while maintaining brand coherence.",
             media: {
-                thumbnail: "../assets/The Hero Shot.png",
+                thumbnail: "/assets/The Hero Shot.png",
                 campaignAssets: [
-                    "../assets/The Hero Shot.png",
-                    "../assets/Untitled-15.png",
-                    "../assets/The Hero Shot.png"
+                    "/assets/The Hero Shot.png",
+                    "/assets/Untitled-15.png",
+                    "/assets/The Hero Shot.png"
                 ]
             }
         }
@@ -881,11 +879,5 @@ const ContentPortfolioData = {
         }
     ]
 };
-
-// Export for use in other files
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ContentPortfolioData;
-}
-
-// Make available globally for browser use
-window.ContentPortfolioData = ContentPortfolioData;
+  window.ContentPortfolioData = Object.assign(window.ContentPortfolioData || {}, data);
+})();

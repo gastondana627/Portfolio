@@ -179,7 +179,7 @@ class PortfolioDiscovery {
                                             ${(data[portfolio] || []).map(item => `
                                                 <a href="${item.link}" class="media-card" ${item.externalLink ? 'target="_blank"' : ''}>
                                                     <div class="media-thumbnail">
-                                                        ${item.image ? `<img src="${item.image}" alt="${item.title}" onerror="this.src='../assets/placeholder.jpg'" />` : '<div class="media-placeholder"></div>'}
+                                                        ${item.image ? `<img src="${item.image}" alt="${item.title}" onerror="this.src='/assets/placeholder.jpg'" />` : '<div class="media-placeholder"></div>'}
                                                         ${item.type === 'video' ? '<div class="play-overlay"><i class="fas fa-play"></i></div>' : ''}
                                                     </div>
                                                     <div class="media-info">

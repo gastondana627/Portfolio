@@ -107,13 +107,13 @@ document.addEventListener('DOMContentLoaded', function() {
         loadMoreButton.addEventListener('click', () => {
             const newProjects = `
               <div class="project">
-                  <img src="assets/project3.jpg" alt="Project 3" class="project-image">
+                  <img src="/assets/project3.jpg" alt="Project 3" class="project-image">
                   <h3>Project 3</h3>
                   <p>A description of the new project.</p>
                   <a href="#" class="button">View Project</a>
               </div>
               <div class="project">
-                  <img src="assets/project4.jpg" alt="Project 4" class="project-image">
+                  <img src="/assets/project4.jpg" alt="Project 4" class="project-image">
                   <h3>Project 4</h3>
                   <p>Another project to showcase.</p>
                   <a href="#" class="button">View Project</a>
