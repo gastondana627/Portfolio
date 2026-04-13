@@ -1,10 +1,5 @@
-/**
- * Content Portfolio Data Structure
- * Comprehensive data for Content Creation portfolio section
- * Includes: Segment Themes, AdvancingX Work, and Event Content
- */
-
-const ContentPortfolioData = {
+(function() {
+  const data = {
   // ========================================
   // SEGMENT THEMES - Video-focused content series
   // ========================================
@@ -1023,49 +1018,49 @@ const ContentPortfolioData = {
       images: [
         {
           id: "img-1",
-          image: "content/assets/images/events/spring-innovation-2024/opening-ceremony.jpg",
+          image: "/assets/content/images/events/spring-innovation-2024/opening-ceremony.jpg",
           caption: "Opening ceremony with keynote speaker",
           timestamp: "2024-03-15T09:00:00",
           tags: ["Opening", "Keynote"]
         },
         {
           id: "img-2",
-          image: "content/assets/images/events/spring-innovation-2024/team-brainstorm.jpg",
+          image: "/assets/content/images/events/spring-innovation-2024/team-brainstorm.jpg",
           caption: "Team brainstorming session",
           timestamp: "2024-03-15T11:30:00",
           tags: ["Team", "Collaboration"]
         },
         {
           id: "img-3",
-          image: "content/assets/images/events/spring-innovation-2024/workshop-1.jpg",
+          image: "/assets/content/images/events/spring-innovation-2024/workshop-1.jpg",
           caption: "Design thinking workshop",
           timestamp: "2024-03-15T14:00:00",
           tags: ["Workshop", "Design Thinking"]
         },
         {
           id: "img-4",
-          image: "content/assets/images/events/spring-innovation-2024/coding-session.jpg",
+          image: "/assets/content/images/events/spring-innovation-2024/coding-session.jpg",
           caption: "Intense coding session",
           timestamp: "2024-03-16T10:00:00",
           tags: ["Coding", "Development"]
         },
         {
           id: "img-5",
-          image: "content/assets/images/events/spring-innovation-2024/mentor-feedback.jpg",
+          image: "/assets/content/images/events/spring-innovation-2024/mentor-feedback.jpg",
           caption: "Receiving mentor feedback",
           timestamp: "2024-03-16T15:30:00",
           tags: ["Mentorship", "Feedback"]
         },
         {
           id: "img-6",
-          image: "content/assets/images/events/spring-innovation-2024/final-presentation.jpg",
+          image: "/assets/content/images/events/spring-innovation-2024/final-presentation.jpg",
           caption: "Final project presentation",
           timestamp: "2024-03-17T13:00:00",
           tags: ["Presentation", "Demo"]
         },
         {
           id: "img-7",
-          image: "content/assets/images/events/spring-innovation-2024/award-ceremony.jpg",
+          image: "/assets/content/images/events/spring-innovation-2024/award-ceremony.jpg",
           caption: "Award ceremony - 2nd place win",
           timestamp: "2024-03-17T17:00:00",
           tags: ["Awards", "Winner"]
@@ -1099,35 +1094,35 @@ const ContentPortfolioData = {
       images: [
         {
           id: "img-1",
-          image: "content/assets/images/events/ai-healthcare-2024/summit-entrance.jpg",
+          image: "/assets/content/images/events/ai-healthcare-2024/summit-entrance.jpg",
           caption: "Summit entrance and registration",
           timestamp: "2024-02-10T08:00:00",
           tags: ["Entrance", "Registration"]
         },
         {
           id: "img-2",
-          image: "content/assets/images/events/ai-healthcare-2024/keynote-ai.jpg",
+          image: "/assets/content/images/events/ai-healthcare-2024/keynote-ai.jpg",
           caption: "AI in diagnostics keynote",
           timestamp: "2024-02-10T10:00:00",
           tags: ["Keynote", "AI", "Diagnostics"]
         },
         {
           id: "img-3",
-          image: "content/assets/images/events/ai-healthcare-2024/demo-booth.jpg",
+          image: "/assets/content/images/events/ai-healthcare-2024/demo-booth.jpg",
           caption: "Interactive AI demo booth",
           timestamp: "2024-02-10T13:30:00",
           tags: ["Demo", "Interactive"]
         },
         {
           id: "img-4",
-          image: "content/assets/images/events/ai-healthcare-2024/panel-discussion.jpg",
+          image: "/assets/content/images/events/ai-healthcare-2024/panel-discussion.jpg",
           caption: "Expert panel on AI ethics",
           timestamp: "2024-02-10T15:00:00",
           tags: ["Panel", "Ethics"]
         },
         {
           id: "img-5",
-          image: "content/assets/images/events/ai-healthcare-2024/networking.jpg",
+          image: "/assets/content/images/events/ai-healthcare-2024/networking.jpg",
           caption: "Networking session",
           timestamp: "2024-02-11T11:00:00",
           tags: ["Networking", "Community"]
@@ -1161,42 +1156,42 @@ const ContentPortfolioData = {
       images: [
         {
           id: "img-1",
-          image: "content/assets/images/events/sustainability-hack-2023/kickoff.jpg",
+          image: "/assets/content/images/events/sustainability-hack-2023/kickoff.jpg",
           caption: "Hackathon kickoff and team formation",
           timestamp: "2023-09-22T09:00:00",
           tags: ["Kickoff", "Team"]
         },
         {
           id: "img-2",
-          image: "content/assets/images/events/sustainability-hack-2023/ideation.jpg",
+          image: "/assets/content/images/events/sustainability-hack-2023/ideation.jpg",
           caption: "Ideation and planning phase",
           timestamp: "2023-09-22T11:00:00",
           tags: ["Ideation", "Planning"]
         },
         {
           id: "img-3",
-          image: "content/assets/images/events/sustainability-hack-2023/development.jpg",
+          image: "/assets/content/images/events/sustainability-hack-2023/development.jpg",
           caption: "Development in progress",
           timestamp: "2023-09-23T02:00:00",
           tags: ["Development", "Coding"]
         },
         {
           id: "img-4",
-          image: "content/assets/images/events/sustainability-hack-2023/testing.jpg",
+          image: "/assets/content/images/events/sustainability-hack-2023/testing.jpg",
           caption: "Testing and refinement",
           timestamp: "2023-09-23T18:00:00",
           tags: ["Testing", "QA"]
         },
         {
           id: "img-5",
-          image: "content/assets/images/events/sustainability-hack-2023/pitch.jpg",
+          image: "/assets/content/images/events/sustainability-hack-2023/pitch.jpg",
           caption: "Final pitch presentation",
           timestamp: "2023-09-24T14:00:00",
           tags: ["Pitch", "Presentation"]
         },
         {
           id: "img-6",
-          image: "content/assets/images/events/sustainability-hack-2023/winners.jpg",
+          image: "/assets/content/images/events/sustainability-hack-2023/winners.jpg",
           caption: "2nd place celebration",
           timestamp: "2023-09-24T18:00:00",
           tags: ["Winners", "Celebration"]
@@ -1230,42 +1225,42 @@ const ContentPortfolioData = {
       images: [
         {
           id: "img-1",
-          image: "content/assets/images/events/tech-conf-2023/main-stage.jpg",
+          image: "/assets/content/images/events/tech-conf-2023/main-stage.jpg",
           caption: "Main stage setup",
           timestamp: "2023-11-08T08:00:00",
           tags: ["Stage", "Setup"]
         },
         {
           id: "img-2",
-          image: "content/assets/images/events/tech-conf-2023/speaker-1.jpg",
+          image: "/assets/content/images/events/tech-conf-2023/speaker-1.jpg",
           caption: "Opening keynote speaker",
           timestamp: "2023-11-08T10:00:00",
           tags: ["Keynote", "Speaker"]
         },
         {
           id: "img-3",
-          image: "content/assets/images/events/tech-conf-2023/expo-hall.jpg",
+          image: "/assets/content/images/events/tech-conf-2023/expo-hall.jpg",
           caption: "Bustling expo hall",
           timestamp: "2023-11-08T14:00:00",
           tags: ["Expo", "Vendors"]
         },
         {
           id: "img-4",
-          image: "content/assets/images/events/tech-conf-2023/workshop.jpg",
+          image: "/assets/content/images/events/tech-conf-2023/workshop.jpg",
           caption: "Hands-on workshop session",
           timestamp: "2023-11-09T11:00:00",
           tags: ["Workshop", "Hands-on"]
         },
         {
           id: "img-5",
-          image: "content/assets/images/events/tech-conf-2023/networking-party.jpg",
+          image: "/assets/content/images/events/tech-conf-2023/networking-party.jpg",
           caption: "Evening networking event",
           timestamp: "2023-11-09T19:00:00",
           tags: ["Networking", "Social"]
         },
         {
           id: "img-6",
-          image: "content/assets/images/events/tech-conf-2023/closing.jpg",
+          image: "/assets/content/images/events/tech-conf-2023/closing.jpg",
           caption: "Closing remarks",
           timestamp: "2023-11-10T16:00:00",
           tags: ["Closing", "Finale"]
@@ -1298,28 +1293,28 @@ const ContentPortfolioData = {
       images: [
         {
           id: "img-1",
-          image: "content/assets/images/events/pitch-night-2024/venue-setup.jpg",
+          image: "/assets/content/images/events/pitch-night-2024/venue-setup.jpg",
           caption: "Venue setup before event",
           timestamp: "2024-01-25T17:00:00",
           tags: ["Venue", "Setup"]
         },
         {
           id: "img-2",
-          image: "content/assets/images/events/pitch-night-2024/pitch-1.jpg",
+          image: "/assets/content/images/events/pitch-night-2024/pitch-1.jpg",
           caption: "First startup pitch",
           timestamp: "2024-01-25T19:00:00",
           tags: ["Pitch", "Startup"]
         },
         {
           id: "img-3",
-          image: "content/assets/images/events/pitch-night-2024/qa-session.jpg",
+          image: "/assets/content/images/events/pitch-night-2024/qa-session.jpg",
           caption: "Investor Q&A session",
           timestamp: "2024-01-25T19:30:00",
           tags: ["Q&A", "Investors"]
         },
         {
           id: "img-4",
-          image: "content/assets/images/events/pitch-night-2024/networking.jpg",
+          image: "/assets/content/images/events/pitch-night-2024/networking.jpg",
           caption: "Post-pitch networking",
           timestamp: "2024-01-25T21:00:00",
           tags: ["Networking", "Connections"]
@@ -1341,8 +1336,5 @@ const ContentPortfolioData = {
     }
   ]
 };
-
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = ContentPortfolioData;
-}
+  window.ContentPortfolioData = Object.assign(window.ContentPortfolioData || {}, data);
+})();
