@@ -175,7 +175,7 @@ select:focus,
 
 /* Focus for modal close buttons */
 .modal-close:focus {
-    outline: 3px solid #4A90E2 !important;
+    outline: 3px solid #D4AF37 !important;
     outline-offset: 2px !important;
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
@@ -185,16 +185,16 @@ select:focus,
 .carousel-nav:focus,
 .gallery-nav:focus,
 .video-nav-btn:focus {
-    outline: 3px solid #4A90E2 !important;
+    outline: 3px solid #D4AF37 !important;
     outline-offset: 2px !important;
-    background: rgba(74, 144, 226, 0.2);
+    background: rgba(212, 175, 55, 0.2);
 }
 
 /* Focus for platform tabs */
 .platform-tab:focus {
-    outline: 3px solid #4A90E2 !important;
+    outline: 3px solid #D4AF37 !important;
     outline-offset: 2px !important;
-    box-shadow: 0 0 0 5px rgba(74, 144, 226, 0.25) !important;
+    box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.25) !important;
 }
 
 /* ========================================
@@ -323,7 +323,7 @@ select:focus,
     position: absolute;
     top: -40px;
     left: 0;
-    background: #4A90E2;
+    background: #D4AF37;
     color: #FFFFFF;
     padding: 10px 20px;
     text-decoration: none;
@@ -521,8 +521,8 @@ textarea:valid:not(:placeholder-shown) {
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #4A90E2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
+    border-color: #D4AF37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
 }
 
 /* ========================================

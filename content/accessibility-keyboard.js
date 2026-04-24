@@ -120,7 +120,7 @@
         style.textContent = `
             /* Enhanced focus indicators */
             *:focus {
-                outline: 3px solid #4A90E2;
+                outline: 3px solid #D4AF37;
                 outline-offset: 2px;
             }
             
@@ -130,9 +130,9 @@
             input:focus,
             textarea:focus,
             select:focus {
-                outline: 3px solid #4A90E2;
+                outline: 3px solid #D4AF37;
                 outline-offset: 2px;
-                box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+                box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
             }
             
             /* Focus for cards and interactive elements */
@@ -144,15 +144,15 @@
             .design-card:focus,
             .partnership-card:focus,
             .case-study-card:focus {
-                outline: 3px solid #4A90E2;
+                outline: 3px solid #D4AF37;
                 outline-offset: 3px;
                 transform: translateY(-5px);
-                box-shadow: 0 15px 40px rgba(74, 144, 226, 0.3);
+                box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
             }
             
             /* Focus for modal close buttons */
             .modal-close:focus {
-                outline: 3px solid #4A90E2;
+                outline: 3px solid #D4AF37;
                 outline-offset: 2px;
                 background: rgba(255, 255, 255, 0.2);
             }
@@ -162,7 +162,7 @@
                 position: absolute;
                 top: -40px;
                 left: 0;
-                background: #4A90E2;
+                background: #D4AF37;
                 color: white;
                 padding: 8px 16px;
                 text-decoration: none;

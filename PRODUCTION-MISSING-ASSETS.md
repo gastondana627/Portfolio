@@ -22,11 +22,13 @@ Many .mp4 and .wav files were excluded from the repository due to size constrain
 | Prompt of the Month | September - FMU | `/assets/content/segments/promptofthemonth/September/Prompt of the Month - September (FMU).mp4` |
 | Vitrine Steganos | VS Xmas Edition | `/content/assets/videos/segments/vitrinesteganos/Ally&Ivan_Podcast/VS_XMas Edition.mp4` |
 
-### 🎵 Missing Audio
+### 🎵 Audio
 
-| Section | Referenced Item | Missing File Path |
-|---------|-----------------|-------------------|
-| Global | Background Music | `assets/music_fx_a_trap_beat_with_a_heavy_bass_butwith_techno-2.wav` |
+| Section | Referenced Item | Status |
+|---------|-----------------|--------|
+| Global | Background Music | ✅ Migrated to `assets/bg-music.mp3` (1.5 MB MP3) |
+
+> **Note:** The original `assets/music_fx_a_trap_beat_with_a_heavy_bass_butwith_techno-2.wav` (3.6 MB) has been replaced by the smaller MP3 version. All HTML files now reference `assets/bg-music.mp3`.
 
 ---
 
@@ -35,7 +37,8 @@ Many .mp4 and .wav files were excluded from the repository due to size constrain
 1.  **Resilience Implementation:** Updated `content/content-segments-ui.js` and `script.js` to detect missing media assets and display graceful fallback messages instead of broken players.
 2.  **LFS Detection:** Added logic to detect Git LFS pointers (small files representing large assets) and treat them as missing assets in production.
 3.  **Path Audit:** Verified all thumbnails are present; only large media files are missing.
+4.  **Audio Migration:** Background music migrated from `.wav` to `.mp3` format for smaller file size and broader compatibility.
 
 ## 📌 Recommendation
 
-For the missing videos and background music, host them on a dedicated CDN or video hosting service (like Vimeo or YouTube) and update the `videoPath` to the external URL. This bypasses Git repository size limitations.
+For the missing videos, host them on a dedicated CDN or video hosting service (like Vimeo or YouTube) and update the `videoPath` to the external URL. This bypasses Git repository size limitations.

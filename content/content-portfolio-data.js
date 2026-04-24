@@ -19,8 +19,8 @@
         "/assets/content/segments/promptofthemonth/July/PofT Oceans HeartBeat July_Final_Thumbie_2.png",
         "/assets/content/segments/promptofthemonth/September/FMU.png"
       ],
-      color: "#FF6B6B",
-      gradient: "linear-gradient(135deg, #FF6B6B, #FF8E8E)",
+      color: "#D4AF37",
+      gradient: "linear-gradient(135deg, #D4AF37, #FF8C42)",
       contentType: "video-primary",
       videos: [],
       stats: {
@@ -37,8 +37,8 @@
       thumbnails: [
         "/assets/content/segments/vitrinesteganos/placeholder.png"
       ],
-      color: "#9B59B6",
-      gradient: "linear-gradient(135deg, #9B59B6, #B98FCC)",
+      color: "#FF8C42",
+      gradient: "linear-gradient(135deg, #FF8C42, #D4AF37)",
       contentType: "video-primary",
       videos: [],
       stats: {
@@ -66,8 +66,8 @@
         "/assets/content/segments/quarters/quarter2/Thumby_Quarters.png",
         "/assets/content/segments/quarters/quarter3/Thumby.png"
       ],
-      color: "#4ECDC4",
-      gradient: "linear-gradient(135deg, #4ECDC4, #6FE7DD)",
+      color: "#DAA520",
+      gradient: "linear-gradient(135deg, #DAA520, #FF8C42)",
       contentType: "image-gallery",
       videos: [],
       stats: {

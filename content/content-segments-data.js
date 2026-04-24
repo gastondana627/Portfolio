@@ -199,8 +199,8 @@
                 id: "vs-podcast-xmas",
                 title: "VS Xmas Edition",
                 series: "Ally & Ivan Podcast",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/VS_XMas Edition_thumb.png",
-                videoPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/VS_XMas Edition.mp4",
+                thumbnailPath: "/assets/content/segments/vitrinesteganos/placeholder.png",
+                videoPath: "/assets/content/segments/vitrinesteganos/Ally_and_Ivan_Podcast/VS_XMas_Edition_compressed.mp4",
                 duration: "35:10",
                 description: "Special holiday episode celebrating creativity and innovation"
             }
@@ -219,7 +219,7 @@
                 id: "vs-burger-earth",
                 title: "Burger Shack - Earth Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_1_Earth_Edition_thumb.png",
+                thumbnailPath: "/assets/content/segments/vitrinesteganos/placeholder.png",
                 videoPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_1_Earth_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Earth location"
@@ -228,7 +228,7 @@
                 id: "vs-burger-mars",
                 title: "Burger Shack - Mars Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Buger_Shack_Ad_2_Mars_Edition_thumb.png",
+                thumbnailPath: "/assets/content/segments/vitrinesteganos/placeholder.png",
                 videoPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Buger_Shack_Ad_2_Mars_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Mars location"
@@ -237,7 +237,7 @@
                 id: "vs-burger-venus",
                 title: "Burger Shack - Venus Edition",
                 series: "Intergalactic Burger Shack",
-                thumbnailPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_3_Venus_Edition_thumb.png",
+                thumbnailPath: "/assets/content/segments/vitrinesteganos/placeholder.png",
                 videoPath: "/assets/content/segments/vitrinesteganos/Intergalactic_BurgerShack/IGCD_Burger_Shack_Ad_3_Venus_Edition.mp4",
                 duration: "0:30",
                 description: "Cosmic fast food commercial - Venus location"

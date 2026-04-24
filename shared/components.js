@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     } catch (error) {
                         formStatus.textContent = 'Error sending message. Please try again.';
-                        formStatus.style.color = '#FF6B6B';
+                        formStatus.style.color = '#FF8C42';
                     }
                 });
             }
