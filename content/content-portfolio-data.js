@@ -63,8 +63,8 @@
         "/assets/content/segments/quarters/quarter1/8.png",
         "/assets/content/segments/quarters/quarter1/9.png",
         "/assets/content/segments/quarters/quarter1/10.png",
-        "/assets/content/segments/quarters/quarter2/Thumby_Quarters.png",
-        "/assets/content/segments/quarters/quarter3/Thumby.png"
+        "/assets/content/segments/quarters/quarter2/thumby_quarters.png",
+        "/assets/content/segments/quarters/quarter3/thumby.png"
       ],
       color: "#4ECDC4",
       gradient: "linear-gradient(135deg, #4ECDC4, #6FE7DD)",
