@@ -31,10 +31,10 @@
                 id: "q2-2024",
                 title: "Q2 2024 Highlights",
                 period: "April - June 2024",
-                thumbnailPath: "/assets/content/segments/quarters/quarter2/Thumby_Quarters.png",
-                videoPath: "/assets/content/segments/quarters/quarter2/A hyper-realistic image captures a black Cairn Terrier in a full NASA-engineered spacesuit confidently exploring a Martian ridge, accompanied by a humanoid robotic assistant and a floating AI self.mp4",
+                thumbnailPath: "/assets/content/segments/quarters/quarter2/thumby_quarters.png",
+                videoPath: "/assets/content/segments/quarters/quarter2/a hyper-realistic image captures a black cairn terrier in a full nasa-engineered spacesuit confidently exploring a martian ridge, accompanied by a humanoid robotic assistant and a floating ai self.mp4",
                 images: [
-                    "/assets/content/segments/quarters/quarter2/Thumby_Quarters.png"
+                    "/assets/content/segments/quarters/quarter2/thumby_quarters.png"
                 ],
                 description: "Key developments and milestones from Q2 2024"
             },
@@ -42,10 +42,10 @@
                 id: "q3-2024",
                 title: "Q3 2024 Highlights",
                 period: "July - September 2024",
-                thumbnailPath: "/assets/content/segments/quarters/quarter3/Thumby.png",
-                videoPath: "/assets/content/segments/quarters/quarter3/Quarters 3.mp4",
+                thumbnailPath: "/assets/content/segments/quarters/quarter3/thumby.png",
+                videoPath: "/assets/content/segments/quarters/quarter3/quarters 3.mp4",
                 images: [
-                    "/assets/content/segments/quarters/quarter3/Thumby.png"
+                    "/assets/content/segments/quarters/quarter3/thumby.png"
                 ],
                 description: "Progress and achievements from Q3 2024"
             }
@@ -65,7 +65,7 @@
                 title: "Surf's Up - January",
                 month: "January",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/January/Thumby.png",
+                thumbnailPath: "/assets/content/segments/promptofthemonth/January/thumby.png",
                 videoPath: "/assets/content/segments/promptofthemonth/January/Prompt of the Month-Surfs Up.mp4",
                 duration: "1:30",
                 prompt: "Surf's Up",
@@ -76,7 +76,7 @@
                 title: "February",
                 month: "February",
                 year: 2024,
-                thumbnailPath: "/assets/content/segments/promptofthemonth/February/Thumby.png",
+                thumbnailPath: "/assets/content/segments/promptofthemonth/February/thumby.png",
                 videoPath: "/assets/content/segments/promptofthemonth/February/Prompt Of The Month - February.mp4",
                 duration: "1:45",
                 prompt: "Love and Connection",

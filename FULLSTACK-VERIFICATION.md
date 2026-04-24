@@ -33,7 +33,7 @@
 #### Image Assets (Thumbnails)
 - ✅ Prompt of the Month: `promptofthemonth/January/Thumby.png` → 200 OK
 - ✅ Vitrine Steganos: `quarters/quarter3/Thumby.png` → 200 OK
-- ✅ Quarters: `quarters/quarter2/Thumby_Quarters.png` → 200 OK
+- ✅ Quarters: `quarters/quarter2/thumby_quarters.png` → 200 OK
 
 ### 2. Data Integrity - ALL PASSING ✅
 
@@ -73,7 +73,7 @@ Portfolio/
 │       │   │   └── January/Thumby.png  ✅ Exists
 │       │   └── quarters/
 │       │       ├── quarter2/
-│       │       │   └── Thumby_Quarters.png ✅ Exists
+│       │       │   └── thumby_quarters.png ✅ Exists
 │       │       └── quarter3/
 │       │           └── Thumby.png      ✅ Exists
 │       ├── thumbnails/segments/        ✅ Organized
@@ -137,7 +137,7 @@ http://localhost:8000/content/index.html
 ```
 http://localhost:8000/content/assets/images/segments/promptofthemonth/January/Thumby.png
 http://localhost:8000/content/assets/images/segments/quarters/quarter3/Thumby.png
-http://localhost:8000/content/assets/images/segments/quarters/quarter2/Thumby_Quarters.png
+http://localhost:8000/content/assets/images/segments/quarters/quarter2/thumby_quarters.png
 ```
 
 ### JavaScript Console Tests

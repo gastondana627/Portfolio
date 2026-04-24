@@ -8,10 +8,10 @@
       id: "promptofthemonth",
       name: "Prompt of the Month",
       description: "Video editing for explanational monthly prompt topics exploring AI creativity and innovation",
-      thumbnail: "/assets/content/segments/promptofthemonth/January/Thumby.png",
+      thumbnail: "/assets/content/segments/promptofthemonth/January/thumby.png",
       thumbnails: [
-        "/assets/content/segments/promptofthemonth/January/Thumby.png",
-        "/assets/content/segments/promptofthemonth/February/Thumby.png",
+        "/assets/content/segments/promptofthemonth/January/thumby.png",
+        "/assets/content/segments/promptofthemonth/February/thumby.png",
         "/assets/content/segments/promptofthemonth/March/Prompt of the Month RadCliffe Wave-Where the Stars Are Born.png",
         "/assets/content/segments/promptofthemonth/April/Prompt of the Month.png",
         "/assets/content/segments/promptofthemonth/May/FMU.png",
@@ -63,8 +63,8 @@
         "/assets/content/segments/quarters/quarter1/8.png",
         "/assets/content/segments/quarters/quarter1/9.png",
         "/assets/content/segments/quarters/quarter1/10.png",
-        "/assets/content/segments/quarters/quarter2/Thumby_Quarters.png",
-        "/assets/content/segments/quarters/quarter3/Thumby.png"
+        "/assets/content/segments/quarters/quarter2/thumby_quarters.png",
+        "/assets/content/segments/quarters/quarter3/thumby.png"
       ],
       color: "#4ECDC4",
       gradient: "linear-gradient(135deg, #4ECDC4, #6FE7DD)",
@@ -151,7 +151,7 @@
             order: 3
           }
         ],
-        thumbnail: "/assets/content/advancingx/X/week9/Week 9 X Thumby.png",
+        thumbnail: "/assets/content/advancingx/X/week9/Week 9 X thumby.png",
         engagement: {
           likes: 450,
           comments: 23,
@@ -186,7 +186,7 @@
             order: 3
           }
         ],
-        thumbnail: "/assets/content/advancingx/X/week10/X Week 10 Post Thumby.png",
+        thumbnail: "/assets/content/advancingx/X/week10/X Week 10 Post thumby.png",
         engagement: {
           likes: 520,
           comments: 31,
@@ -221,7 +221,7 @@
             order: 3
           }
         ],
-        thumbnail: "/assets/content/advancingx/X/week11/X Week 11 Post Thumby.png",
+        thumbnail: "/assets/content/advancingx/X/week11/X Week 11 Post thumby.png",
         engagement: {
           likes: 485,
           comments: 28,
@@ -291,7 +291,7 @@
             order: 3
           }
         ],
-        thumbnail: "/assets/content/advancingx/X/week13/X Week 13 Post Thumby.png",
+        thumbnail: "/assets/content/advancingx/X/week13/X Week 13 Post thumby.png",
         engagement: {
           likes: 495,
           comments: 29,
@@ -326,7 +326,7 @@
             order: 3
           }
         ],
-        thumbnail: "/assets/content/advancingx/X/week14/X Week 14 Post Thumby.png",
+        thumbnail: "/assets/content/advancingx/X/week14/X Week 14 Post thumby.png",
         engagement: {
           likes: 530,
           comments: 42,
@@ -361,7 +361,7 @@
             order: 3
           }
         ],
-        thumbnail: "/assets/content/advancingx/X/week15/X Week 15 Post Thumby.png",
+        thumbnail: "/assets/content/advancingx/X/week15/X Week 15 Post thumby.png",
         engagement: {
           likes: 475,
           comments: 26,
@@ -396,7 +396,7 @@
             order: 3
           }
         ],
-        thumbnail: "/assets/content/advancingx/X/week16/X Week 16 Post Thumby.png",
+        thumbnail: "/assets/content/advancingx/X/week16/X Week 16 Post thumby.png",
         engagement: {
           likes: 560,
           comments: 38,
@@ -891,7 +891,7 @@
             order: 4
           }
         ],
-        thumbnail: "/assets/content/advancingx/linkedin/week15/Li Week 15 Post Thumby.png",
+        thumbnail: "/assets/content/advancingx/linkedin/week15/Li Week 15 Post thumby.png",
         engagement: {
           likes: 920,
           comments: 78,

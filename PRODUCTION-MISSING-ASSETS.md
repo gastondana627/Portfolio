@@ -11,7 +11,7 @@ Many .mp4 and .wav files were excluded from the repository due to size constrain
 | Section | Referenced Item | Missing File Path |
 |---------|-----------------|-------------------|
 | Quarters | Q2 2024 Highlights | `/assets/content/segments/quarters/quarter2/A hyper-realistic image...mp4` |
-| Quarters | Q3 2024 Highlights | `/assets/content/segments/quarters/quarter3/Quarters 3.mp4` |
+| Quarters | Q3 2024 Highlights | `/assets/content/segments/quarters/quarter3/quarters 3.mp4` |
 | Prompt of the Month | January - Surf's Up | `/assets/content/segments/promptofthemonth/January/Prompt of the Month-Surfs Up.mp4` |
 | Prompt of the Month | February | `/assets/content/segments/promptofthemonth/February/Prompt Of The Month - February.mp4` |
 | Prompt of the Month | March - Radcliffe Wave | `/assets/content/segments/promptofthemonth/March/Radcliffe Wave.mp4` |
@@ -26,7 +26,7 @@ Many .mp4 and .wav files were excluded from the repository due to size constrain
 
 | Section | Referenced Item | Missing File Path |
 |---------|-----------------|-------------------|
-| Global | Background Music | `assets/music_fx_a_trap_beat_with_a_heavy_bass_butwith_techno-2.wav` |
+| Global | Background Music | `assets/bg-music.mp3` |
 
 ---
 

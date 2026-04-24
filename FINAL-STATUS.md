@@ -33,7 +33,7 @@
 All thumbnails confirmed accessible:
 - ✅ Prompt of the Month: `assets/images/segments/promptofthemonth/January/Thumby.png`
 - ✅ Vitrine Steganos: `assets/images/segments/quarters/quarter3/Thumby.png`
-- ✅ Quarters: `assets/images/segments/quarters/quarter2/Thumby_Quarters.png`
+- ✅ Quarters: `assets/images/segments/quarters/quarter2/thumby_quarters.png`
 
 ## 🎯 Test Now
 
@@ -95,7 +95,7 @@ curl http://localhost:8000/content/index.html
 ```bash
 curl http://localhost:8000/content/assets/images/segments/promptofthemonth/January/Thumby.png
 curl http://localhost:8000/content/assets/images/segments/quarters/quarter3/Thumby.png
-curl http://localhost:8000/content/assets/images/segments/quarters/quarter2/Thumby_Quarters.png
+curl http://localhost:8000/content/assets/images/segments/quarters/quarter2/thumby_quarters.png
 ```
 
 All should return `200 OK`
