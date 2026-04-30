@@ -407,7 +407,6 @@
                 collaborationRequests: 25,
                 communityFeedback: "Excellent"
             },
-            testimonial: "The technical depth and clarity of the AI Room Designer showcase was impressive. It perfectly demonstrated the practical applications of advanced AI in creative fields.",
             media: {
                 thumbnail: "/assets/ai-room-designer-promo.jpg",
                 campaignAssets: [
@@ -457,7 +456,6 @@
                 STEMEngagement: "Excellent",
                 industryRecognition: "Featured Content"
             },
-            testimonial: "The data visualization work brings complex astronomical data to life in an accessible and engaging way. Excellent contribution to space science education.",
             media: {
                 thumbnail: "/assets/planetrics-dashboard.jpg",
                 campaignAssets: [
@@ -507,7 +505,6 @@
                 mentorshipImpact: "Outstanding",
                 developerFeedback: "Excellent"
             },
-            testimonial: "The Unity tutorials are incredibly detailed and practical. They've helped countless developers improve their skills and create better games.",
             media: {
                 thumbnail: "/assets/Gen Image to 3D Construct Showcase 1.png",
                 campaignAssets: [
@@ -557,7 +554,6 @@
                 designSystemAdoption: "High",
                 communityImpact: "Significant"
             },
-            testimonial: "The multi-portfolio approach is revolutionary for modern professionals. It perfectly demonstrates how to showcase diverse skills while maintaining brand coherence.",
             media: {
                 thumbnail: "/assets/The Hero Shot.png",
                 campaignAssets: [
@@ -834,50 +830,6 @@
             description: "Consistent recognition for high-quality technical content creation and developer community engagement"
         }
     ],
-
-    // Testimonials and Client Feedback
-    testimonials: [
-        {
-            client: "Dr. Sarah Mitchell",
-            position: "AI Research Director",
-            company: "AI/ML Developer Community",
-            project: "AI Room Designer Technical Showcase",
-            quote: "Gaston's technical depth and ability to explain complex AI concepts clearly is remarkable. The AI Room Designer showcase perfectly demonstrates practical AI applications in creative fields.",
-            rating: 5
-        },
-        {
-            client: "Dr. James Rodriguez",
-            position: "Data Science Lead",
-            company: "NASA Collaboration Project",
-            project: "NASA Data Visualization",
-            quote: "The data visualization work brings complex astronomical data to life in an accessible and engaging way. Excellent contribution to space science education and public outreach.",
-            rating: 5
-        },
-        {
-            client: "Alex Thompson",
-            position: "Senior Game Developer",
-            company: "Unity Developer Community",
-            project: "Unity Tutorial Series",
-            quote: "The Unity tutorials are incredibly detailed and practical. They've helped countless developers improve their skills and create better games. Outstanding educational content.",
-            rating: 5
-        },
-        {
-            client: "Maria Garcia",
-            position: "Career Development Specialist",
-            company: "Professional Development Community",
-            project: "Multi-Portfolio Ecosystem",
-            quote: "The multi-portfolio approach is revolutionary for modern professionals. It perfectly demonstrates how to showcase diverse skills while maintaining brand coherence and professional identity.",
-            rating: 5
-        },
-        {
-            client: "David Kim",
-            position: "Technical Content Manager",
-            company: "Developer Education Platform",
-            project: "Educational Content Series",
-            quote: "Gaston's ability to create educational content that is both technically accurate and engaging is exceptional. His work has significantly impacted our developer community.",
-            rating: 5
-        }
-    ]
 };
   window.ContentPortfolioData = Object.assign(window.ContentPortfolioData || {}, data);
 })();

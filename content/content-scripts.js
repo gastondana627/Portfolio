@@ -221,7 +221,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeContentNavigation();
     initializeVideoProjects();
     initializeMediaGalleries();
-    initializeTestimonialSystem();
     initializeReturnNavigation();
     initializeContentContactForm();
     
@@ -559,12 +558,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
                 
-                ${partnership.testimonial ? `
-                    <div class="partnership-testimonial">
-                        <h3>Client Testimonial</h3>
-                        <blockquote>"${partnership.testimonial}"</blockquote>
-                    </div>
-                ` : ''}
             </div>
         `);
         
@@ -698,51 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'flex';
     }
     
-    // Initialize testimonial system
-    function initializeTestimonialSystem() {
-        if (!ContentPortfolioData.testimonials) return;
-        
-        // Add testimonials to the contact section
-        const contactSection = document.querySelector('#content-contact .container');
-        if (contactSection) {
-            const testimonialsSection = createTestimonialsSection();
-            contactSection.insertBefore(testimonialsSection, contactSection.firstChild);
-        }
-    }
     
-    // Create testimonials section
-    function createTestimonialsSection() {
-        const section = document.createElement('div');
-        section.className = 'testimonials-section';
-        section.innerHTML = `
-            <h3 class="testimonials-title">Client Testimonials</h3>
-            <div class="testimonials-carousel">
-                ${ContentPortfolioData.testimonials.map(testimonial => `
-                    <div class="testimonial-card">
-                        <div class="testimonial-content">
-                            <div class="testimonial-quote">
-                                <i class="fas fa-quote-left"></i>
-                                <p>"${testimonial.quote}"</p>
-                                <i class="fas fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-info">
-                                    <h4>${testimonial.client}</h4>
-                                    <span class="author-position">${testimonial.position}</span>
-                                    <span class="author-company">${testimonial.company}</span>
-                                </div>
-                                <div class="testimonial-rating">
-                                    ${Array(testimonial.rating).fill('<i class="fas fa-star"></i>').join('')}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-        
-        return section;
-    }
     
     // Initialize return navigation with branded transitions
     function initializeReturnNavigation() {
@@ -1446,7 +1395,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Client testimonial and metrics display system
     function displayClientMetrics() {
         if (!ContentPortfolioData.achievements) return;
         

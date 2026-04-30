@@ -944,17 +944,6 @@
         tags: ["Product Demo", "Platform", "Features"]
       },
       {
-        id: "ax-client-testimonial",
-        title: "Client Success Story",
-        description: "How AdvancingX transformed client operations",
-        thumbnail: "/content/assets/advancingx/videos/testimonial-thumb.jpg",
-        videoUrl: "https://youtube.com/watch?v=axdemo2",
-        duration: "5:30",
-        publishDate: "2023-11-20",
-        views: 3100,
-        tags: ["Testimonial", "Success Story", "Client"]
-      },
-      {
         id: "ax-team-culture",
         title: "Inside AdvancingX: Team Culture",
         description: "Behind the scenes look at AdvancingX team culture",

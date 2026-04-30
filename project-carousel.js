@@ -200,7 +200,7 @@ function renderProject(index) {
     
     setTimeout(() => {
         card.innerHTML = `
-            <img src="${project.image}" alt="${project.title}" class="project-carousel-image">
+            <img src="${encodeURI(project.image)}" alt="${project.title}" class="project-carousel-image">
             <div class="project-carousel-content">
                 <div class="project-carousel-badge" style="background: ${getCategoryColor(project.category)}">
                     ${project.category}
