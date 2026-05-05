@@ -10,13 +10,16 @@
 }
 
 .project-carousel {
-    max-width: 900px;
+    max-width: 960px;
+    width: 100%;
     margin: 40px auto;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .carousel-container {
     position: relative;
+    width: 100%;
     min-height: 400px;
 }
 
@@ -51,8 +54,10 @@
 
 .project-carousel-image {
     width: 100%;
-    height: 250px;
+    height: 260px;
     object-fit: cover;
+    display: block;
+    border-radius: 0;
 }
 
 .project-carousel-content {

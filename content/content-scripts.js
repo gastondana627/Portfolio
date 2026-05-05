@@ -558,12 +558,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
                 
-                ${partnership.testimonial ? `
-                    <div class="partnership-testimonial">
-                        <h3>Client Testimonial</h3>
-                        <blockquote>"${partnership.testimonial}"</blockquote>
-                    </div>
-                ` : ''}
             </div>
         `);
         
@@ -697,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'flex';
     }
     
-
+    
     
     // Initialize return navigation with branded transitions
     function initializeReturnNavigation() {
@@ -1400,6 +1394,41 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    function displayClientMetrics() {
+        if (!ContentPortfolioData.achievements) return;
+        
+        const metricsContainer = document.createElement('div');
+        metricsContainer.className = 'client-metrics-display';
+        metricsContainer.innerHTML = `
+            <h3>Recognition & Achievements</h3>
+            <div class="achievements-grid">
+                ${ContentPortfolioData.achievements.map(achievement => `
+                    <div class="achievement-card">
+                        <div class="achievement-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4>${achievement.title}</h4>
+                        <p class="achievement-org">${achievement.organization}</p>
+                        <p class="achievement-year">${achievement.year}</p>
+                        <p class="achievement-desc">${achievement.description}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        // Insert before contact form
+        const contactSection = document.querySelector('#content-contact .container');
+        if (contactSection) {
+            const formWrapper = contactSection.querySelector('.contact-wrapper');
+            if (formWrapper) {
+                contactSection.insertBefore(metricsContainer, formWrapper);
+            }
+        }
+    }
+    
+    // Initialize client metrics display
+    displayClientMetrics();
     
     // Initialize segment themes section
     initializeSegmentThemes();
