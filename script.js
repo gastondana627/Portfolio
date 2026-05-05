@@ -124,27 +124,73 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Music Controls
+    // =============================================
+    // FUTURISTIC MUSIC PLAYER
+    // =============================================
     const backgroundMusic = document.getElementById('background-music');
     const playPauseButton = document.getElementById('play-pause-button');
     const volumeSlider = document.getElementById('volume-slider');
+    const musicPlayer = document.getElementById('music-player');
+    const musicPlayerPanel = document.getElementById('music-player-panel');
+    const musicPlayerToggle = document.getElementById('music-player-toggle');
+    const musicPanelClose = document.getElementById('music-panel-close');
+    const volumeFill = document.getElementById('volume-fill');
 
     if (backgroundMusic && playPauseButton && volumeSlider) {
         let isPlaying = false;
         let audioInitialized = false;
         let audioError = false;
+        let panelOpen = false;
 
+        // --- Volume fill sync ---
+        const syncVolumeFill = () => {
+            if (volumeFill) {
+                volumeFill.style.width = (parseFloat(volumeSlider.value) * 100) + '%';
+            }
+        };
+        syncVolumeFill();
+
+        // --- Toggle panel open/close ---
+        const openPanel = () => {
+            panelOpen = true;
+            musicPlayerPanel.classList.add('open');
+            musicPlayerPanel.setAttribute('aria-hidden', 'false');
+        };
+
+        const closePanel = () => {
+            panelOpen = false;
+            musicPlayerPanel.classList.remove('open');
+            musicPlayerPanel.setAttribute('aria-hidden', 'true');
+        };
+
+        if (musicPlayerToggle) {
+            musicPlayerToggle.addEventListener('click', () => {
+                panelOpen ? closePanel() : openPanel();
+            });
+            musicPlayerToggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    panelOpen ? closePanel() : openPanel();
+                }
+            });
+        }
+
+        if (musicPanelClose) {
+            musicPanelClose.addEventListener('click', closePanel);
+        }
+
+        // --- Audio error handling ---
         const handleAudioError = () => {
             if (audioError) return;
             console.error("Audio failed to load:", backgroundMusic.src);
             audioError = true;
             playPauseButton.classList.add('audio-error');
-            playPauseButton.setAttribute('title', 'Audio asset missing in production');
+            playPauseButton.setAttribute('title', 'Audio asset missing');
 
             if (!document.querySelector('.audio-error-toast')) {
                 const toast = document.createElement('div');
                 toast.className = 'audio-error-toast';
-                toast.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Background music not available (size constraints)`;
+                toast.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Background music not available`;
                 document.body.appendChild(toast);
                 setTimeout(() => toast.classList.add('show'), 100);
                 setTimeout(() => {
@@ -154,15 +200,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        // Handle audio loading errors
         backgroundMusic.addEventListener('error', handleAudioError);
+        if (backgroundMusic.error) handleAudioError();
 
-        // Also check if there's already an error or if the source is likely to fail
-        if (backgroundMusic.error) {
-            handleAudioError();
-        }
-
-        // Periodic check in case the error event was missed (some browsers are finicky with 404s on audio)
         const errorCheckInterval = setInterval(() => {
             if (backgroundMusic.error) {
                 handleAudioError();
@@ -170,73 +210,69 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 1000);
 
-        // Play/Pause
-        playPauseButton.addEventListener('click', () => {
-            if (audioError) {
-                console.warn("Cannot play: Audio asset is missing.");
-                return;
+        // --- Play/Pause ---
+        const setPlayingState = (playing) => {
+            isPlaying = playing;
+            if (playing) {
+                playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+                playPauseButton.classList.add('playing');
+                playPauseButton.setAttribute('title', 'Pause Music');
+                musicPlayer.classList.add('playing');
+                musicPlayer.classList.remove('paused');
+            } else {
+                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+                playPauseButton.classList.remove('playing');
+                playPauseButton.setAttribute('title', 'Play Music');
+                musicPlayer.classList.remove('playing');
+                musicPlayer.classList.add('paused');
             }
+        };
 
-            // Initialize audio analyzer on first interaction
+        playPauseButton.addEventListener('click', () => {
+            if (audioError) return;
+
             if (!audioInitialized && typeof initAudio === 'function') {
-                try {
-                    initAudio();
-                    audioInitialized = true;
-                } catch (error) {
-                    console.log("Audio initialization error:", error);
-                }
+                try { initAudio(); audioInitialized = true; } catch (e) { console.log("Audio init error:", e); }
             }
 
             if (isPlaying) {
                 backgroundMusic.pause();
-                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
-                playPauseButton.classList.remove('playing');
-                playPauseButton.setAttribute('title', 'Play Music');
+                setPlayingState(false);
             } else {
-                backgroundMusic.play().catch(error => {
-                    console.log("Playback error:", error);
-                });
-                playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
-                playPauseButton.classList.add('playing');
-                playPauseButton.setAttribute('title', 'Pause Music');
+                backgroundMusic.play().catch(e => console.log("Playback error:", e));
+                setPlayingState(true);
             }
-            isPlaying = !isPlaying;
         });
 
-        // Volume Control
-        volumeSlider.addEventListener('input', () => {
-            backgroundMusic.volume = volumeSlider.value;
-        });
+        // --- Volume ---
+        const handleVolumeChange = () => {
+            const vol = parseFloat(volumeSlider.value);
+            // Drive the HTML audio element directly
+            backgroundMusic.volume = vol;
+            // Also drive the Web Audio GainNode if initAudio has run
+            if (typeof audioGainNode !== 'undefined' && audioGainNode !== null) {
+                audioGainNode.gain.value = vol;
+            }
+            syncVolumeFill();
+        };
+        volumeSlider.addEventListener('input', handleVolumeChange);
+        volumeSlider.addEventListener('change', handleVolumeChange); // fallback for some browsers
+        backgroundMusic.volume = parseFloat(volumeSlider.value);
 
-        // Initial volume setup
-        backgroundMusic.volume = volumeSlider.value;
-
-        // Try autoplay (will likely be blocked by browser)
+        // --- Autoplay attempt ---
         const playPromise = backgroundMusic.play();
         if (playPromise !== undefined) {
-            playPromise.then(_ => {
-                isPlaying = true;
-                playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
-                playPauseButton.classList.add('playing');
-                playPauseButton.setAttribute('title', 'Pause Music');
-                // Initialize audio on successful autoplay
+            playPromise.then(() => {
+                setPlayingState(true);
                 if (!audioInitialized && typeof initAudio === 'function') {
-                    try {
-                        initAudio();
-                        audioInitialized = true;
-                    } catch (error) {
-                        console.log("Audio initialization error:", error);
-                    }
+                    try { initAudio(); audioInitialized = true; } catch (e) {}
                 }
-            }).catch(error => {
-                console.log("Autoplay prevented (expected):", error);
-                isPlaying = false;
-                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
-                playPauseButton.setAttribute('title', 'Play Music');
+            }).catch(() => {
+                setPlayingState(false);
             });
         }
     }
-});
+}); // end DOMContentLoaded
 
 // Add dark/light themes
 const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');

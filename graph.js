@@ -38,6 +38,8 @@ const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 console.log(`📱 Mobile device: ${isMobile}, Touch support: ${isTouch}`);
 
 // --- AUDIO SETUP ---
+let audioGainNode = null; // exposed globally for volume control
+
 function initAudio() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const audioElement = document.getElementById('background-music');
@@ -47,7 +49,12 @@ function initAudio() {
     analyser.fftSize = 256;
     dataArray = new Uint8Array(analyser.frequencyBinCount);
     
-    source.connect(analyser);
+    // GainNode sits between source and analyser so volume slider controls it
+    audioGainNode = audioContext.createGain();
+    audioGainNode.gain.value = parseFloat(document.getElementById('volume-slider')?.value ?? 0.5);
+    
+    source.connect(audioGainNode);
+    audioGainNode.connect(analyser);
     analyser.connect(audioContext.destination);
     audioElement.play();
 }
