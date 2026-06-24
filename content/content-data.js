@@ -795,6 +795,33 @@
     // Achievements and Recognition
     achievements: [
         {
+            id: "achievement-adobe-insider-2026",
+            title: "Adobe Insider & Multimodal AI Community Elite",
+            organization: "Adobe",
+            description: "Appointed as an Adobe Insider, collaborating within an elite tier of cross-disciplinary creative technologists to stress-test next-generation creative systems, evaluate multimodal latent space limitations, and pioneer advanced technical creator workflows.",
+            date: "2026",
+            platform: "Adobe Systems",
+            achievementUrl: "https://gastondana.tech/content/"
+        },
+        {
+            id: "achievement-dreamina-winner-2026",
+            title: "Dreamina AI Weekly Challenge Winner",
+            organization: "Dreamina / CapCut Ecosystem",
+            description: "Secured consecutive community challenge victories by engineering advanced prompt architectures that successfully enforced strict asset persistence, lighting uniformity, and complex multi-subject structural control within generative video frameworks.",
+            date: "2026",
+            platform: "Dreamina AI",
+            achievementUrl: "https://gastondana.tech/content/"
+        },
+        {
+            id: "achievement-google-flow-proposal-2026",
+            title: "Google Flow Cohort 5 Technical Proposal",
+            organization: "Google Labs",
+            description: "Designed, documented, and submitted a comprehensive production blueprint for 'The Mars Needlepoint Incident.' Structured a hybrid animation pipeline integrating node-based layout constraints via Anthum AI alongside local style noise injection via Google Flow to achieve a mixed-media cinematic aesthetic.",
+            date: "2026",
+            platform: "Google Labs",
+            achievementUrl: "https://docs.google.com/presentation/d/1Q7Cnu-5wpH49wNAHnfKV3cXX6JOPQML7xXHG_gvu6nE/edit?slide=id.p#slide-id.p"
+        },
+        {
             title: "Viral Technical Content Creator",
             organization: "AI/ML Developer Community",
             project: "AI Room Designer Showcase",
