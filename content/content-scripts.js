@@ -255,11 +255,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function createVideoProjectCard(project) {
         const card = document.createElement('div');
         card.className = 'project-card content-project-card';
+        
+        const coverHtml = project.imageSource
+            ? `<div class="project-video-placeholder" data-project-id="${project.id}" style="padding:0; overflow:hidden; background:#0a0a0e;">
+                   <img src="${project.imageSource}" alt="${project.title} cover" style="width:100%; height:100%; object-fit:cover; display:block; opacity:0.85;">
+               </div>`
+            : `<div class="project-video-placeholder" data-project-id="${project.id}">
+                   <i class="fas fa-play-circle"></i>
+                   <p>${project.type}</p>
+               </div>`;
+
         card.innerHTML = `
-            <div class="project-video-placeholder" data-project-id="${project.id}">
-                <i class="fas fa-play-circle"></i>
-                <p>${project.type}</p>
-            </div>
+            ${coverHtml}
             <div class="project-content">
                 <h3>${project.title}</h3>
                 <p>${project.description}</p>
@@ -1398,37 +1405,22 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayClientMetrics() {
         if (!ContentPortfolioData.achievements) return;
         
-        const metricsContainer = document.createElement('div');
-        metricsContainer.className = 'client-metrics-display';
-        metricsContainer.innerHTML = `
-            <h3>Recognition & Achievements</h3>
-            <div class="achievements-grid">
-                ${ContentPortfolioData.achievements.map(achievement => `
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <h4>${achievement.title}</h4>
-                        <p class="achievement-org">${achievement.organization}</p>
-                        <p class="achievement-year">${achievement.year}</p>
-                        <p class="achievement-desc">${achievement.description}</p>
-                    </div>
-                `).join('')}
+        // Populate the static #achievements-grid in index.html
+        const grid = document.getElementById('achievements-grid');
+        if (!grid) return;
+
+        grid.innerHTML = ContentPortfolioData.achievements.map(achievement => `
+            <div class="achievement-card">
+                <div class="achievement-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h4>${achievement.title}</h4>
+                <p class="achievement-org">${achievement.organization}</p>
+                <p class="achievement-year">${achievement.year}</p>
+                <p class="achievement-desc">${achievement.description}</p>
             </div>
-        `;
-        
-        // Insert before contact form
-        const contactSection = document.querySelector('#content-contact .container');
-        if (contactSection) {
-            const formWrapper = contactSection.querySelector('.contact-wrapper');
-            if (formWrapper) {
-                contactSection.insertBefore(metricsContainer, formWrapper);
-            }
-        }
+        `).join('');
     }
-    
-    // Initialize client metrics display
-    displayClientMetrics();
     
     // Initialize segment themes section
     initializeSegmentThemes();

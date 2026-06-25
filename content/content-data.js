@@ -47,6 +47,7 @@
             client: "Personal Project / Portfolio",
             status: "Published",
             duration: "4:15",
+            imageSource: "/assets/ai-room-designer-promo.jpg",
             description: "Comprehensive video walkthrough showcasing the AI Room Designer's dual-mode functionality, featuring Gemini 2.5 Flash integration and multi-modal AI capabilities for interior design revolution.",
             objectives: [
                 "Demonstrate AI-powered interior design capabilities",
@@ -96,6 +97,7 @@
             client: "Personal Project / NASA Collaboration",
             status: "Published",
             duration: "6:30",
+            imageSource: "/assets/planetrics-dashboard.jpg",
             description: "Interactive demo video showcasing NASA exoplanet data exploration through advanced data visualization techniques, featuring Plotly integration and real-time data analysis.",
             objectives: [
                 "Demonstrate data visualization expertise",
@@ -136,58 +138,13 @@
             }
         },
         {
-            id: "video-003",
-            title: "Unity Game Development Tutorial Series",
-            type: "Educational Content Series",
-            client: "Personal Brand / YouTube Channel",
-            status: "Published",
-            duration: "12:45",
-            description: "Comprehensive Unity tutorial series covering advanced techniques, procedural generation, and game AI development with thousands of views and strong community engagement.",
-            objectives: [
-                "Share game development expertise",
-                "Build educational content brand",
-                "Engage with developer community",
-                "Establish thought leadership in game dev"
-            ],
-            targetAudience: "Game developers, Unity users, programming students, indie developers",
-            deliverables: [
-                "Multi-part tutorial series",
-                "Code examples and resources",
-                "Live coding session recordings",
-                "Community Q&A content",
-                "Advanced technique demonstrations"
-            ],
-            tools: ["OBS Studio", "Unity Editor", "Premiere Pro", "Camtasia", "GitHub"],
-            techniques: [
-                "Live coding and screen recording",
-                "Educational content structure",
-                "Code explanation and demonstration",
-                "Community interaction and Q&A",
-                "Technical tutorial production"
-            ],
-            metrics: {
-                views: 45000,
-                engagementRate: "35%",
-                conversions: 1200,
-                subscribers: 2500,
-                communityEngagement: "Outstanding"
-            },
-            media: {
-                thumbnail: "/assets/Gen Image to 3D Construct Showcase 1.png",
-                videoUrl: "https://youtube.com/watch?v=unity-tutorials",
-                screenshots: [
-                    "/assets/Gen Image to 3D Construct Showcase 1.png",
-                    "/assets/Gen Image to 3D Construct Showcase 1.png"
-                ]
-            }
-        },
-        {
             id: "video-004",
             title: "NASA Knowledge Graph Visualization",
             type: "Technical Documentation Video",
             client: "NASA Collaboration Project",
             status: "Published",
             duration: "8:50",
+            imageSource: "/assets/Space For Health Challenge.png",
             description: "Technical deep-dive into knowledge graph implementation for NASA space data, showcasing AI in space exploration and advanced data visualization techniques.",
             objectives: [
                 "Document NASA collaboration work",
@@ -798,63 +755,31 @@
             id: "achievement-adobe-insider-2026",
             title: "Adobe Insider & Multimodal AI Community Elite",
             organization: "Adobe",
-            description: "Appointed as an Adobe Insider, collaborating within an elite tier of cross-disciplinary creative technologists to stress-test next-generation creative systems, evaluate multimodal latent space limitations, and pioneer advanced technical creator workflows.",
+            year: 2026,
             date: "2026",
             platform: "Adobe Systems",
-            achievementUrl: "https://gastondana.tech/content/"
+            achievementUrl: "https://gastondana.tech/content/",
+            description: "Appointed as an Adobe Insider, collaborating within an elite tier of cross-disciplinary creative technologists to stress-test next-generation creative systems, evaluate multimodal latent space limitations, and pioneer advanced technical creator workflows."
         },
         {
             id: "achievement-dreamina-winner-2026",
             title: "Dreamina AI Weekly Challenge Winner",
             organization: "Dreamina / CapCut Ecosystem",
-            description: "Secured consecutive community challenge victories by engineering advanced prompt architectures that successfully enforced strict asset persistence, lighting uniformity, and complex multi-subject structural control within generative video frameworks.",
+            year: 2026,
             date: "2026",
             platform: "Dreamina AI",
-            achievementUrl: "https://gastondana.tech/content/"
+            achievementUrl: "https://gastondana.tech/content/",
+            description: "Secured consecutive community challenge victories by engineering advanced prompt architectures that successfully enforced strict asset persistence, lighting uniformity, and complex multi-subject structural control within generative video frameworks."
         },
         {
             id: "achievement-google-flow-proposal-2026",
             title: "Google Flow Cohort 5 Technical Proposal",
             organization: "Google Labs",
-            description: "Designed, documented, and submitted a comprehensive production blueprint for 'The Mars Needlepoint Incident.' Structured a hybrid animation pipeline integrating node-based layout constraints via Anthum AI alongside local style noise injection via Google Flow to achieve a mixed-media cinematic aesthetic.",
+            year: 2026,
             date: "2026",
             platform: "Google Labs",
-            achievementUrl: "https://docs.google.com/presentation/d/1Q7Cnu-5wpH49wNAHnfKV3cXX6JOPQML7xXHG_gvu6nE/edit?slide=id.p#slide-id.p"
-        },
-        {
-            title: "Viral Technical Content Creator",
-            organization: "AI/ML Developer Community",
-            project: "AI Room Designer Showcase",
-            year: 2024,
-            description: "Recognized for creating viral technical content that effectively demonstrates AI applications in creative fields"
-        },
-        {
-            title: "NASA Collaboration Recognition",
-            organization: "NASA Space Technology Community",
-            project: "Planetrics Data Visualization",
-            year: 2024,
-            description: "Acknowledged for outstanding contribution to space science education and data visualization excellence"
-        },
-        {
-            title: "Unity Community Educator Award",
-            organization: "Unity Developer Community",
-            project: "Advanced Unity Tutorial Series",
-            year: 2024,
-            description: "Recognized for exceptional educational content and community impact in game development education"
-        },
-        {
-            title: "Innovation in Portfolio Design",
-            organization: "Professional Development Community",
-            project: "Multi-Portfolio Ecosystem",
-            year: 2024,
-            description: "Acknowledged for innovative approach to professional portfolio design and cross-disciplinary skill showcasing"
-        },
-        {
-            title: "Technical Content Excellence",
-            organization: "Developer Education Platforms",
-            project: "Educational Content Series",
-            year: 2024,
-            description: "Consistent recognition for high-quality technical content creation and developer community engagement"
+            achievementUrl: "https://docs.google.com/presentation/d/1Q7Cnu-5wpH49wNAHnfKV3cXX6JOPQML7xXHG_gvu6nE/edit?slide=id.p#slide-id.p",
+            description: "Designed, documented, and submitted a comprehensive production blueprint for 'The Mars Needlepoint Incident.' Structured a hybrid animation pipeline integrating node-based layout constraints via Anthum AI alongside local style noise injection via Google Flow to achieve a mixed-media cinematic aesthetic."
         }
     ],
 };
