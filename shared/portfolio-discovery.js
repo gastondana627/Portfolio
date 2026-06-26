@@ -163,41 +163,42 @@ class PortfolioDiscovery {
             <div class="skill-explorer">
                 <h3 class="explorer-title">Skill Explorer</h3>
                 <p class="explorer-description">Discover how skills connect across different portfolios</p>
-                <div class="skill-connections-grid">
-                    ${Object.entries(skillConnections).map(([skill, data]) => `
-                        <div class="skill-connection-card">
-                            <h4 class="skill-name"><i class="${data.icon}"></i> ${skill}</h4>
-                            <p class="skill-description">${data.description}</p>
-                            <div class="portfolio-connections">
-                                ${['tech', 'gaming', 'content'].map(portfolio => `
-                                    <div class="portfolio-connection ${portfolio === 'content' ? 'skill-col-content' : portfolio}">
-                                        <div class="connection-header">
-                                            <i class="${portfolio === 'tech' ? 'fas fa-code' : portfolio === 'gaming' ? 'fas fa-gamepad' : 'fas fa-video'}"></i>
-                                            <span>${portfolio.charAt(0).toUpperCase() + portfolio.slice(1)}</span>
-                                        </div>
-                                        <div class="connection-media-list">
-                                            ${(data[portfolio] || []).map(item => `
-                                                <a href="${item.link}" class="media-card" ${item.externalLink ? 'target="_blank"' : ''}>
-                                                    <div class="media-thumbnail">
-                                                        ${item.image ? `<img src="${item.image}" alt="${item.title}" onerror="this.src='../assets/placeholder.jpg'" />` : '<div class="media-placeholder"></div>'}
-                                                        ${item.type === 'video' ? '<div class="play-overlay"><i class="fas fa-play"></i></div>' : ''}
-                                                    </div>
-                                                    <div class="media-info">
-                                                        <span class="media-title">${item.title}</span>
-                                                    </div>
-                                                </a>
-                                            `).join('')}
-                                        </div>
-                                    </div>
-                                `).join('')}
+                <div class="skill-connections-grid skill-connections-flat">
+                    ${Object.entries(skillConnections).map(([columnTitle, data]) => `
+                        <div class="skill-connection-card skill-domain-card">
+                            <div class="skill-domain-header">
+                                <i class="${data.icon}"></i>
+                                <h4 class="skill-name">${columnTitle}</h4>
                             </div>
+                            <p class="skill-description">${data.description}</p>
+                            <div class="connection-media-list">
+                                ${(data.projects || []).map(item => {
+                                    const isExternal = item.link.startsWith('http');
+                                    const targetAttr = isExternal ? 'target="_blank" rel="noopener noreferrer"' : '';
+                                    return `
+                                    <a href="${item.link}" class="media-card" ${targetAttr}>
+                                        <div class="media-thumbnail">
+                                            ${item.image
+                                                ? `<img src="${item.image}" alt="${item.title}" onerror="this.style.display='none'" />`
+                                                : '<div class="media-placeholder"></div>'
+                                            }
+                                            ${item.type === 'video' ? '<div class="play-overlay"><i class="fas fa-play"></i></div>' : ''}
+                                        </div>
+                                        <div class="media-info">
+                                            <span class="media-title">${item.title}</span>
+                                        </div>
+                                    </a>`;
+                                }).join('')}
+                            </div>
+                            <a href="${data.route}" class="skill-domain-cta">
+                                Explore ${columnTitle} <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
                     `).join('')}
                 </div>
             </div>
         `;
 
-        /* Styles come from shared/discovery-styles.css, plus dynamic media styling appended below */
         this.addSkillExplorerStyles();
     }
 
@@ -750,6 +751,88 @@ class PortfolioDiscovery {
                 
                 .portfolio-connection {
                     margin-bottom: 0.5rem;
+                }
+            }
+
+            /* ---- Flat domain column layout ---- */
+            .skill-connections-flat {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+                align-items: start;
+            }
+
+            .skill-domain-card {
+                background: rgba(255, 255, 255, 0.04);
+                border-radius: 14px;
+                padding: 1.5rem;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .skill-domain-header {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                padding-bottom: 0.75rem;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+            }
+
+            .skill-domain-header i {
+                font-size: 1.1rem;
+                background: linear-gradient(135deg, #D4AF37, #FF8C42);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .skill-domain-header .skill-name {
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: #fff;
+                margin: 0;
+                text-align: left;
+                display: block;
+            }
+
+            .skill-domain-card .skill-description {
+                text-align: left;
+                font-size: 0.82rem;
+                margin: 0;
+                color: rgba(255,255,255,0.55);
+            }
+
+            .skill-domain-card .connection-media-list {
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+
+            .skill-domain-cta {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: rgba(212, 175, 55, 0.85);
+                text-decoration: none;
+                margin-top: auto;
+                padding-top: 0.5rem;
+                border-top: 1px solid rgba(255,255,255,0.06);
+                letter-spacing: 0.03em;
+                transition: color 0.2s ease, gap 0.2s ease;
+            }
+
+            .skill-domain-cta:hover {
+                color: #FF8C42;
+                gap: 0.7rem;
+            }
+
+            @media (max-width: 900px) {
+                .skill-connections-flat {
+                    grid-template-columns: 1fr;
                 }
             }
         `;
