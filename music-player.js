@@ -1,4 +1,4 @@
-// Produced By GasMan - playlist music player with a physics-based wave visualizer.
+// Produced By GasMan - playlist music player with real audio playback + physics-based wave visualizer.
 (function () {
   var TRACKS = [
     { id: "funnel-chaos-funk", title: "Funnel Chaos Funk", url: "https://www.flowmusic.app/song/b58f9a6b-cc26-41eb-b6db-1f20e63104c8", grad: ["#FF6B4A", "#FFB347"] },
@@ -10,6 +10,8 @@
     { id: "analytical-isolation", title: "Analytical Isolation", url: "https://www.flowmusic.app/song/edc4698b-4d76-4c16-ae6e-abf7c7318f9c", grad: ["#3D5AFE", "#6B7280"] }
   ];
 
+  var DEFAULT_AUDIO = "assets/bg-music.mp3";
+
   var player = document.getElementById('mp-player');
   var orb = document.getElementById('mp-toggle');
   var panel = document.getElementById('mp-panel');
@@ -19,11 +21,17 @@
   var npArtist = document.getElementById('mp-np-artist');
   var npMood = document.getElementById('mp-np-mood');
   var npPlay = document.getElementById('mp-np-play');
+  var npPlayIcon = document.getElementById('mp-np-play-icon');
+  var npPlayLabel = document.getElementById('mp-np-play-label');
+  var flowLink = document.getElementById('mp-flow-link');
   var mpArt = document.getElementById('mp-art');
-  if (!player || !orb || !panel) return;
+  var audio = document.getElementById('mp-audio');
+  if (!player || !orb || !panel || !audio) return;
 
   var activeId = (TRACKS.filter(function (t) { return t.featured; })[0] || TRACKS[0]).id;
   var open = false;
+  var playing = false;
+  var pendingAutoplay = true;
 
   // ---------- Physics-based wave visualizer ----------
   var canvas = document.getElementById('mp-wave-canvas');
@@ -92,7 +100,30 @@
   }
 
   function artFor(t) {
-    return 'radial-gradient(circle at 28% 24%, rgba(255,255,255,0.30), transparent 55%), linear-gradient(135deg, ' + t.grad[0] + ', ' + t.grad[1] + ')';
+    var g = t.grad || ['#D4AF37', '#F5EFE6'];
+    return 'radial-gradient(circle at 28% 32%, ' + g[0] + ' 0%, ' + g[1] + ' 60%, #14110b 100%)';
+  }
+
+  function trackById(id) { return TRACKS.filter(function (x) { return x.id === id; })[0] || TRACKS[0]; }
+  function trackSrc(t) { return t.file ? t.file : DEFAULT_AUDIO; }
+
+  function setPlaying(v) {
+    playing = v;
+    if (npPlayIcon) npPlayIcon.className = v ? 'fas fa-pause' : 'fas fa-play';
+    if (npPlayLabel) npPlayLabel.textContent = v ? 'Pause' : 'Play';
+    if (npPlay) npPlay.setAttribute('aria-label', v ? 'Pause' : 'Play');
+    if (v) startWave(); else stopWave();
+  }
+
+  function updateNowPlaying() {
+    var t = trackById(activeId);
+    if (npTitle) npTitle.textContent = t.title;
+    if (npArtist) npArtist.textContent = 'GasMan - Flow Music';
+    if (npMood) { npMood.textContent = t.mood || ''; npMood.style.display = t.mood ? 'block' : 'none'; }
+    if (flowLink) flowLink.href = t.url || '#';
+    if (mpArt) mpArt.style.background = artFor(t);
+    player.classList.add('active');
+    if (open) pulseWave();
   }
 
   function render() {
@@ -110,30 +141,47 @@
     listEl.innerHTML = html;
     var rows = listEl.querySelectorAll('.mp-track');
     for (var k = 0; k < rows.length; k++) {
-      rows[k].addEventListener('click', (function (id) { return function () { select(id, true); }; })(rows[k].dataset.id));
+      rows[k].addEventListener('click', (function (id) { return function () { playTrack(id); }; })(rows[k].dataset.id));
     }
     updateNowPlaying();
   }
 
-  function updateNowPlaying() {
-    var t = TRACKS.filter(function (x) { return x.id === activeId; })[0] || TRACKS[0];
-    if (npTitle) npTitle.textContent = t.title;
-    if (npArtist) npArtist.textContent = 'GasMan - Flow Music';
-    if (npMood) { npMood.textContent = t.mood || ''; npMood.style.display = t.mood ? 'block' : 'none'; }
-    if (npPlay) npPlay.href = t.url;
-    if (mpArt) mpArt.style.background = artFor(t);
-    player.classList.add('active');
-    if (open) pulseWave();
-  }
-
-  function select(id, launch) {
+  // ---------- Audio playback ----------
+  function loadTrack(id) {
     activeId = id;
-    var t = TRACKS.filter(function (x) { return x.id === id; })[0];
+    var t = trackById(id);
+    audio.src = trackSrc(t);
     var rows = listEl.querySelectorAll('.mp-track');
     for (var k = 0; k < rows.length; k++) rows[k].classList.toggle('active', rows[k].dataset.id === id);
     updateNowPlaying();
-    if (launch && t) window.open(t.url, '_blank', 'noopener,noreferrer');
   }
+
+  function playTrack(id) {
+    if (id !== activeId || !audio.src) loadTrack(id);
+    pendingAutoplay = false;
+    var p = audio.play();
+    if (p && p.then) {
+      p.then(function () { setPlaying(true); }).catch(function () { setPlaying(false); pendingAutoplay = true; });
+    } else {
+      setPlaying(true);
+    }
+  }
+
+  function pauseTrack() { audio.pause(); setPlaying(false); }
+  function togglePlay() { if (playing) pauseTrack(); else playTrack(activeId); }
+
+  function nextTrack() {
+    var idx = -1;
+    for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === activeId) idx = i;
+    var nx = TRACKS[(idx + 1) % TRACKS.length];
+    playTrack(nx.id);
+  }
+
+  audio.addEventListener('ended', nextTrack);
+  audio.addEventListener('play', function () { setPlaying(true); });
+  audio.addEventListener('pause', function () { setPlaying(false); });
+
+  if (npPlay) npPlay.addEventListener('click', function (e) { e.preventDefault(); togglePlay(); });
 
   function setOpen(v) {
     open = v;
@@ -146,4 +194,24 @@
   if (closeBtn) closeBtn.addEventListener('click', function () { setOpen(false); });
 
   render();
+  loadTrack(activeId);
+
+  // Autoplay featured ("Crafting Sessions") on load. Browsers block unmuted autoplay without a gesture, so retry on first interaction.
+  function tryAutoplay() {
+    if (!pendingAutoplay) return;
+    var p = audio.play();
+    if (p && p.then) {
+      p.then(function () { pendingAutoplay = false; setPlaying(true); }).catch(function () {});
+    } else { pendingAutoplay = false; setPlaying(true); }
+  }
+  tryAutoplay();
+  function onGesture() {
+    tryAutoplay();
+    document.removeEventListener('click', onGesture);
+    document.removeEventListener('keydown', onGesture);
+    document.removeEventListener('touchstart', onGesture);
+  }
+  document.addEventListener('click', onGesture);
+  document.addEventListener('keydown', onGesture);
+  document.addEventListener('touchstart', onGesture);
 })();
