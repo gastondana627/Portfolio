@@ -1,16 +1,14 @@
 // Produced By GasMan - playlist music player with real audio playback + physics-based wave visualizer.
 (function () {
   var TRACKS = [
-    { id: "funnel-chaos-funk", title: "Funnel Chaos Funk", url: "https://www.flowmusic.app/song/b58f9a6b-cc26-41eb-b6db-1f20e63104c8", grad: ["#FF6B4A", "#FFB347"] },
-    { id: "vortex-agression", title: "Vortex Agression", url: "https://www.flowmusic.app/song/03e43f85-1e8f-4243-b6e3-759ee343e209", grad: ["#7B2FFF", "#FF3D9A"] },
-    { id: "the-physics-problem", title: "The Physics Problem", url: "https://www.flowmusic.app/song/00e17242-4309-4026-a4cc-ed9f945ec977", grad: ["#2EC4B6", "#1B6CA8"] },
-    { id: "from-rejection-to-triumph", title: "From Rejection To Triumph", url: "https://www.flowmusic.app/song/46320a2f-80ca-40dc-966b-1d22c238c6a5", grad: ["#E9C46A", "#FF8C42"] },
-    { id: "stop-motion-dreams", title: "Stop Motion Dreams", url: "https://www.flowmusic.app/song/5ebbc900-deb7-49b9-ad26-76b96d291a49", grad: ["#F2719A", "#7B5CFF"] },
-    { id: "crafting-sessions", title: "Crafting Sessions", url: "https://www.flowmusic.app/song/5f5e34aa-da8d-4662-b643-4534053d6298", mood: "Mellow lo-fi hip-hop - dusty vinyl crackle, warm Rhodes piano - 80 bpm", grad: ["#E9C46A", "#3FB984"], featured: true },
-    { id: "analytical-isolation", title: "Analytical Isolation", url: "https://www.flowmusic.app/song/edc4698b-4d76-4c16-ae6e-abf7c7318f9c", grad: ["#3D5AFE", "#6B7280"] }
+    { id: "funnel-chaos-funk", title: "Funnel Chaos Funk", url: "https://www.flowmusic.app/song/b58f9a6b-cc26-41eb-b6db-1f20e63104c8", file: "assets/music/funnel-chaos-funk.mp3", grad: ["#FF6B4A", "#FFB347"] },
+    { id: "vortex-agression", title: "Vortex Agression", url: "https://www.flowmusic.app/song/03e43f85-1e8f-4243-b6e3-759ee343e209", file: "assets/music/vortex-agression.mp3", grad: ["#7B2FFF", "#FF3D9A"] },
+    { id: "the-physics-problem", title: "The Physics Problem", url: "https://www.flowmusic.app/song/00e17242-4309-4026-a4cc-ed9f945ec977", file: "assets/music/the-physics-problem.mp3", grad: ["#2EC4B6", "#1B6CA8"] },
+    { id: "from-rejection-to-triumph", title: "From Rejection To Triumph", url: "https://www.flowmusic.app/song/46320a2f-80ca-40dc-966b-1d22c238c6a5", file: "assets/music/from-rejection-to-triumph.mp3", grad: ["#E9C46A", "#FF8C42"] },
+    { id: "stop-motion-dreams", title: "Stop Motion Dreams", url: "https://www.flowmusic.app/song/5ebbc900-deb7-49b9-ad26-76b96d291a49", file: "assets/music/stop-motion-dreams.mp3", grad: ["#F2719A", "#7B5CFF"] },
+    { id: "crafting-sessions", title: "Crafting Sessions", url: "https://www.flowmusic.app/song/5f5e34aa-da8d-4662-b643-4534053d6298", file: "assets/music/crafting-sessions.mp3", mood: "Mellow lo-fi hip-hop - dusty vinyl crackle, warm Rhodes piano - 80 bpm", grad: ["#E9C46A", "#3FB984"], featured: true },
+    { id: "analytical-isolation", title: "Analytical Isolation", url: "https://www.flowmusic.app/song/edc4698b-4d76-4c16-ae6e-abf7c7318f9c", file: "assets/music/analytical-isolation.mp3", grad: ["#3D5AFE", "#6B7280"] }
   ];
-
-  var DEFAULT_AUDIO = "assets/bg-music.mp3";
 
   var player = document.getElementById('mp-player');
   var orb = document.getElementById('mp-toggle');
@@ -105,7 +103,7 @@
   }
 
   function trackById(id) { return TRACKS.filter(function (x) { return x.id === id; })[0] || TRACKS[0]; }
-  function trackSrc(t) { return t.file ? t.file : DEFAULT_AUDIO; }
+  function trackSrc(t) { return t.file || ''; }
 
   function setPlaying(v) {
     playing = v;
