@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaggle Forge - Gaston Dana</title>
+<link rel="stylesheet" href="kaggle-styles.css">
+</head>
+<body>
+<a href="/" class="kf-back">&larr; Back to Home</a>
+<header class="kf-hero">
+  <h1 class="kf-title">Kaggle <span class="kf-accent">Forge</span></h1>
+  <p class="kf-sub">Independent benchmarks, notebooks and datasets - where AI meets imagination.</p>
+</header>
+
+<section class="kf-ranks" id="kf-ranks"></section>
+
+<nav class="kf-chips" id="kf-chips">
+  <button class="kf-chip active" data-f="all">All</button>
+  <button class="kf-chip" data-f="notebooks">Notebooks</button>
+  <button class="kf-chip" data-f="datasets">Datasets</button>
+  <button class="kf-chip" data-f="benchmarks">Benchmarks</button>
+</nav>
+
+<div class="kf-grid" id="kf-grid"></div>
+
+<footer class="kf-foot">Synced automatically every 24h &middot; <a href="https://www.kaggle.com/gastondana" target="_blank" rel="noopener noreferrer">View profile on Kaggle &rarr;</a></footer>
+
+<script src="kaggle-data.js"></script>
+<script>
+(function(){
+  var D = window.KAGGLE_DATA;
+  var grid = document.getElementById('kf-grid');
+  if(!D){ grid.innerHTML = '<p class="kf-empty">Loading Kaggle data...</p>'; return; }
+  var p = D.profile||{}, r = p.rankings||{}, c = p.counts||{};
+  var ranks = document.getElementById('kf-ranks');
+  function rankCard(label, rk){
+    if(!rk) return '';
+    return '<div class="kf-rank"><span class="kf-rank-tier">'+rk.tier+'</span><span class="kf-rank-label">'+label+'</span><span class="kf-rank-num">#'+rk.rank+'<small> / '+Number(rk.of).toLocaleString()+'</small></span></div>';
+  }
+  ranks.innerHTML =
+    rankCard('Datasets', r.datasets) +
+    rankCard('Notebooks', r.notebooks) +
+    '<div class="kf-counts">'+
+      '<span><b>'+(c.code||0)+'</b> Notebooks</span>'+
+      '<span><b>'+(c.datasets||0)+'</b> Datasets</span>'+
+      '<span><b>'+(c.benchmarks||0)+'</b> Benchmarks</span>'+
+    '</div>';
+
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function nbCard(n){
+    return '<a class="kf-card" href="'+n.url+'" target="_blank" rel="noopener noreferrer">'+
+      '<div class="kf-card-top"><span class="kf-tag">Notebook</span><span class="kf-votes">&uarr; '+n.votes+'</span></div>'+
+      '<h3 class="kf-card-title">'+esc(n.title)+'</h3>'+
+      '<div class="kf-card-meta">'+(n.score?('Score: '+esc(n.score)+' &middot; '):'')+'Updated '+esc(n.updated)+(n.comments?(' &middot; '+n.comments+' comments'):'')+'</div>'+
+    '</a>';
+  }
+  function dsCard(d){
+    return '<a class="kf-card" href="'+d.url+'" target="_blank" rel="noopener noreferrer">'+
+      '<div class="kf-card-top"><span class="kf-tag">Dataset'+(d.medal?' &middot; '+d.medal:'')+'</span><span class="kf-votes">&uarr; '+d.votes+'</span></div>'+
+      '<h3 class="kf-card-title">'+esc(d.title)+'</h3>'+
+      '<div class="kf-card-meta">Usability '+d.usability+' &middot; '+esc(d.size)+' &middot; Updated '+esc(d.updated)+'</div>'+
+    '</a>';
+  }
+  function bmFeature(b){
+    return '<a class="kf-card" href="'+b.url+'" target="_blank" rel="noopener noreferrer">'+
+      '<div class="kf-card-top"><span class="kf-tag kf-tag-bench">Benchmark &middot; '+esc(b.version)+'</span><span class="kf-votes">&uarr; '+b.votes+'</span></div>'+
+      '<h3 class="kf-card-title">'+esc(b.title)+'</h3>'+
+      (b.description?('<p class="kf-card-desc">'+esc(b.description)+'</p>'):'')+
+      '<div class="kf-card-meta">Updated '+esc(b.updated)+'</div>'+
+    '</a>';
+  }
+  function bmTask(b){
+    return '<a class="kf-task" href="'+b.url+'" target="_blank" rel="noopener noreferrer">'+
+      '<span class="kf-task-v">&uarr; '+b.votes+'</span>'+
+      '<span class="kf-task-t">'+esc(b.title)+'</span>'+
+      '<span class="kf-task-meta">'+esc(b.version)+' &middot; '+esc(b.updated)+'</span>'+
+    '</a>';
+  }
+  var active='all';
+  function render(){
+    var html='';
+    if(active==='notebooks'){
+      (D.notebooks||[]).forEach(function(n){ html+=nbCard(n); });
+    } else if(active==='datasets'){
+      (D.datasets||[]).forEach(function(d){ html+=dsCard(d); });
+    } else if(active==='benchmarks'){
+      var cbs=(D.benchmarks||[]).filter(function(b){return b.type==='Community Benchmark';});
+      var tasks=(D.benchmarks||[]).filter(function(b){return b.type!=='Community Benchmark';});
+      if(cbs.length){ html+='<div class="kf-bench-featured">'; cbs.forEach(function(b){ html+=bmFeature(b); }); html+='</div>'; }
+      if(tasks.length){
+        html+='<h3 class="kf-subhead">Benchmark Tasks ('+tasks.length+')</h3><div class="kf-tasks">';
+        tasks.forEach(function(b){ html+=bmTask(b); });
+        html+='</div>';
+      }
+    } else {
+      (D.notebooks||[]).slice(0,6).forEach(function(n){ html+=nbCard(n); });
+      (D.datasets||[]).slice(0,6).forEach(function(d){ html+=dsCard(d); });
+      (D.benchmarks||[]).filter(function(b){return b.type==='Community Benchmark';}).forEach(function(b){ html+=bmFeature(b); });
+    }
+    grid.innerHTML = html || '<p class="kf-empty">No items.</p>';
+  }
+  render();
+  document.getElementById('kf-chips').addEventListener('click', function(e){
+    var b=e.target.closest('.kf-chip'); if(!b) return;
+    var all=document.querySelectorAll('.kf-chip');
+    for(var i=0;i<all.length;i++) all[i].classList.remove('active');
+    b.classList.add('active');
+    active=b.getAttribute('data-f');
+    render();
+  });
+})();
+</script>
+</body>
+</html>
