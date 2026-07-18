@@ -80,11 +80,11 @@
             Pushing the boundaries of controller-free gaming through innovative, gesture-driven environments, starting with my flagship game, Lunar Loot.
         </p>
         <div class="hero-cta">
-            <a href="#game-development" class="button button-primary gaming-button">
+            <a href="#play-lunar-loot" class="button button-primary gaming-button">
                 <i class="fas fa-gamepad"></i> Play Lunar Loot
             </a>
-            <a href="https://lunar-loot.streamlit.app" target="_blank" class="button button-secondary gaming-button">
-                <i class="fas fa-external-link-alt"></i> Live App Link
+            <a href="https://lunar-loot.streamlit.app" target="_blank" rel="noopener noreferrer" class="button button-secondary gaming-button">
+                <i class="fas fa-external-link-alt"></i> Open Standalone
             </a>
         </div>
         <div class="hero-stats">
@@ -108,6 +108,73 @@
             <p>Interactive Gaming Focus</p>
         </div>
     </div>
+</section>
+
+<!-- ===== Lunar Loot — Play In-Browser (embedded) ===== -->
+<section id="play-lunar-loot" class="section lunar-play-section">
+  <style>
+    .lunar-play-section { padding: 70px 0 30px; }
+    .lunar-play-head { text-align:center; margin-bottom: 26px; }
+    .lunar-play-head .section-title { margin: 0 0 10px; }
+    .lunar-play-head .section-description { max-width: 720px; margin: 0 auto; color: #c7c7d1; }
+    .lunar-play-frame-wrap { max-width: 1100px; margin: 0 auto; }
+    .lunar-play-frame { position: relative; width: 100%; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden; border: 1px solid rgba(212,175,55,0.28); box-shadow: 0 30px 80px -40px rgba(0,0,0,0.9); background: #0a0a0c; }
+    .lunar-loot-iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #0a0a0c; }
+    .lunar-play-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #c7c7d1; background: linear-gradient(160deg,#0a0a0c,#141416); z-index: 2; transition: opacity .45s ease; }
+    .lunar-play-loading i { font-size: 2.2rem; color: #D4AF37; }
+    .lunar-play-loading span { font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; }
+    .lunar-play-actions { display:flex; gap:14px; justify-content:center; margin-top:20px; flex-wrap:wrap; }
+    .lunar-play-note { text-align:center; margin-top:14px; font-size:.82rem; color:#9aa0ad; }
+    .lunar-play-note i { color:#D4AF37; }
+    @media (max-width: 640px){ .lunar-play-frame { aspect-ratio: 9 / 16; } }
+  </style>
+  <div class="container">
+    <div class="lunar-play-head">
+      <h2 class="section-title">Play Lunar Loot — Right Here</h2>
+      <p class="section-description">Drop into the controller-free, hand-tracking arcade without leaving the site. Allow camera access when prompted and use your hands to play.</p>
+    </div>
+    <div class="lunar-play-frame-wrap">
+      <div class="lunar-play-frame" id="lunar-play-frame">
+        <iframe id="lunar-loot-iframe"
+          src="https://lunar-loot.streamlit.app/?embed=true"
+          title="Lunar Loot — Playable Demo"
+          allow="camera; microphone; fullscreen"
+          allowfullscreen
+          loading="lazy"
+          class="lunar-loot-iframe"></iframe>
+        <div class="lunar-play-loading" id="lunar-play-loading">
+          <i class="fas fa-satellite fa-spin"></i>
+          <span>Booting Lunar Loot terminal…</span>
+        </div>
+      </div>
+      <div class="lunar-play-actions">
+        <button onclick="window.openLunarPlayFullscreen()" class="button button-primary gaming-button">
+          <i class="fas fa-expand"></i> Fullscreen
+        </button>
+        <a href="https://lunar-loot.streamlit.app" target="_blank" rel="noopener noreferrer" class="button button-secondary gaming-button">
+          <i class="fas fa-external-link-alt"></i> Open Standalone
+        </a>
+      </div>
+      <p class="lunar-play-note"><i class="fas fa-camera"></i> First load may take ~30s to wake the Streamlit engine. Camera requires a secure (https) context and a device with a webcam.</p>
+    </div>
+  </div>
+  <script>
+  (function () {
+    var iframe = document.getElementById('lunar-loot-iframe');
+    var loading = document.getElementById('lunar-play-loading');
+    function hideLoading(){ if (loading) { loading.style.opacity = '0'; setTimeout(function(){ if(loading) loading.style.display='none'; }, 450); } }
+    if (iframe) {
+      iframe.addEventListener('load', hideLoading);
+      setTimeout(hideLoading, 15000);
+    }
+    window.openLunarPlayFullscreen = function () {
+      var f = document.getElementById('lunar-play-frame');
+      if (!f) return;
+      if (f.requestFullscreen) f.requestFullscreen();
+      else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+    };
+  })();
+  </script>
 </section>
 
 <!-- Gaming Internal Navigation -->
