@@ -393,9 +393,8 @@ function navigateToPortfolio(portfolioType) {
         // --- EDITOR PREVIEW SAFE PATH (In-place Swap) ---
         showPortfolioTransition(portfolioType);
         setTimeout(() => {
-            // Remove existing classes & add the target to toggle the visible sections via CSS
-            document.body.classList.remove('gaming-portfolio', 'content-portfolio');
-            document.body.classList.add(targetClass);
+            // Ask the parent (Base44 preview) to load the existing page from the repo
+            try { window.parent.postMessage({ type: 'portfolio-navigate', url: targetUrl }, '*'); } catch (e) {}
             
             const overlay = document.querySelector('.portfolio-transition-overlay');
             if (overlay) overlay.remove();
