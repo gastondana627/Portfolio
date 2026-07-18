@@ -283,13 +283,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <span class="status-badge status-${project.status.toLowerCase().replace(' ', '-')}">${project.status}</span>
                 </div>
                 <div style="display: flex; gap: 15px; margin-top: 25px;">
-                    <button onclick="window.openLunarEmbed('${project.media.playableDemo}', '${project.title}')" class="gaming-button lunar-play-btn magnetic-element" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; padding: 15px;">
-                        <i class="fas fa-play"></i> Play In Browser
-                    </button>
                     <button class="gaming-button project-details-btn magnetic-element" data-project-id="${project.id}" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; padding: 15px;">
                         <i class="fas fa-info-circle"></i> View Details
                     </button>
-                    <a href="${project.media.playableDemo}" target="_blank" class="gaming-button magnetic-element" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width: 60px; border-radius: 8px;">
+                    <a href="${project.media.playableDemo}" target="_blank" rel="noopener noreferrer" class="gaming-button magnetic-element" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width: 60px; border-radius: 8px;">
                         <i class="fas fa-external-link-alt"></i>
                     </a>
                 </div>
