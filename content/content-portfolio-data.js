@@ -930,53 +930,8 @@
       }
     ],
 
-    // AdvancingX Videos
-    videos: [
-      {
-        id: "ax-product-demo",
-        title: "AdvancingX Platform Demo",
-        description: "Comprehensive walkthrough of the AdvancingX platform features",
-        thumbnail: "../assets/content/advancingx/X/week16/X Week 16 Post Thumby.png",
-        videoUrl: "https://youtube.com/watch?v=axdemo1",
-        duration: "8:45",
-        publishDate: "2023-09-15",
-        views: 4200,
-        tags: ["Product Demo", "Platform", "Features"]
-      },
-      {
-        id: "ax-team-culture",
-        title: "Inside AdvancingX: Team Culture",
-        description: "Behind the scenes look at AdvancingX team culture",
-        thumbnail: "../assets/content/advancingx/linkedin/week15/Li Week 15 Post Thumby.png",
-        videoUrl: "https://youtube.com/watch?v=axdemo3",
-        duration: "6:15",
-        publishDate: "2024-01-10",
-        views: 2850,
-        tags: ["Culture", "Team", "Behind the Scenes"]
-      },
-      {
-        id: "ax-innovation-showcase",
-        title: "Innovation Showcase 2024",
-        description: "Latest innovations and product updates",
-        thumbnail: "../assets/content/advancingx/X/week15/X Week 15 Post Thumby.png",
-        videoUrl: "https://youtube.com/watch?v=axdemo4",
-        duration: "10:20",
-        publishDate: "2024-02-28",
-        views: 5600,
-        tags: ["Innovation", "Product Updates", "Showcase"]
-      },
-      {
-        id: "ax-webinar-leadership",
-        title: "Leadership Webinar Series",
-        description: "Webinar on modern leadership practices",
-        thumbnail: "../assets/content/advancingx/X/week14/X Week 14 Post Thumby.png",
-        videoUrl: "https://youtube.com/watch?v=axdemo5",
-        duration: "45:00",
-        publishDate: "2024-03-15",
-        views: 7800,
-        tags: ["Webinar", "Leadership", "Education"]
-      }
-    ],
+    // AdvancingX Videos (hidden: placeholder cards removed - restore when real video URLs are available)
+    videos: [],,
 
     // Overall AdvancingX Stats
     stats: {
