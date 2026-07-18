@@ -9,7 +9,7 @@ It's pretty cool to see all the nodes connected to the data on the page. When cl
 ## What I Built & What I Learned
 
 ### The Knowledge Graph Journey
-Working on another project taught me a lot about data visualization and 3D interactions. I wanted to apply those lessons to something personal—my own portfolio. The result is an interactive 3D knowledge graph where each project is a node, and the connections show how they relate to each other.
+Working on another project taught me a lot about data visualization and 3D interactions. I wanted to apply those lessons to something personal-my own portfolio. The result is an interactive 3D knowledge graph where each project is a node, and the connections show how they relate to each other.
 
 **What I learned:**
 - Three.js for WebGL rendering (still learning the performance optimization tricks)
@@ -30,7 +30,7 @@ The most interesting part was implementing prompt injection defense. I didn't wa
 
 ### Tech Stack Choices (And Why)
 
-I went with **vanilla JavaScript** instead of React or Vue. Why? I wanted to understand the fundamentals first. No framework magic—just me, the DOM, and a lot of trial and error. Plus, the performance is noticeably better with a smaller bundle size.
+I went with **vanilla JavaScript** instead of React or Vue. Why? I wanted to understand the fundamentals first. No framework magic-just me, the DOM, and a lot of trial and error. Plus, the performance is noticeably better with a smaller bundle size.
 
 **Backend:** Flask felt right for this. It's lightweight, I know Python well, and it integrates seamlessly with the AI/ML libraries I'm using.
 
@@ -85,7 +85,7 @@ The knowledge graph? Probably overkill for a portfolio. But I learned a ton buil
 
 ## What's Next
 
-I'm working on the content creation and gaming sections of the portfolio. Each one will have its own flavor while sharing the same underlying architecture. The goal is to show different sides of what I do—tech, content, and gaming—all in one place.
+I'm working on the content creation and gaming sections of the portfolio. Each one will have its own flavor while sharing the same underlying architecture. The goal is to show different sides of what I do-tech, content, and gaming-all in one place.
 
 Also planning to write more about the specific challenges I faced building this. Things like:
 - How I structured the RAG system
@@ -99,7 +99,7 @@ Also planning to write more about the specific challenges I faced building this.
 
 Check it out at [gastondana.com](https://gastondana.com)
 
-The knowledge graph is the centerpiece—click on any project node to learn more. And feel free to chat with Bobot about any of the projects. I'm curious to see what questions people ask.
+The knowledge graph is the centerpiece-click on any project node to learn more. And feel free to chat with Bobot about any of the projects. I'm curious to see what questions people ask.
 
 **Feedback welcome!** I'm always learning and improving this thing.
 
