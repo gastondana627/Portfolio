@@ -618,6 +618,16 @@ function showProjectDetails(project) {
     document.getElementById('modal-title').textContent = project.label;
     document.getElementById('modal-category').textContent = project.group;
     document.getElementById('modal-description').textContent = project.description || 'No description available.';
+    var _ts = document.getElementById('modal-techstack');
+    if (_ts) {
+        var stack = project.techStack || project.tech_stack;
+        if (!stack) {
+            var ids = skillLinks.filter(function(l){ return l.project === project.id; }).map(function(l){ return l.skill; });
+            stack = skillData.filter(function(s){ return ids.indexOf(s.id) >= 0; }).map(function(s){ return s.name; }).join(', ');
+        }
+        _ts.textContent = stack ? 'Tech stack: ' + stack : '';
+        _ts.style.display = stack ? 'block' : 'none';
+    }
     
     const linksContainer = document.getElementById('modal-links');
     linksContainer.innerHTML = '';
@@ -962,3 +972,36 @@ loadProjects().then(() => {
 });
 
 console.log('✅ Knowledge Graph Initialized!');
+
+
+// --- SEARCH + ZOOM/RESET CONTROLS (deep-link UX) ---
+function _gsApplyOpacity(node, val, outlineVal){
+    if(node.userData._sbase===undefined) node.userData._sbase=node.material.opacity;
+    if(node.userData.outline && node.userData._obase===undefined) node.userData._obase=node.userData.outline.material.opacity;
+    node.material.opacity=val;
+    if(node.userData.outline) node.userData.outline.material.opacity=outlineVal;
+}
+function clearSearch(){
+    projectNodes.forEach(function(n){ if(n.userData._sbase!==undefined) n.material.opacity=n.userData._sbase; if(n.userData.outline && n.userData._obase!==undefined) n.userData.outline.material.opacity=n.userData._obase; });
+    skillNodes.forEach(function(n){ if(n.userData._sbase!==undefined) n.material.opacity=n.userData._sbase; });
+}
+function searchGraph(q){
+    q=(q||'').trim().toLowerCase();
+    if(!q){ clearSearch(); return; }
+    var pIds=new Set(); var sIds=new Set();
+    projectNodes.forEach(function(n){ var p=n.userData.project; if(((p.label||'')+' '+(p.description||'')+' '+(p.id||'')).toLowerCase().indexOf(q)>=0) pIds.add(p.id); });
+    skillNodes.forEach(function(n){ var s=n.userData.skill; if(((s.name||'')+' '+(s.id||'')).toLowerCase().indexOf(q)>=0) sIds.add(s.id); });
+    skillLinks.forEach(function(l){ if(pIds.has(l.project)) sIds.add(l.skill); if(sIds.has(l.skill)) pIds.add(l.project); });
+    projectNodes.forEach(function(n){ var on=pIds.has(n.userData.project.id); _gsApplyOpacity(n, on?0.95:0.12, on?(n.userData._obase!==undefined?n.userData._obase:0.6):0.05); });
+    skillNodes.forEach(function(n){ var on=sIds.has(n.userData.skill.id); _gsApplyOpacity(n, on?0.95:0.12, 0.6); });
+    var first=projectNodes.find(function(n){ return pIds.has(n.userData.project.id); });
+    if(first){ selectedNode=first; showProjectDetails(first.userData.project); zoomToNode(first); }
+}
+(function(){
+    var input=document.getElementById('graph-search');
+    var reset=document.getElementById('graph-reset');
+    if(input){ input.addEventListener('input', function(){ searchGraph(input.value); }); }
+    if(reset){ reset.addEventListener('click', function(){ if(input) input.value=''; clearSearch(); selectedNode=null; zoomOut(); var m=document.getElementById('graph-modal'); var o=document.getElementById('graph-modal-overlay'); if(m)m.classList.remove('active'); if(o)o.classList.remove('active'); }); }
+    var c=document.getElementById('graph-container');
+    if(c){ c.addEventListener('wheel', function(e){ e.preventDefault(); camera.position.z=Math.max(6,Math.min(30,camera.position.z + e.deltaY*0.01)); camera.lookAt(selectedNode?selectedNode.position: new THREE.Vector3(0,0,0)); }, {passive:false}); }
+})();
