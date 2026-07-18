@@ -367,6 +367,10 @@
                     <li><i class="fas fa-music"></i> <strong>Play music</strong> to see audio-reactive effects</li>
                     <li><i class="fas fa-route"></i> <strong>Curved lines</strong> show my learning evolution path</li>
                 </ul>
+                <div class="graph-controls" style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <input id="graph-search" type="text" placeholder="Search projects or skills..." aria-label="Search knowledge graph" style="background:rgba(255,255,255,0.06);border:1px solid rgba(212,175,55,0.3);border-radius:8px;color:#fff;padding:8px 12px;font-size:14px;width:240px;max-width:70%;outline:none;">
+                    <button id="graph-reset" type="button" class="button" style="font-size:13px;">Reset View</button>
+                </div>
                 <button class="button" id="got-it-btn">Got it!</button>
             </div>
         </div>
@@ -947,6 +951,7 @@
             <span class="modal-category" id="modal-category"></span>
         </div>
         <p class="modal-description" id="modal-description"></p>
+        <div class="modal-techstack" id="modal-techstack" style="margin:12px 0;color:#D4AF37;font-size:14px;font-weight:600;"></div>
         <div class="modal-links" id="modal-links"></div>
     </div>
 
@@ -967,7 +972,7 @@
     <script src="shared/contact-system.js?v=2"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="graph.js?v=2"></script>
+    <script src="graph.js?v=3"></script>
 
 </body>
 
