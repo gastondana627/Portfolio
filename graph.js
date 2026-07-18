@@ -333,6 +333,7 @@ function stepSim() {
         arr[0] = l.source.pos.x; arr[1] = l.source.pos.y; arr[2] = l.source.pos.z;
         arr[3] = l.target.pos.x; arr[4] = l.target.pos.y; arr[5] = l.target.pos.z;
         l.line.geometry.attributes.position.needsUpdate = true;
+        l.line.material.opacity = l.line.userData.baseOpacity * (0.55 + 0.45 * (0.5 + 0.5 * Math.sin(clock.elapsedTime * 1.6 + l.source.pos.x * 0.3)));
     }
 }
 
@@ -428,9 +429,11 @@ function hoverUpdate(clientX, clientY) {
         container.classList.add('hovering');
         const ud = target.userData;
         showTooltip(ud.project ? ud.project.label : (ud.skill ? ud.skill.name : ''), clientX, clientY);
+        if (window.__GRAPH_HOVER__) window.__GRAPH_HOVER__(target, clientX, clientY);
     } else {
         container.classList.toggle('hovering', hoveredPrism);
         if (hoveredPrism) showTooltip('Ask me anything!', clientX, clientY); else hideTooltip();
+        if (window.__GRAPH_HOVER__) window.__GRAPH_HOVER__(null, clientX, clientY);
     }
 }
 function handleNodeClick(node) {
@@ -662,6 +665,16 @@ const ov = document.getElementById('graph-modal-overlay');
 if (ov) ov.addEventListener('click', closeModal);
 const md = document.getElementById('graph-modal');
 if (md) md.addEventListener('click', e => e.stopPropagation());
+
+// --- STATE EXPOSE (for graph-hud.js) ---
+window.__GRAPH__ = {
+    container: container, clock: clock, params: params,
+    getNodes: function () { return simNodes; },
+    getLinks: function () { return simLinks; },
+    getProjectData: function () { return projectData; },
+    getSkillData: function () { return skillData; },
+    getSkillLinks: function () { return skillLinks; }
+};
 
 // --- INIT ---
 buildSliders();
