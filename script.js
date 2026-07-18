@@ -371,14 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Back-to-home buttons inside portfolio detail sections (preview-safe: in-place)
-    document.querySelectorAll('[data-back]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.body.classList.remove('gaming-portfolio', 'content-portfolio');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    });
+
 });
 
 // Portfolio Navigation Functions
