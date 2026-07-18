@@ -81,7 +81,7 @@
             awards: ["Viral Potential Content 2024"],
             media: {
                 thumbnail: "../assets/ai-room-designer-promo.jpg",
-                videoUrl: "https://youtube.com/watch?v=ai-room-designer-demo",
+                videoUrl: "https://youtube.com/watch?v=n2RCGi76KoE",
                 screenshots: [
                     "../assets/ai-room-designer-promo.jpg",
                     "../assets/ai-room-designer-promo.jpg",
@@ -130,57 +130,10 @@
             },
             media: {
                 thumbnail: "../assets/planetrics-dashboard.jpg",
-                videoUrl: "https://youtube.com/watch?v=planetrics-demo",
+                videoUrl: "https://youtube.com/watch?v=g8ccnA5BzOQ",
                 screenshots: [
                     "../assets/planetrics-dashboard.jpg",
                     "../assets/planetrics-dashboard.jpg"
-                ]
-            }
-        },
-        {
-            id: "video-004",
-            title: "NASA Knowledge Graph Visualization",
-            type: "Technical Documentation Video",
-            client: "NASA Collaboration Project",
-            status: "Published",
-            duration: "8:50",
-            imageSource: "../assets/Space For Health Challenge.png",
-            description: "Technical deep-dive into knowledge graph implementation for NASA space data, showcasing AI in space exploration and advanced data visualization techniques.",
-            objectives: [
-                "Document NASA collaboration work",
-                "Demonstrate knowledge graph expertise",
-                "Showcase AI applications in space exploration",
-                "Build credibility in aerospace tech"
-            ],
-            targetAudience: "NASA professionals, AI researchers, space tech community, data scientists",
-            deliverables: [
-                "Technical documentation video",
-                "Knowledge graph visualization demos",
-                "Implementation walkthrough",
-                "Case study presentation",
-                "Educational content for AI community"
-            ],
-            tools: ["OBS Studio", "D3.js", "Premiere Pro", "After Effects", "Python"],
-            techniques: [
-                "Technical demonstration recording",
-                "Data visualization cinematography",
-                "Complex concept explanation",
-                "Interactive graph presentation",
-                "Professional documentation style"
-            ],
-            metrics: {
-                views: 12000,
-                engagementRate: "40%",
-                conversions: 180,
-                professionalConnections: 35,
-                industryRecognition: "High"
-            },
-            media: {
-                thumbnail: "../assets/Space For Health Challenge.png",
-                videoUrl: "https://youtube.com/watch?v=nasa-knowledge-graph",
-                screenshots: [
-                    "../assets/Space For Health Challenge.png",
-                    "../assets/SESA_1.png"
                 ]
             }
         }
