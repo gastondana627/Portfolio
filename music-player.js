@@ -1,16 +1,13 @@
-// Sonic Forge - playlist music player with a physics-based wave visualizer.
-// flowmusic.app songs can't be self-hosted (no direct audio URL, Cloudflare-gated),
-// so each track launches on Flow Music; this player curates the list, features
-// "Crafting Sessions", and renders an animated musical wave when opened.
+// Produced By GasMan - playlist music player with a physics-based wave visualizer.
 (function () {
   var TRACKS = [
-    { id: "funnel-chaos-funk", title: "Funnel Chaos Funk", url: "https://www.flowmusic.app/song/b58f9a6b-cc26-41eb-b6db-1f20e63104c8" },
-    { id: "vortex-agression", title: "Vortex Agression", url: "https://www.flowmusic.app/song/03e43f85-1e8f-4243-b6e3-759ee343e209" },
-    { id: "the-physics-problem", title: "The Physics Problem", url: "https://www.flowmusic.app/song/00e17242-4309-4026-a4cc-ed9f945ec977" },
-    { id: "from-rejection-to-triumph", title: "From Rejection To Triumph", url: "https://www.flowmusic.app/song/46320a2f-80ca-40dc-966b-1d22c238c6a5" },
-    { id: "stop-motion-dreams", title: "Stop Motion Dreams", url: "https://www.flowmusic.app/song/5ebbc900-deb7-49b9-ad26-76b96d291a49" },
-    { id: "crafting-sessions", title: "Crafting Sessions", url: "https://www.flowmusic.app/song/5f5e34aa-da8d-4662-b643-4534053d6298", mood: "Mellow lo-fi hip-hop - dusty vinyl crackle, warm Rhodes piano - 80 bpm", featured: true },
-    { id: "analytical-isolation", title: "Analytical Isolation", url: "https://www.flowmusic.app/song/edc4698b-4d76-4c16-ae6e-abf7c7318f9c" }
+    { id: "funnel-chaos-funk", title: "Funnel Chaos Funk", url: "https://www.flowmusic.app/song/b58f9a6b-cc26-41eb-b6db-1f20e63104c8", grad: ["#FF6B4A", "#FFB347"] },
+    { id: "vortex-agression", title: "Vortex Agression", url: "https://www.flowmusic.app/song/03e43f85-1e8f-4243-b6e3-759ee343e209", grad: ["#7B2FFF", "#FF3D9A"] },
+    { id: "the-physics-problem", title: "The Physics Problem", url: "https://www.flowmusic.app/song/00e17242-4309-4026-a4cc-ed9f945ec977", grad: ["#2EC4B6", "#1B6CA8"] },
+    { id: "from-rejection-to-triumph", title: "From Rejection To Triumph", url: "https://www.flowmusic.app/song/46320a2f-80ca-40dc-966b-1d22c238c6a5", grad: ["#E9C46A", "#FF8C42"] },
+    { id: "stop-motion-dreams", title: "Stop Motion Dreams", url: "https://www.flowmusic.app/song/5ebbc900-deb7-49b9-ad26-76b96d291a49", grad: ["#F2719A", "#7B5CFF"] },
+    { id: "crafting-sessions", title: "Crafting Sessions", url: "https://www.flowmusic.app/song/5f5e34aa-da8d-4662-b643-4534053d6298", mood: "Mellow lo-fi hip-hop - dusty vinyl crackle, warm Rhodes piano - 80 bpm", grad: ["#E9C46A", "#3FB984"], featured: true },
+    { id: "analytical-isolation", title: "Analytical Isolation", url: "https://www.flowmusic.app/song/edc4698b-4d76-4c16-ae6e-abf7c7318f9c", grad: ["#3D5AFE", "#6B7280"] }
   ];
 
   var player = document.getElementById('mp-player');
@@ -22,6 +19,7 @@
   var npArtist = document.getElementById('mp-np-artist');
   var npMood = document.getElementById('mp-np-mood');
   var npPlay = document.getElementById('mp-np-play');
+  var mpArt = document.getElementById('mp-art');
   if (!player || !orb || !panel) return;
 
   var activeId = (TRACKS.filter(function (t) { return t.featured; })[0] || TRACKS[0]).id;
@@ -46,7 +44,6 @@
   function drawWave() {
     if (!ctx) return;
     tick += 1;
-    // spring physics toward ampTarget (organic overshoot + decay)
     var k = 0.055, damp = 0.86;
     ampVel = (ampVel + (ampTarget - amp) * k) * damp;
     amp = amp + ampVel;
@@ -77,21 +74,14 @@
     }
   }
 
-  function startWave() {
-    ampTarget = 1;
-    if (!raf) { resizeWave(); raf = requestAnimationFrame(drawWave); }
-  }
-  function stopWave() {
-    ampTarget = 0;
-    if (!raf && ctx) raf = requestAnimationFrame(drawWave);
-  }
+  function startWave() { ampTarget = 1; if (!raf) { resizeWave(); raf = requestAnimationFrame(drawWave); } }
+  function stopWave() { ampTarget = 0; if (!raf && ctx) raf = requestAnimationFrame(drawWave); }
   function pulseWave() {
     ampTarget = 1.5;
     var wasOpen = open;
     setTimeout(function () { ampTarget = wasOpen ? 1 : 0; }, 220);
     if (!raf && ctx) { resizeWave(); raf = requestAnimationFrame(drawWave); }
   }
-
   if (window && canvas) window.addEventListener('resize', function () { if (open) resizeWave(); });
 
   // ---------- Playlist ----------
@@ -101,13 +91,18 @@
     });
   }
 
+  function artFor(t) {
+    return 'radial-gradient(circle at 28% 24%, rgba(255,255,255,0.30), transparent 55%), linear-gradient(135deg, ' + t.grad[0] + ', ' + t.grad[1] + ')';
+  }
+
   function render() {
     var html = TRACKS.map(function (t, i) {
       var active = t.id === activeId;
-      var num = t.featured ? '<i class="fas fa-star"></i>' : (i + 1);
+      var idx = active ? '<span class="mp-eq"><i></i><i></i><i></i></span>'
+               : (t.featured ? '<i class="fas fa-star"></i>' : (i + 1));
       var sub = t.featured ? 'Featured' : 'Flow Music';
-      return '<button class="mp-track' + (active ? ' active' : '') + '" data-id="' + t.id + '">' +
-        '<span class="mp-track-num">' + num + '</span>' +
+      return '<button class="mp-track' + (active ? ' active' : '') + '" data-id="' + t.id + '" role="listitem">' +
+        '<span class="mp-track-idx">' + idx + '</span>' +
         '<span class="mp-track-meta"><span class="mp-track-title">' + escapeHtml(t.title) + '</span>' +
         '<span class="mp-track-sub">' + sub + '</span></span>' +
         '<span class="mp-track-go"><i class="fas fa-play"></i></span></button>';
@@ -126,6 +121,7 @@
     if (npArtist) npArtist.textContent = 'GasMan - Flow Music';
     if (npMood) { npMood.textContent = t.mood || ''; npMood.style.display = t.mood ? 'block' : 'none'; }
     if (npPlay) npPlay.href = t.url;
+    if (mpArt) mpArt.style.background = artFor(t);
     player.classList.add('active');
     if (open) pulseWave();
   }
@@ -147,7 +143,6 @@
   }
 
   orb.addEventListener('click', function () { setOpen(!open); });
-  orb.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(!open); } });
   if (closeBtn) closeBtn.addEventListener('click', function () { setOpen(false); });
 
   render();
