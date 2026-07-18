@@ -629,3 +629,46 @@
   border-radius: 999px;
 }
 .segment-prompt-label i { font-size: 0.6rem; }
+
+/* === nav-card polish (appended override) === */
+.content-portfolio .nav-card,
+.nav-card {
+  position: relative !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 1rem !important;
+  background: linear-gradient(160deg, rgba(15,18,25,0.72) 0%, rgba(15,18,25,0.42) 100%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  box-shadow: 0 18px 50px -30px rgba(0,0,0,0.85), inset 0 1px 0 0 rgba(255,255,255,0.04) !important;
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), border-color 0.45s ease, box-shadow 0.45s ease !important;
+}
+.content-portfolio .nav-card::before,
+.nav-card::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  padding: 1px !important;
+  background: linear-gradient(130deg, rgba(0,255,209,0.5), rgba(112,0,255,0.28), transparent 60%) !important;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  opacity: 0 !important;
+  transition: opacity 0.45s ease !important;
+  pointer-events: none !important;
+}
+.content-portfolio .nav-card:hover,
+.nav-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(0,255,209,0.4) !important;
+  box-shadow: 0 28px 72px -30px rgba(0,0,0,0.9), 0 0 26px -6px rgba(0,255,209,0.25) !important;
+}
+.content-portfolio .nav-card:hover::before,
+.nav-card:hover::before { opacity: 1 !important; }
+.content-portfolio .nav-card i,
+.nav-card i { color: #00FFD1 !important; }
+.content-portfolio .nav-card h3,
+.nav-card h3 { font-weight: 600 !important; letter-spacing: -0.01em !important; color: #F8FAFC !important; }
+.content-portfolio .nav-card p,
+.nav-card p { color: rgba(248,250,252,0.62) !important; line-height: 1.5 !important; }
