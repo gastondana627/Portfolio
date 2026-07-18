@@ -1,1027 +1,677 @@
-console.log('🚀 Knowledge Graph Loading...');
+// ============================================================
+//  Knowledge Graph - Refined 3D (real force simulation)
+//  Self-contained: depends only on THREE (r128) global.
+//  Preserves: groupColors/skillColors, loadProjects (Railway +
+//  fallback), showProjectDetails/closeModal/openChatbot,
+//  zoomToProjectNode, search + deep-link, modal/carousel plumbing.
+// ============================================================
 
 // --- SETUP ---
 const container = document.getElementById('graph-container');
-if (!container) {
-    console.error('❌ graph-container not found!');
-}
-console.log('✅ Container found');
-
 const scene = new THREE.Scene();
-console.log('✅ Scene created');
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+scene.fog = new THREE.FogExp2(0x05070A, 0.02);
 
-// Adjust camera position based on device type
-const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-camera.position.z = isMobileDevice ? 18 : 15; // Pull back camera on mobile for better view
+const viewW = container.clientWidth || window.innerWidth;
+const viewH = container.clientHeight || 600;
+const camera = new THREE.PerspectiveCamera(58, viewW / viewH, 0.1, 2000);
+camera.position.set(0, 3, 22);
 
-const renderer = new THREE.WebGLRenderer({ 
-    antialias: !isMobileDevice, // Disable antialiasing on mobile for better performance
-    alpha: true,
-    powerPreference: isMobileDevice ? 'low-power' : 'high-performance'
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobileDevice ? 2 : 3)); // Limit pixel ratio on mobile
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(viewW, viewH);
+renderer.setClearColor(0x000000, 0);
 container.appendChild(renderer.domElement);
 
 const clock = new THREE.Clock();
 const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+const ndc = new THREE.Vector2();
+const plane = new THREE.Plane();
+const tmpV = new THREE.Vector3();
 
 let hoveredNode = null;
 let selectedNode = null;
-let analyser, dataArray;
+let hoveredPrism = false;
 
-// --- MOBILE DETECTION ---
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-console.log(`📱 Mobile device: ${isMobile}, Touch support: ${isTouch}`);
-
-// --- AUDIO SETUP ---
-let audioGainNode = null; // exposed globally for volume control
-
-function initAudio() {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const audioElement = document.getElementById('background-music');
-    const source = audioContext.createMediaElementSource(audioElement);
-    
-    analyser = audioContext.createAnalyser();
-    analyser.fftSize = 256;
-    dataArray = new Uint8Array(analyser.frequencyBinCount);
-    
-    // GainNode sits between source and analyser so volume slider controls it
-    audioGainNode = audioContext.createGain();
-    audioGainNode.gain.value = parseFloat(document.getElementById('volume-slider')?.value ?? 0.5);
-    
-    source.connect(audioGainNode);
-    audioGainNode.connect(analyser);
-    analyser.connect(audioContext.destination);
-    audioElement.play();
-}
-
-// --- CENTRAL PRISM ---
-const prismGeometry = new THREE.CylinderGeometry(1, 1, 3, 6);
-const prismMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.9
-});
-const prism = new THREE.Mesh(prismGeometry, prismMaterial);
-
-const innerPrismGeometry = new THREE.CylinderGeometry(0.8, 0.8, 2.8, 6);
-const innerPrismMaterial = new THREE.MeshBasicMaterial({
-    color: 0xD4AF37,
-    transparent: true,
-    opacity: 0.3
-});
-const innerPrism = new THREE.Mesh(innerPrismGeometry, innerPrismMaterial);
-prism.add(innerPrism);
-prism.userData.innerPrism = innerPrism;
-
-const edgesGeometry = new THREE.EdgesGeometry(prismGeometry);
-const edgesMaterial = new THREE.LineBasicMaterial({
-    color: 0xFF8C42,
-    linewidth: 2,
-    transparent: true,
-    opacity: 0.8
-});
-const edges = new THREE.LineSegments(edgesGeometry, edgesMaterial);
-prism.add(edges);
-prism.userData.edges = edges;
-
-scene.add(prism);
-
-const prismColors = [
-    new THREE.Color(0xD4AF37),
-    new THREE.Color(0xFF8C42),
-    new THREE.Color(0xB8860B),
-    new THREE.Color(0xE67E22),
-    new THREE.Color(0xDAA520)
-];
-let currentColorIndex = 0;
-const baseColor = new THREE.Color(0xffffff);
-const glowColor = new THREE.Color(0xD4AF37);
-
-// --- PROJECT DATA ---
 let projectNodes = [];
 let skillNodes = [];
 let projectData = [];
 let skillData = [];
 let skillLinks = [];
+let skillConnectionLines = [];
 
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || '');
+const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+// --- PALETTE (preserved) ---
 const groupColors = {
-    'AI Projects': { 
-        main: 0xD4AF37,
-        outline: 0xFF8C42
-    },
-    'Gaming': { 
-        main: 0xFF8C42,
-        outline: 0xD4AF37
-    },
-    'Ethical Hacking': { 
-        main: 0xB8860B,
-        outline: 0xFF8C42
-    },
-    'default': {
-        main: 0xFFFFFF,
-        outline: 0xD4AF37
-    }
+    'AI Projects': { main: 0xD4AF37, outline: 0xFF8C42 },
+    'Gaming': { main: 0xFF8C42, outline: 0xD4AF37 },
+    'Ethical Hacking': { main: 0xB8860B, outline: 0xFF8C42 },
+    'default': { main: 0xFFFFFF, outline: 0xD4AF37 }
 };
-
 const skillColors = {
-    'Language': { 
-        main: 0xFFD700,
-        outline: 0xD4AF37
-    },
-    'AI': { 
-        main: 0xD4AF37,
-        outline: 0xFFD700
-    },
-    'Database': { 
-        main: 0xFF8C42,
-        outline: 0xD4AF37
-    },
-    'Geospatial': { 
-        main: 0xDAA520,
-        outline: 0xFF8C42
-    },
-    'Domain': { 
-        main: 0xE67E22,
-        outline: 0xFF8C42
-    }
+    'Language': { main: 0xFFD700, outline: 0xD4AF37 },
+    'AI': { main: 0xD4AF37, outline: 0xFFD700 },
+    'Database': { main: 0xFF8C42, outline: 0xD4AF37 },
+    'Geospatial': { main: 0xDAA520, outline: 0xFF8C42 },
+    'Domain': { main: 0xE67E22, outline: 0xFF8C42 }
 };
 
-// --- LOAD PROJECTS ---
-async function loadProjects() {
-    console.log('📡 Fetching projects...');
+// --- LIGHTING (three-point + ambient for glassy depth) ---
+scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+const keyLight = new THREE.PointLight(0xffe8b0, 1.5, 0, 2); keyLight.position.set(14, 16, 14); scene.add(keyLight);
+const rimLight = new THREE.PointLight(0x6cf2ff, 0.9, 0, 2); rimLight.position.set(-16, -6, -12); scene.add(rimLight);
+const fillLight = new THREE.PointLight(0xff8c42, 0.6, 0, 2); fillLight.position.set(0, -12, 10); scene.add(fillLight);
+
+// --- HELPERS ---
+function hexToCss(hex) { return '#' + hex.toString(16).padStart(6, '0'); }
+function hexToRgba(hex, a) {
+    const r = (hex >> 16) & 255, g = (hex >> 8) & 255, b = hex & 255;
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+}
+function makeGlowSprite(colorHex, size) {
+    const c = document.createElement('canvas'); c.width = c.height = 128;
+    const g = c.getContext('2d');
+    const grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grd.addColorStop(0, 'rgba(255,255,255,0.9)');
+    grd.addColorStop(0.25, hexToRgba(colorHex, 0.55));
+    grd.addColorStop(1, hexToRgba(colorHex, 0));
+    g.fillStyle = grd; g.fillRect(0, 0, 128, 128);
+    const tex = new THREE.CanvasTexture(c);
+    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+    const s = new THREE.Sprite(mat); s.scale.set(size, size, 1);
+    return s;
+}
+function makeLabel(text, colorHex) {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 128;
+    const g = c.getContext('2d');
+    g.font = '600 42px Inter, Poppins, sans-serif';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillStyle = hexToCss(colorHex);
+    g.shadowColor = 'rgba(0,0,0,0.85)'; g.shadowBlur = 12;
+    g.fillText(text, 256, 64);
+    const tex = new THREE.CanvasTexture(c);
+    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false });
+    const s = new THREE.Sprite(mat);
+    s.scale.set(2.6, 2.6 * 128 / 512, 1);
+    return s;
+}
+
+// --- CENTRAL CORE (glassy gold octahedron, chatbot trigger) ---
+let prism = null;
+(function createCore() {
+    const geo = new THREE.OctahedronGeometry(1.5, 0);
+    const mat = new THREE.MeshStandardMaterial({
+        color: 0xD4AF37, metalness: 0.65, roughness: 0.15,
+        transparent: true, opacity: 0.92, emissive: 0x6a4a00, emissiveIntensity: 0.4
+    });
+    prism = new THREE.Mesh(geo, mat);
+    prism.userData.isCore = true;
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: 0xFFE9A8, transparent: true, opacity: 0.6 }));
+    prism.add(edges);
+    prism.add(makeGlowSprite(0xD4AF37, 6));
+    scene.add(prism);
+})();
+
+// --- PHYSICS PARAMS (slider-driven) ---
+const params = {
+    charge: 40,        // repulsion magnitude
+    link: 0.06,         // spring stiffness
+    linkDistance: 7,   // desired link length
+    center: 0.012,      // gravity toward origin
+    damping: 0.86,
+    collide: 1.7,
+    alpha: 1,
+    alphaDecay: 0.01,
+    alphaMin: 0.05     // gentle simmer so it stays alive
+};
+let simNodes = [];   // {mesh, glow, label, kind, data, pos, vel, fixed, radius, baseOpacity}
+let simLinks = [];   // {source, target, line}
+function reheat(v) { params.alpha = Math.min(1, Math.max(params.alpha, v)); }
+
+// --- AUDIO (compat for site music toggle) ---
+let analyser, dataArray, audioGainNode = null;
+function initAudio() {
     try {
-        const apiUrl = window.location.hostname === 'localhost' 
-        ? 'http://localhost:5000/api/projects'
-        : 'https://portfolio-production-b1b4.up.railway.app/api/projects';
-            
+        const el = document.getElementById('background-music');
+        if (!el) return;
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const src = ctx.createMediaElementSource(el);
+        audioGainNode = ctx.createGain(); audioGainNode.gain.value = 0.3;
+        analyser = ctx.createAnalyser(); analyser.fftSize = 256;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        src.connect(audioGainNode); audioGainNode.connect(analyser); analyser.connect(ctx.destination);
+        if (ctx.state === 'suspended') ctx.resume();
+    } catch (e) { console.warn('Audio init failed', e); }
+}
+
+// --- LOAD PROJECTS (Railway + fallback) ---
+async function loadProjects() {
+    try {
+        const apiUrl = window.location.hostname === 'localhost'
+            ? 'http://localhost:5000/api/projects'
+            : 'https://portfolio-production-b1b4.up.railway.app/api/projects';
         const response = await fetch(apiUrl);
         const data = await response.json();
         projectData = data.projects || data.nodes;
         skillData = data.skills || [];
         skillLinks = data.skill_links || [];
-        console.log('✅ Loaded', projectData.length, 'projects and', skillData.length, 'skills from backend');
     } catch (error) {
-        console.log('⚠️ Backend unavailable, using fallback data');
         projectData = [
-            {id: "stargate", group: "Gaming", label: "Project Stargate", description: "Gaming mentorship personas", links: [{type: "github", url: "https://github.com/gastondana627/Stargate-and-Bobot"}]},
-            {id: "peata", group: "AI Projects", label: "Peata", description: "AI pet recovery assistant", links: [{type: "github", url: "https://github.com/gastondana627/Peata"}]},
-            {id: "relic", group: "AI Projects", label: "Relic", description: "Archaeological research assistant", links: [{type: "github", url: "https://github.com/gastondana627/Team-Relic-Xingu-Challenge"}]},
-            {id: "sesa", group: "Ethical Hacking", label: "SESA", description: "Multi-agent AI system", links: []},
-            {id: "astro_archive", group: "AI Projects", label: "Astro Archive", description: "Memory-aware coaching agents", links: [{type: "github", url: "https://github.com/gastondana627/Mongo_DB_NASA_OSDR"}]},
-            {id: "nasa_kg", group: "AI Projects", label: "NASA Knowledge Graph", description: "Biological data mapping for astronaut health", links: [{type: "github", url: "https://github.com/gastondana627/spoke_genelab"}]},
-            {id: "planetrics", group: "AI Projects", label: "Planetrics", description: "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog.", links: [{type: "video", url: "https://www.linkedin.com/posts/gaston-d-859653184_plotly-python-datascience-activity-7380386160432500736-P6OA?utm_source=share&utm_medium=member_desktop&rcm=ACoAACuFtgUBVdf9kFE9Wlxn2qi6FBP2M0VX6Ds"}]},
-            {id: "ai-room-designer", group: "AI Projects", label: "AI Room Designer", description: "Multi-modal AI interior design platform with dual modes: Generate New and Redesign My Room.", links: [{type: "demo", url: "https://rooms-through-time-production.up.railway.app"}, {type: "github", url: "https://github.com/gastondana627/Rooms-Through-Time"}]}
+            { id: "stargate", group: "Gaming", label: "Project Stargate", description: "Gaming mentorship personas", links: [{ type: "github", url: "https://github.com/gastondana627/Stargate-and-Bobot" }] },
+            { id: "peata", group: "AI Projects", label: "Peata", description: "AI pet recovery assistant", links: [{ type: "github", url: "https://github.com/gastondana627/Peata" }] },
+            { id: "relic", group: "AI Projects", label: "Relic", description: "Archaeological research assistant", links: [{ type: "github", url: "https://github.com/gastondana627/Team-Relic-Xingu-Challenge" }] },
+            { id: "sesa", group: "Ethical Hacking", label: "SESA", description: "Multi-agent AI system", links: [] },
+            { id: "astro_archive", group: "AI Projects", label: "Astro Archive", description: "Memory-aware coaching agents", links: [{ type: "github", url: "https://github.com/gastondana627/Mongo_DB_NASA_OSDR" }] },
+            { id: "nasa_kg", group: "AI Projects", label: "NASA Knowledge Graph", description: "Biological data mapping for astronaut health", links: [{ type: "github", url: "https://github.com/gastondana627/spoke_genelab" }] },
+            { id: "planetrics", group: "AI Projects", label: "Planetrics", description: "Interactive web dashboard visualizing NASA's 6,000+ exoplanet catalog.", links: [{ type: "video", url: "https://www.linkedin.com/posts/gaston-d-859653184_plotly-python-datascience-activity-7380386160432500736-P6OA" }] },
+            { id: "ai-room-designer", group: "AI Projects", label: "AI Room Designer", description: "Multi-modal AI interior design platform with dual modes: Generate New and Redesign My Room.", links: [{ type: "demo", url: "https://rooms-through-time-production.up.railway.app" }, { type: "github", url: "https://github.com/gastondana627/Rooms-Through-Time" }] }
         ];
         skillData = [
-            {id: "python", name: "Python", category: "Language"},
-            {id: "rag", name: "RAG", category: "AI"},
-            {id: "ai_agents", name: "AI Agents", category: "AI"},
-            {id: "neo4j", name: "Neo4j", category: "Database"},
-            {id: "data_viz", name: "Data Visualization", category: "Domain"},
-            {id: "api", name: "API Integration", category: "Domain"},
-            {id: "react", name: "React", category: "Language"},
-            {id: "computer_vision", name: "Computer Vision", category: "AI"}
+            { id: "python", name: "Python", category: "Language" },
+            { id: "rag", name: "RAG", category: "AI" },
+            { id: "ai_agents", name: "AI Agents", category: "AI" },
+            { id: "neo4j", name: "Neo4j", category: "Database" },
+            { id: "data_viz", name: "Data Visualization", category: "Domain" },
+            { id: "api", name: "API Integration", category: "Domain" },
+            { id: "react", name: "React", category: "Language" },
+            { id: "computer_vision", name: "Computer Vision", category: "AI" }
         ];
         skillLinks = [
-            {project: "peata", skill: "rag"},
-            {project: "peata", skill: "python"},
-            {project: "relic", skill: "rag"},
-            {project: "nasa_kg", skill: "neo4j"},
-            {project: "planetrics", skill: "python"},
-            {project: "planetrics", skill: "data_viz"},
-            {project: "planetrics", skill: "api"},
-            {project: "ai-room-designer", skill: "python"},
-            {project: "ai-room-designer", skill: "react"},
-            {project: "ai-room-designer", skill: "ai_agents"},
-            {project: "ai-room-designer", skill: "computer_vision"}
+            { project: "peata", skill: "rag" },
+            { project: "peata", skill: "python" },
+            { project: "relic", skill: "rag" },
+            { project: "nasa_kg", skill: "neo4j" },
+            { project: "planetrics", skill: "python" },
+            { project: "planetrics", skill: "data_viz" },
+            { project: "planetrics", skill: "api" },
+            { project: "ai-room-designer", skill: "python" },
+            { project: "ai-room-designer", skill: "react" },
+            { project: "ai-room-designer", skill: "ai_agents" },
+            { project: "ai-room-designer", skill: "computer_vision" }
         ];
     }
     createProjectNodes();
     createSkillNodes();
     createSkillConnections();
-
-    // Deep-linking: focus a project node from a shareable #graph/<id> link.
-    // The Base44 host reads its own URL hash and injects window.__GRAPH_FOCUS__.
+    reheat(1);
     if (window.__GRAPH_FOCUS__) {
         setTimeout(function () {
-            if (typeof window.zoomToProjectNode === 'function') {
-                window.zoomToProjectNode(window.__GRAPH_FOCUS__);
-            }
-        }, 300);
+            if (typeof window.zoomToProjectNode === 'function') window.zoomToProjectNode(window.__GRAPH_FOCUS__);
+        }, 700);
     }
 }
 
-// --- CREATE NODES ---
+// --- CREATE NODES (sim) ---
+function clearGraph() {
+    [...projectNodes, ...skillNodes].forEach(n => {
+        scene.remove(n);
+        if (n.userData.outline) n.remove(n.userData.outline);
+        if (n.userData.label) scene.remove(n.userData.label);
+    });
+    skillConnectionLines.forEach(l => scene.remove(l));
+    projectNodes = []; skillNodes = []; skillConnectionLines = []; simNodes = []; simLinks = [];
+}
 function createProjectNodes() {
-    console.log('🎨 Creating', projectData.length, 'nodes');
-    const radius = 8;
-    const angleStep = (Math.PI * 2) / projectData.length;
-    
-    projectData.forEach((project, index) => {
-        const angle = angleStep * index;
-        const x = Math.cos(angle) * radius;
-        const z = Math.sin(angle) * radius;
-        const y = (Math.random() - 0.5) * 2;
-        
+    projectNodes.forEach(n => { scene.remove(n); if (n.userData.label) scene.remove(n.userData.label); });
+    projectNodes = []; simNodes = simNodes.filter(n => n.kind !== 'project');
+    projectData.forEach((project) => {
         const colors = groupColors[project.group] || groupColors.default;
-        const nodeColor = colors.main;
-        const outlineColor = colors.outline;
-        
-        const nodeGeometry = new THREE.SphereGeometry(0.9, 32, 32);
-        const nodeMaterial = new THREE.MeshBasicMaterial({ 
-            color: nodeColor,
-            transparent: true,
-            opacity: 0.8
+        const geo = new THREE.IcosahedronGeometry(0.9, 1);
+        const mat = new THREE.MeshStandardMaterial({
+            color: colors.main, metalness: 0.55, roughness: 0.2,
+            transparent: true, opacity: 0.92, emissive: colors.main, emissiveIntensity: 0.22
         });
-        const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
-        
-        const hitboxGeometry = new THREE.SphereGeometry(1.5, 8, 8);
-        const hitboxMaterial = new THREE.MeshBasicMaterial({
-            transparent: true,
-            opacity: 0,
-            visible: false
-        });
-        const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
-        node.add(hitbox);
-        
-        const outlineGeometry = new THREE.SphereGeometry(0.95, 16, 16);
-        const outlineMaterial = new THREE.MeshBasicMaterial({
-            color: outlineColor,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.7
-        });
-        const outline = new THREE.Mesh(outlineGeometry, outlineMaterial);
-        
-        node.add(outline);
-        node.position.set(x, y, z);
-        node.userData = {
-            id: project.id,
-            project: project,
-            originalPosition: { x, y, z },
-            baseColor: new THREE.Color(nodeColor),
-            baseOutlineColor: new THREE.Color(outlineColor),
-            outline: outline,
-            isNode: true,
-            type: "project-node"
-        };
-        
-        scene.add(node);
-        projectNodes.push(node);
+        const mesh = new THREE.Mesh(geo, mat);
+        const outline = new THREE.Mesh(new THREE.IcosahedronGeometry(1.06, 1), new THREE.MeshBasicMaterial({ color: colors.outline, wireframe: true, transparent: true, opacity: 0.5 }));
+        mesh.add(outline);
+        const glow = makeGlowSprite(colors.main, 3.4);
+        mesh.add(glow);
+        const label = makeLabel(project.label || project.id, colors.outline);
+        scene.add(label); scene.add(mesh);
+        const a = Math.random() * Math.PI * 2, b = (Math.random() - 0.5) * Math.PI, r = 7 + Math.random() * 4;
+        const pos = new THREE.Vector3(Math.cos(a) * Math.cos(b) * r, Math.sin(b) * r * 0.5, Math.sin(a) * Math.cos(b) * r);
+        mesh.position.copy(pos);
+        mesh.userData = { project, id: project.id, outline, label, glow, kind: 'project', baseOpacity: 0.92 };
+        projectNodes.push(mesh);
+        simNodes.push({ mesh, kind: 'project', data: project, pos: pos.clone(), vel: new THREE.Vector3(), fixed: false, radius: 1.06, label });
     });
-    
-    console.log('✅ Created', projectNodes.length, 'project nodes');
 }
-
-// --- CREATE SKILL NODES ---
 function createSkillNodes() {
-    console.log('🎨 Creating', skillData.length, 'skill nodes');
-    
-    const innerRadius = 4;
-    const angleStep = (Math.PI * 2) / skillData.length;
-    
-    skillData.forEach((skill, index) => {
-        const angle = angleStep * index;
-        const x = Math.cos(angle) * innerRadius;
-        const z = Math.sin(angle) * innerRadius;
-        const y = (Math.random() - 0.5) * 2;
-        
+    skillNodes.forEach(n => { scene.remove(n); if (n.userData.label) scene.remove(n.userData.label); });
+    skillNodes = []; simNodes = simNodes.filter(n => n.kind !== 'skill');
+    skillData.forEach((skill) => {
         const colors = skillColors[skill.category] || { main: 0xFFFFFF, outline: 0xD4AF37 };
-        const skillColor = colors.main;
-        const outlineColor = colors.outline;
-        
-        const skillGeometry = new THREE.OctahedronGeometry(0.5, 0);
-        const skillMaterial = new THREE.MeshBasicMaterial({
-            color: skillColor,
-            transparent: true,
-            opacity: 0.7,
-            wireframe: false
+        const geo = new THREE.OctahedronGeometry(0.5, 0);
+        const mat = new THREE.MeshStandardMaterial({
+            color: colors.main, metalness: 0.5, roughness: 0.25,
+            transparent: true, opacity: 0.9, emissive: colors.main, emissiveIntensity: 0.18
         });
-        const skillNode = new THREE.Mesh(skillGeometry, skillMaterial);
-        
-        skillNode.position.set(x, y, z);
-        
-        const hitboxGeometry = new THREE.OctahedronGeometry(1.0, 0);
-        const hitboxMaterial = new THREE.MeshBasicMaterial({
-            transparent: true,
-            opacity: 0,
-            visible: false
-        });
-        const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
-        skillNode.add(hitbox);
-        
-        const outlineGeometry = new THREE.OctahedronGeometry(0.55, 0);
-        const outlineMaterial = new THREE.MeshBasicMaterial({
-            color: outlineColor,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.8
-        });
-        const outline = new THREE.Mesh(outlineGeometry, outlineMaterial);
-        skillNode.add(outline);
-        
-        skillNode.userData = {
-            id: skill.id,
-            name: skill.name,
-            category: skill.category,
-            level: skill.level,
-            originalPosition: new THREE.Vector3(x, y, z),
-            baseColor: new THREE.Color(skillColor),
-            baseOutlineColor: new THREE.Color(outlineColor),
-            outline: outline,
-            isSkill: true,
-            type: "skill-node"
-        };
-        
-        scene.add(skillNode);
-        skillNodes.push(skillNode);
+        const mesh = new THREE.Mesh(geo, mat);
+        const outline = new THREE.Mesh(new THREE.OctahedronGeometry(0.6, 0), new THREE.MeshBasicMaterial({ color: colors.outline, wireframe: true, transparent: true, opacity: 0.5 }));
+        mesh.add(outline);
+        mesh.add(makeGlowSprite(colors.main, 2.2));
+        const label = makeLabel(skill.name || skill.id, colors.outline);
+        scene.add(label); scene.add(mesh);
+        const a = Math.random() * Math.PI * 2, b = (Math.random() - 0.5) * Math.PI, r = 4 + Math.random() * 4;
+        const pos = new THREE.Vector3(Math.cos(a) * Math.cos(b) * r, Math.sin(b) * r * 0.5, Math.sin(a) * Math.cos(b) * r);
+        mesh.position.copy(pos);
+        mesh.userData = { skill, id: skill.id, outline, label, kind: 'skill', baseOpacity: 0.9 };
+        skillNodes.push(mesh);
+        simNodes.push({ mesh, kind: 'skill', data: skill, pos: pos.clone(), vel: new THREE.Vector3(), fixed: false, radius: 0.6, label });
     });
-    
-    console.log('✅ Created', skillNodes.length, 'skill nodes');
 }
-
-// --- CREATE SKILL CONNECTIONS ---
-let skillConnectionLines = [];
-
 function createSkillConnections() {
-    console.log('🔗 Creating skill connections');
-    
-    skillLinks.forEach(link => {
-        const projectNode = projectNodes.find(n => n.userData.id === link.project);
-        const skillNode = skillNodes.find(n => n.userData.id === link.skill);
-        
-        if (projectNode && skillNode) {
-            const points = [projectNode.position, skillNode.position];
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-            const material = new THREE.LineBasicMaterial({
-                color: skillNode.userData.baseColor,
-                transparent: true,
-                opacity: 0.2,
-                linewidth: 1
-            });
-            
-            const line = new THREE.Line(geometry, material);
-            line.userData = {
-                isSkillConnection: true,
-                projectNode: projectNode,
-                skillNode: skillNode,
-                baseOpacity: 0.2,
-                type: "connection-line"
-            };
-            
-            scene.add(line);
-            skillConnectionLines.push(line);
-        }
+    skillConnectionLines.forEach(l => scene.remove(l));
+    skillConnectionLines = []; simLinks = [];
+    skillLinks.forEach((link) => {
+        const p = projectNodes.find(n => n.userData.id === link.project);
+        const s = skillNodes.find(n => n.userData.id === link.skill);
+        if (!p || !s) return;
+        const ps = simNodes.find(n => n.mesh === p);
+        const ss = simNodes.find(n => n.mesh === s);
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+        const mat = new THREE.LineBasicMaterial({ color: 0xD4AF37, transparent: true, opacity: 0.22 });
+        const line = new THREE.Line(geo, mat);
+        line.userData = { baseOpacity: 0.22, projectNode: p, skillNode: s };
+        scene.add(line);
+        skillConnectionLines.push(line);
+        simLinks.push({ source: ps, target: ss, line });
     });
-    
-    console.log('✅ Created', skillConnectionLines.length, 'skill connections');
-    createEvolutionPaths();
 }
 
-// --- EVOLUTION PATHS ---
-let evolutionLines = [];
-
-function createEvolutionPaths() {
-    const evolutionPaths = [
-        { from: "peata", to: "relic", color: 0xD4AF37 },
-        { from: "relic", to: "astro_archive", color: 0xFF8C42 },
-        { from: "astro_archive", to: "nasa_kg", color: 0xB8860B },
-        { from: "stargate", to: "peata", color: 0xD4AF37, dashed: true },
-        { from: "sesa", to: "astro_archive", color: 0xFF8C42, dashed: true },
-        { from: "nasa_kg", to: "ai-room-designer", color: 0xD4AF37 },
-        { from: "nasa_kg", to: "planetrics", color: 0xFF8C42, dashed: true }
-    ];
-    
-    evolutionPaths.forEach(path => {
-        const fromNode = projectNodes.find(n => n.userData.id === path.from);
-        const toNode = projectNodes.find(n => n.userData.id === path.to);
-        
-        if (fromNode && toNode) {
-            const curve = new THREE.QuadraticBezierCurve3(
-                fromNode.position,
-                new THREE.Vector3(
-                    (fromNode.position.x + toNode.position.x) / 2,
-                    (fromNode.position.y + toNode.position.y) / 2 + 2,
-                    (fromNode.position.z + toNode.position.z) / 2
-                ),
-                toNode.position
-            );
-            
-            const points = curve.getPoints(50);
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-            
-            const material = new THREE.LineBasicMaterial({
-                color: path.color,
-                transparent: true,
-                opacity: 0.4,
-                linewidth: 2
-            });
-            
-            if (path.dashed) {
-                material.opacity = 0.3;
-            }
-            
-            const line = new THREE.Line(geometry, material);
-            line.userData = {
-                isEvolutionPath: true,
-                fromNode: fromNode,
-                toNode: toNode,
-                baseOpacity: path.dashed ? 0.3 : 0.4,
-                type: "connection-line"
-            };
-            
-            scene.add(line);
-            evolutionLines.push(line);
-            createPathParticles(curve, path.color);
+// --- PHYSICS STEP ---
+function stepSim() {
+    const n = simNodes.length;
+    if (!n) return;
+    const a = params.alpha;
+    for (let i = 0; i < n; i++) {
+        const ni = simNodes[i];
+        let fx = 0, fy = 0, fz = 0;
+        for (let j = 0; j < n; j++) {
+            if (i === j) continue;
+            const nj = simNodes[j];
+            let dx = ni.pos.x - nj.pos.x, dy = ni.pos.y - nj.pos.y, dz = ni.pos.z - nj.pos.z;
+            let d2 = dx * dx + dy * dy + dz * dz; if (d2 < 0.04) d2 = 0.04;
+            const d = Math.sqrt(d2);
+            const f = params.charge * a / d2;
+            fx += dx / d * f; fy += dy / d * f; fz += dz / d * f;
+            const minD = ni.radius + nj.radius + params.collide;
+            if (d < minD) { const push = (minD - d) * 0.5; fx += dx / d * push; fy += dy / d * push; fz += dz / d * push; }
         }
-    });
-    
-    console.log('✅ Created', evolutionLines.length, 'evolution paths');
-}
-
-// --- PATH PARTICLES ---
-let pathParticles = [];
-
-function createPathParticles(curve, color) {
-    const particleGeometry = new THREE.SphereGeometry(0.1, 8, 8);
-    const particleMaterial = new THREE.MeshBasicMaterial({
-        color: color,
-        transparent: true,
-        opacity: 0.8
-    });
-    
-    for (let i = 0; i < 3; i++) {
-        const particle = new THREE.Mesh(particleGeometry, particleMaterial);
-        particle.userData = {
-            curve: curve,
-            progress: i / 3,
-            speed: 0.001 + Math.random() * 0.001
-        };
-        scene.add(particle);
-        pathParticles.push(particle);
+        fx -= ni.pos.x * params.center * a;
+        fy -= ni.pos.y * params.center * a;
+        fz -= ni.pos.z * params.center * a;
+        for (let k = 0; k < simLinks.length; k++) {
+            const l = simLinks[k];
+            let other = null;
+            if (l.source === ni) other = l.target; else if (l.target === ni) other = l.source;
+            if (!other) continue;
+            const dx = other.pos.x - ni.pos.x, dy = other.pos.y - ni.pos.y, dz = other.pos.z - ni.pos.z;
+            const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 0.01;
+            const f = (d - params.linkDistance) * params.link * a;
+            fx += dx / d * f; fy += dy / d * f; fz += dz / d * f;
+        }
+        if (!ni.fixed) {
+            ni.vel.x = (ni.vel.x + fx) * params.damping;
+            ni.vel.y = (ni.vel.y + fy) * params.damping;
+            ni.vel.z = (ni.vel.z + fz) * params.damping;
+            ni.pos.x += ni.vel.x; ni.pos.y += ni.vel.y; ni.pos.z += ni.vel.z;
+        }
+    }
+    if (params.alpha > params.alphaMin) params.alpha -= params.alphaDecay;
+    for (const node of simNodes) {
+        node.mesh.position.copy(node.pos);
+        node.label.position.set(node.pos.x, node.pos.y + node.radius + 0.85, node.pos.z);
+        const pulse = 1 + 0.07 * Math.sin(clock.elapsedTime * 2 + node.pos.x);
+        const gs = (node.kind === 'project' ? 3.4 : 2.2) * pulse;
+        node.mesh.userData.glow.scale.set(gs, gs, 1);
+    }
+    for (const l of simLinks) {
+        const arr = l.line.geometry.attributes.position.array;
+        arr[0] = l.source.pos.x; arr[1] = l.source.pos.y; arr[2] = l.source.pos.z;
+        arr[3] = l.target.pos.x; arr[4] = l.target.pos.y; arr[5] = l.target.pos.z;
+        l.line.geometry.attributes.position.needsUpdate = true;
     }
 }
 
-// --- MOUSE INTERACTION ---
-let hoveredPrism = false;
-
-function onMouseMove(event) {
-    // Calculate mouse coordinates relative to the container
-    const containerRect = container.getBoundingClientRect();
-    mouse.x = ((event.clientX - containerRect.left) / containerRect.width) * 2 - 1;
-    mouse.y = -((event.clientY - containerRect.top) / containerRect.height) * 2 + 1;
-    
-    raycaster.setFromCamera(mouse, camera);
-    
-    let closestNode = null;
-    let closestDistance = Infinity;
-    
-    // Only check for node interactions if we have valid mouse coordinates
-    if (Math.abs(mouse.x) <= 1 && Math.abs(mouse.y) <= 1) {
-        projectNodes.forEach(node => {
-            const nodeScreenPos = node.position.clone().project(camera);
-            const dx = nodeScreenPos.x - mouse.x;
-            const dy = nodeScreenPos.y - mouse.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 0.25 && distance < closestDistance) {
-                closestDistance = distance;
-                closestNode = node;
-            }
-        });
-        
-        skillNodes.forEach(node => {
-            const nodeScreenPos = node.position.clone().project(camera);
-            const dx = nodeScreenPos.x - mouse.x;
-            const dy = nodeScreenPos.y - mouse.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 0.20 && distance < closestDistance) {
-                closestDistance = distance;
-                closestNode = node;
-            }
-        });
+// --- ORBIT CONTROLS (custom, damped, idle auto-rotate) ---
+const orbit = {
+    target: new THREE.Vector3(0, 0, 0),
+    radius: 22, minRadius: 6, maxRadius: 60,
+    azimuth: 0, polar: Math.PI / 2 - 0.12,
+    aziVel: 0, polVel: 0,
+    damping: 0.9, autoRotate: true, autoRotateSpeed: 0.0016,
+    idle: 0
+};
+let zoomTween = null;
+function applyCamera() {
+    const sp = Math.sin(orbit.polar);
+    camera.position.set(
+        orbit.target.x + orbit.radius * sp * Math.cos(orbit.azimuth),
+        orbit.target.y + orbit.radius * Math.cos(orbit.polar),
+        orbit.target.z + orbit.radius * sp * Math.sin(orbit.azimuth)
+    );
+    camera.lookAt(orbit.target);
+}
+function tweenOrbit(targetV, radius, polar, azimuth, dur) {
+    const s = { t: orbit.target.clone(), r: orbit.radius, p: orbit.polar, a: orbit.azimuth };
+    const start = performance.now();
+    orbit.autoRotate = false; orbit.idle = 0;
+    zoomTween = function () {
+        const k = Math.min(1, (performance.now() - start) / dur);
+        const e = 1 - Math.pow(1 - k, 3);
+        orbit.target.lerpVectors(s.t, targetV, e);
+        orbit.radius = s.r + (radius - s.r) * e;
+        orbit.polar = s.p + (polar - s.p) * e;
+        orbit.azimuth = s.a + (azimuth - s.a) * e;
+        if (k >= 1) zoomTween = null;
+    };
+}
+function updateControls() {
+    orbit.azimuth += orbit.aziVel; orbit.polar += orbit.polVel;
+    orbit.aziVel *= orbit.damping; orbit.polVel *= orbit.damping;
+    orbit.polar = Math.max(0.18, Math.min(Math.PI - 0.18, orbit.polar));
+    orbit.radius = Math.max(orbit.minRadius, Math.min(orbit.maxRadius, orbit.radius));
+    orbit.idle += 1;
+    if (orbit.autoRotate && orbit.idle > 180 && Math.abs(orbit.aziVel) < 0.0008 && !zoomTween) {
+        orbit.azimuth += orbit.autoRotateSpeed;
     }
-    
-    if (!closestNode) {
-        const prismIntersects = raycaster.intersectObject(prism, true);
-        if (prismIntersects.length > 0) {
-            hoveredPrism = true;
-            container.classList.add('hovering');
-            showTooltip('💬 Ask me anything!', event.clientX, event.clientY);
-        } else if (hoveredPrism) {
-            hoveredPrism = false;
-            container.classList.remove('hovering');
-            hideTooltip();
-        }
-    } else {
-        hoveredPrism = false;
-    }
-    
-    if (hoveredNode && hoveredNode !== closestNode) {
-        hoveredNode.material.opacity = 0.8;
-        hoveredNode.scale.set(1, 1, 1);
-        if (hoveredNode.userData.outline) {
-            hoveredNode.userData.outline.material.opacity = 0.6;
-        }
-        hoveredNode = null;
-        if (!hoveredPrism) hideTooltip();
-    }
-    
-    if (closestNode && !selectedNode) {
-        hoveredNode = closestNode;
-        hoveredNode.material.opacity = 1.0;
-        hoveredNode.scale.set(1.5, 1.5, 1.5);
-        if (hoveredNode.userData.outline) {
-            hoveredNode.userData.outline.material.opacity = 1.0;
-        }
-        container.classList.add('hovering');
-        
-        if (hoveredNode.userData.isSkill) {
-            showTooltip(`💎 ${hoveredNode.userData.name} (${hoveredNode.userData.category})`, event.clientX, event.clientY);
-            
-            skillConnectionLines.forEach(line => {
-                if (line.userData.skillNode === hoveredNode) {
-                    line.material.opacity = 0.6;
-                    line.userData.projectNode.material.opacity = 1.0;
-                }
-            });
-        } else {
-            showTooltip(hoveredNode.userData.project.label, event.clientX, event.clientY);
-            
-            skillConnectionLines.forEach(line => {
-                if (line.userData.projectNode === hoveredNode) {
-                    line.material.opacity = 0.6;
-                    line.userData.skillNode.material.opacity = 1.0;
-                }
-            });
-        }
-    } else if (!hoveredPrism && !closestNode) {
-        container.classList.remove('hovering');
-        
-        skillConnectionLines.forEach(line => {
-            line.material.opacity = line.userData.baseOpacity;
-        });
-    }
+    applyCamera();
 }
 
-function onMouseClick(event) {
-    // Hit-test the node directly from the click coordinates so clicks register
-    // even when the mousemove hover pass missed (iframe coordinate quirks).
-    var target = hoveredNode;
-    if (event && container) {
-        var rect = container.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-            var mx = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            var my = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            if (Math.abs(mx) <= 1 && Math.abs(my) <= 1) {
-                var best = null, bestD = Infinity;
-                var probes = [{nodes: projectNodes, t: 0.25}, {nodes: skillNodes, t: 0.20}];
-                for (var i = 0; i < probes.length; i++) {
-                    probes[i].nodes.forEach(function(n){
-                        var sp = n.position.clone().project(camera);
-                        var d = Math.sqrt((sp.x - mx) * (sp.x - mx) + (sp.y - my) * (sp.y - my));
-                        if (d < probes[i].t && d < bestD) { bestD = d; best = n; }
-                    });
-                }
-                if (best) target = best;
-            }
-        }
-    }
-    if (hoveredPrism && !target) {
-        openChatbot();
-    } else if (target && target.userData.project) {
-        selectedNode = target;
-        showProjectDetails(target.userData.project);
-        zoomToNode(target);
-        if (typeof updateCarouselToProject === 'function') {
-            updateCarouselToProject(target.userData.project.id);
-        }
-    }
+// --- PICKING / HOVER / CLICK ---
+function pickNode(clientX, clientY) {
+    const rect = container.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return null;
+    ndc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    ndc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(ndc, camera);
+    const meshes = prism ? [...projectNodes, ...skillNodes, prism] : [...projectNodes, ...skillNodes];
+    const hits = raycaster.intersectObjects(meshes, true);
+    if (!hits.length) return null;
+    let obj = hits[0].object;
+    while (obj && !obj.userData.project && !obj.userData.skill && !obj.userData.isCore) obj = obj.parent;
+    if (!obj) return null;
+    return { node: obj, isCore: !!obj.userData.isCore };
 }
-
-// --- UI FUNCTIONS ---
+let tooltipEl = null;
 function showTooltip(text, x, y) {
-    let tooltip = document.getElementById('graph-tooltip');
-    if (!tooltip) {
-        tooltip = document.createElement('div');
-        tooltip.id = 'graph-tooltip';
-        tooltip.style.cssText = `
-            position: fixed; background: rgba(0,0,0,0.9); color: white;
-            padding: 8px 12px; border-radius: 4px; font-size: 14px;
-            pointer-events: none; z-index: 1000; font-family: 'Poppins', sans-serif;
-            border: 1px solid rgba(212,175,55,0.5);
-        `;
-        document.body.appendChild(tooltip);
+    if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.id = 'graph-tooltip';
+        tooltipEl.style.cssText = 'position:fixed;pointer-events:none;z-index:60;padding:6px 10px;background:rgba(5,7,10,0.88);border:1px solid rgba(212,175,55,0.45);color:#FFEDC2;font:600 12px Inter,sans-serif;border-radius:8px;transform:translate(-50%,-140%);opacity:0;transition:opacity .15s;white-space:nowrap;';
+        document.body.appendChild(tooltipEl);
     }
-    tooltip.textContent = text;
-    tooltip.style.left = x + 15 + 'px';
-    tooltip.style.top = y + 15 + 'px';
-    tooltip.style.display = 'block';
+    tooltipEl.textContent = text;
+    tooltipEl.style.left = x + 'px';
+    tooltipEl.style.top = y + 'px';
+    tooltipEl.style.opacity = '1';
+}
+function hideTooltip() { if (tooltipEl) tooltipEl.style.opacity = '0'; }
+function hoverUpdate(clientX, clientY) {
+    const hit = pickNode(clientX, clientY);
+    const target = hit ? (hit.isCore ? prism : hit.node) : null;
+    if (hoveredNode && hoveredNode !== target) {
+        hoveredNode.material.opacity = hoveredNode.userData.baseOpacity;
+        hoveredNode.scale.set(1, 1, 1);
+        if (hoveredNode.userData.outline) hoveredNode.userData.outline.material.opacity = 0.5;
+        hoveredNode = null;
+    }
+    hoveredPrism = (target === prism);
+    if (target && target !== prism) {
+        hoveredNode = target;
+        target.material.opacity = 1;
+        target.scale.set(1.25, 1.25, 1.25);
+        if (target.userData.outline) target.userData.outline.material.opacity = 0.9;
+        container.classList.add('hovering');
+        const ud = target.userData;
+        showTooltip(ud.project ? ud.project.label : (ud.skill ? ud.skill.name : ''), clientX, clientY);
+    } else {
+        container.classList.toggle('hovering', hoveredPrism);
+        if (hoveredPrism) showTooltip('Ask me anything!', clientX, clientY); else hideTooltip();
+    }
+}
+function handleNodeClick(node) {
+    if (node === prism) { openChatbot(); return; }
+    if (node.userData && node.userData.project) {
+        selectedNode = node;
+        showProjectDetails(node.userData.project);
+        zoomToNode(node);
+        if (typeof updateCarouselToProject === 'function') updateCarouselToProject(node.userData.project.id);
+    }
 }
 
-function hideTooltip() {
-    const tooltip = document.getElementById('graph-tooltip');
-    if (tooltip) tooltip.style.display = 'none';
+// --- POINTER INTERACTION (orbit + drag-to-pin + click) ---
+const ptr = { down: false, moved: 0, sx: 0, sy: 0, lx: 0, ly: 0, node: null, mode: null };
+function downAt(x, y) {
+    ptr.down = true; ptr.moved = 0; ptr.sx = x; ptr.sy = y; ptr.lx = x; ptr.ly = y;
+    orbit.idle = 0; orbit.autoRotate = false; orbit.aziVel = 0; orbit.polVel = 0;
+    const hit = pickNode(x, y);
+    ptr.node = hit ? (hit.isCore ? prism : hit.node) : null;
+    ptr.mode = hit ? 'drag' : 'orbit';
+}
+function moveAt(x, y) {
+    if (!ptr.down) { hoverUpdate(x, y); return; }
+    ptr.moved = Math.max(ptr.moved, Math.hypot(x - ptr.sx, y - ptr.sy));
+    if (ptr.mode === 'orbit') {
+        orbit.aziVel -= (x - ptr.lx) * 0.005;
+        orbit.polVel -= (y - ptr.ly) * 0.005;
+    } else if (ptr.mode === 'drag' && ptr.node && ptr.node !== prism) {
+        dragNodeTo(ptr.node, x, y);
+        ptr.moved = Math.max(ptr.moved, 7);
+    }
+    ptr.lx = x; ptr.ly = y;
+}
+function upAt(x, y) {
+    if (!ptr.down) return;
+    ptr.moved = Math.max(ptr.moved, Math.hypot(x - ptr.sx, y - ptr.sy));
+    const isClick = ptr.moved < 6;
+    if (ptr.mode === 'drag' && ptr.node) {
+        const sn = simNodes.find(n => n.mesh === ptr.node);
+        if (isClick) {
+            if (sn) sn.fixed = false;
+            handleNodeClick(ptr.node);
+        } else if (sn) {
+            sn.fixed = true; sn.vel.set(0, 0, 0);
+        }
+    } else if (isClick) {
+        const hit = pickNode(x, y);
+        if (hit) handleNodeClick(hit.isCore ? prism : hit.node);
+    }
+    ptr.down = false; ptr.mode = null; ptr.node = null;
+    setTimeout(() => { orbit.autoRotate = true; }, 3000);
+}
+function dragNodeTo(mesh, x, y) {
+    const rect = container.getBoundingClientRect();
+    ndc.x = ((x - rect.left) / rect.width) * 2 - 1;
+    ndc.y = -((y - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(ndc, camera);
+    const sn = simNodes.find(n => n.mesh === mesh);
+    if (!sn) return;
+    camera.getWorldDirection(tmpV);
+    plane.setFromNormalAndCoplanarPoint(tmpV, sn.pos);
+    if (raycaster.ray.intersectPlane(plane, tmpV)) {
+        sn.pos.copy(tmpV); sn.vel.set(0, 0, 0); sn.fixed = true; reheat(0.3);
+    }
 }
 
+// --- MODAL / CHATBOT / NAV (preserved) ---
 function showProjectDetails(project) {
     const modal = document.getElementById('graph-modal');
     const overlay = document.getElementById('graph-modal-overlay');
-    
     document.getElementById('modal-title').textContent = project.label;
     document.getElementById('modal-category').textContent = project.group;
     document.getElementById('modal-description').textContent = project.description || 'No description available.';
-    var _ts = document.getElementById('modal-techstack');
+    const _ts = document.getElementById('modal-techstack');
     if (_ts) {
-        var stack = project.techStack || project.tech_stack;
+        let stack = project.techStack || project.tech_stack;
         if (!stack) {
-            var ids = skillLinks.filter(function(l){ return l.project === project.id; }).map(function(l){ return l.skill; });
-            stack = skillData.filter(function(s){ return ids.indexOf(s.id) >= 0; }).map(function(s){ return s.name; }).join(', ');
+            const ids = skillLinks.filter(l => l.project === project.id).map(l => l.skill);
+            stack = skillData.filter(s => ids.indexOf(s.id) >= 0).map(s => s.name).join(', ');
         }
         _ts.textContent = stack ? 'Tech stack: ' + stack : '';
         _ts.style.display = stack ? 'block' : 'none';
     }
-    
     const linksContainer = document.getElementById('modal-links');
     linksContainer.innerHTML = '';
-    
     if (project.links && project.links.length > 0) {
         project.links.forEach(link => {
             const linkEl = document.createElement('a');
-            linkEl.href = link.url;
-            linkEl.target = '_blank';
-            linkEl.rel = 'noopener noreferrer';
+            linkEl.href = link.url; linkEl.target = '_blank'; linkEl.rel = 'noopener noreferrer';
             linkEl.className = 'modal-link';
-            
-            const icon = link.type === 'github' ? 'fab fa-github' : 
-                        link.type === 'demo' ? 'fas fa-external-link-alt' : 
-                        link.type === 'video' ? 'fas fa-video' :
-                        'fas fa-info-circle';
-            const label = link.type === 'github' ? 'GitHub' : 
-                         link.type === 'demo' ? 'Live Demo' : 
-                         link.type === 'video' ? 'Video Demo' : 'More Info';
-            
-            linkEl.innerHTML = `<i class="${icon}"></i> ${label}`;
+            const icon = link.type === 'github' ? 'fab fa-github' :
+                link.type === 'demo' ? 'fas fa-external-link-alt' :
+                    link.type === 'video' ? 'fas fa-video' : 'fas fa-info-circle';
+            const label = link.type === 'github' ? 'GitHub' :
+                link.type === 'demo' ? 'Live Demo' :
+                    link.type === 'video' ? 'Video Demo' : 'More Info';
+            linkEl.innerHTML = '<i class="' + icon + '"></i> ' + label;
             linksContainer.appendChild(linkEl);
         });
     }
-    
     overlay.classList.add('active');
     modal.classList.add('active');
 }
-
 function closeModal() {
     document.getElementById('graph-modal-overlay').classList.remove('active');
     document.getElementById('graph-modal').classList.remove('active');
-    if (selectedNode) {
-        zoomOut();
-        selectedNode = null;
-    }
+    if (selectedNode) { zoomOut(); selectedNode = null; }
 }
-
-function openChatbot() {
-    console.log('🤖 Chatbot activated!');
-    if (window.portfolioChatbot) {
-        window.portfolioChatbot.open();
-    } else {
-        console.error('Chatbot not initialized yet');
-    }
-}
-
-window.zoomToProjectNode = function(projectId) {
-    console.log('🔍 Looking for project:', projectId);
-    const node = projectNodes.find(n => n.userData.project.id === projectId);
-    
+function openChatbot() { if (window.portfolioChatbot) window.portfolioChatbot.open(); }
+window.zoomToProjectNode = function (projectId) {
+    const node = projectNodes.find(n => n.userData.project && n.userData.project.id === projectId);
     if (node) {
-        console.log('✅ Found node, zooming...');
         selectedNode = node;
         showProjectDetails(node.userData.project);
         zoomToNode(node);
-        
         document.getElementById('graph-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-        console.log('❌ Node not found for:', projectId);
     }
 };
-
 function zoomToNode(node) {
-    const targetPos = node.position.clone();
-    const startPos = camera.position.clone();
-    const endPos = new THREE.Vector3(targetPos.x * 0.5, targetPos.y * 0.5, targetPos.z + 5);
-    
-    let progress = 0;
-    const duration = 1000;
-    const startTime = Date.now();
-    
-    function animateZoom() {
-        const elapsed = Date.now() - startTime;
-        progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        
-        camera.position.lerpVectors(startPos, endPos, eased);
-        camera.lookAt(targetPos);
-        
-        if (progress < 1) requestAnimationFrame(animateZoom);
-    }
-    animateZoom();
+    const tp = node.position.clone();
+    const off = new THREE.Vector3(0, 1.5, 8);
+    const desired = tp.clone().add(off);
+    const r = desired.distanceTo(tp);
+    const polar = Math.acos(Math.max(-1, Math.min(1, off.y / r)));
+    const azimuth = Math.atan2(off.z, off.x);
+    tweenOrbit(tp, r, polar, azimuth, 900);
 }
-
 function zoomOut() {
-    const startPos = camera.position.clone();
-    const endPos = new THREE.Vector3(0, 0, 15);
-    
-    let progress = 0;
-    const duration = 800;
-    const startTime = Date.now();
-    
-    function animateZoomOut() {
-        const elapsed = Date.now() - startTime;
-        progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        
-        camera.position.lerpVectors(startPos, endPos, eased);
-        camera.lookAt(0, 0, 0);
-        
-        if (progress < 1) requestAnimationFrame(animateZoomOut);
-    }
-    animateZoomOut();
+    tweenOrbit(new THREE.Vector3(0, 0, 0), 22, Math.PI / 2 - 0.12, 0, 700);
+}
+function resetView() {
+    simNodes.forEach(n => { n.fixed = false; n.vel.set(0, 0, 0); });
+    reheat(0.6); selectedNode = null; closeModal(); clearSearch();
+    zoomOut();
+    setTimeout(() => { orbit.autoRotate = true; }, 3000);
 }
 
-// --- ANIMATION LOOP ---
+// --- SEARCH (preserve behavior) ---
+function _gsApplyOpacity(node, on) {
+    const base = node.userData.baseOpacity || 0.9;
+    node.material.opacity = on ? Math.min(1, base + 0.08) : 0.1;
+    if (node.userData.outline) node.userData.outline.material.opacity = on ? 0.6 : 0.05;
+}
+function clearSearch() {
+    projectNodes.forEach(n => _gsApplyOpacity(n, true));
+    skillNodes.forEach(n => _gsApplyOpacity(n, true));
+}
+function searchGraph(q) {
+    q = (q || '').trim().toLowerCase();
+    if (!q) { clearSearch(); return; }
+    const pIds = new Set(), sIds = new Set();
+    projectNodes.forEach(n => { const p = n.userData.project; if (((p.label || '') + ' ' + (p.description || '') + ' ' + (p.id || '')).toLowerCase().indexOf(q) >= 0) pIds.add(p.id); });
+    skillNodes.forEach(n => { const s = n.userData.skill; if (((s.name || '') + ' ' + (s.id || '')).toLowerCase().indexOf(q) >= 0) sIds.add(s.id); });
+    skillLinks.forEach(l => { if (pIds.has(l.project)) sIds.add(l.skill); if (sIds.has(l.skill)) pIds.add(l.project); });
+    projectNodes.forEach(n => _gsApplyOpacity(n, pIds.has(n.userData.project.id)));
+    skillNodes.forEach(n => _gsApplyOpacity(n, sIds.has(n.userData.skill.id)));
+}
+
+// --- PHYSICS SLIDERS ---
+function buildSliders() {
+    let host = document.querySelector('.graph-controls');
+    if (!host) {
+        host = document.createElement('div');
+        host.className = 'graph-controls';
+        host.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;align-items:center;';
+        container.appendChild(host);
+    }
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;gap:16px;align-items:center;';
+    wrap.innerHTML =
+        '<label style="display:flex;flex-direction:column;gap:2px;font:600 11px Inter,sans-serif;color:#FFEDC2;">Repulsion<input type="range" id="gs-charge" min="5" max="120" value="40" step="1" style="width:120px;accent-color:#D4AF37;"></label>' +
+        '<label style="display:flex;flex-direction:column;gap:2px;font:600 11px Inter,sans-serif;color:#FFEDC2;">Gravity<input type="range" id="gs-gravity" min="0" max="80" value="12" step="1" style="width:120px;accent-color:#D4AF37;"></label>';
+    host.appendChild(wrap);
+    document.getElementById('gs-charge').addEventListener('input', e => { params.charge = +e.target.value; reheat(0.4); });
+    document.getElementById('gs-gravity').addEventListener('input', e => { params.center = (+e.target.value) / 1000; reheat(0.4); });
+}
+
+// --- ANIMATE ---
 function animate() {
     requestAnimationFrame(animate);
-    const elapsedTime = clock.getElapsedTime();
-    
-    if (analyser) {
-        analyser.getByteFrequencyData(dataArray);
-        const bassValue = (dataArray[2] + dataArray[3]) / 2 / 255;
-        const trebleValue = (dataArray[50] + dataArray[60]) / 2 / 255;
-        
-        const bassScale = 1 + bassValue * 1.5;
-        prism.scale.set(bassScale, bassScale, bassScale);
-        
-        const colorCycleSpeed = elapsedTime * 0.3;
-        const colorIndex = Math.floor(colorCycleSpeed) % prismColors.length;
-        const nextColorIndex = (colorIndex + 1) % prismColors.length;
-        const colorMix = (colorCycleSpeed % 1);
-        
-        const currentColor = prismColors[colorIndex].clone();
-        const nextColor = prismColors[nextColorIndex];
-        currentColor.lerp(nextColor, colorMix);
-        
-        prismMaterial.color.copy(currentColor);
-        if (prism.userData.innerPrism) {
-            prism.userData.innerPrism.material.color.copy(currentColor).multiplyScalar(0.8);
-        }
-        if (prism.userData.edges) {
-            prism.userData.edges.material.color.copy(nextColor);
-            prism.userData.edges.material.opacity = 0.6 + trebleValue * 0.4;
-        }
-        
-        projectNodes.forEach(node => {
-            const nodePulse = 1 + bassValue * 0.3;
-            node.scale.set(nodePulse, nodePulse, nodePulse);
-            
-            if (node.userData.outline) {
-                node.userData.outline.material.opacity = 0.6 + trebleValue * 0.4;
-            }
-        });
-    }
-    
-    prism.rotation.x = elapsedTime * 0.1;
-    prism.rotation.y = elapsedTime * 0.15;
-    
-    skillNodes.forEach((node, index) => {
-        node.rotation.x = elapsedTime * 0.5 + index;
-        node.rotation.y = elapsedTime * 0.3 + index;
-        
-        const floatOffset = Math.sin(elapsedTime * 2 + index) * 0.2;
-        node.position.y = node.userData.originalPosition.y + floatOffset;
-        
-        if (analyser) {
-            const pulse = 1 + (dataArray[10 + index] || 0) / 255 * 0.3;
-            node.scale.set(pulse, pulse, pulse);
-        }
-    });
-    
-    skillConnectionLines.forEach(line => {
-        const points = [line.userData.projectNode.position, line.userData.skillNode.position];
-        line.geometry.setFromPoints(points);
-        
-        line.material.opacity = line.userData.baseOpacity + Math.sin(elapsedTime) * 0.05;
-    });
-    
-    pathParticles.forEach(particle => {
-        particle.userData.progress += particle.userData.speed;
-        if (particle.userData.progress > 1) {
-            particle.userData.progress = 0;
-        }
-        
-        const point = particle.userData.curve.getPoint(particle.userData.progress);
-        particle.position.copy(point);
-        
-        const pulse = 1 + Math.sin(elapsedTime * 3 + particle.userData.progress * Math.PI * 2) * 0.3;
-        particle.scale.set(pulse, pulse, pulse);
-    });
-    
-    evolutionLines.forEach(line => {
-        const fromPos = line.userData.fromNode.position;
-        const toPos = line.userData.toNode.position;
-        
-        const curve = new THREE.QuadraticBezierCurve3(
-            fromPos,
-            new THREE.Vector3(
-                (fromPos.x + toPos.x) / 2,
-                (fromPos.y + toPos.y) / 2 + 2,
-                (fromPos.z + toPos.z) / 2
-            ),
-            toPos
-        );
-        
-        const points = curve.getPoints(50);
-        line.geometry.setFromPoints(points);
-        
-        line.material.opacity = line.userData.baseOpacity + Math.sin(elapsedTime * 2) * 0.1;
-    });
-    
-    projectNodes.forEach((node, index) => {
-        if (!selectedNode || selectedNode !== node) {
-            const orbitSpeed = 0.1;
-            const angle = (elapsedTime * orbitSpeed) + (index * (Math.PI * 2 / projectNodes.length));
-            const radius = 8;
-            
-            node.position.x = Math.cos(angle) * radius;
-            node.position.z = Math.sin(angle) * radius;
-            node.position.y = node.userData.originalPosition.y + Math.sin(elapsedTime + index) * 0.3;
-        }
-    });
-    
+    stepSim();
+    if (zoomTween) zoomTween();
+    updateControls();
+    if (prism) { prism.rotation.y += 0.004; prism.rotation.x += 0.002; }
     renderer.render(scene, camera);
 }
 
-// --- TOUCH EVENT HANDLERS ---
-let lastTouchTime = 0;
-let touchStartPos = { x: 0, y: 0 };
-
-function onTouchStart(event) {
-    if (event.touches.length === 1) {
-        const touch = event.touches[0];
-        touchStartPos.x = touch.clientX;
-        touchStartPos.y = touch.clientY;
-        
-        // Simulate mouse move for hover effects
-        const mouseEvent = {
-            clientX: touch.clientX,
-            clientY: touch.clientY
-        };
-        onMouseMove(mouseEvent);
-    }
-}
-
-function onTouchMove(event) {
-    if (event.touches.length === 1) {
-        event.preventDefault(); // Prevent scrolling while interacting with graph
-        const touch = event.touches[0];
-        
-        // Simulate mouse move for hover effects
-        const mouseEvent = {
-            clientX: touch.clientX,
-            clientY: touch.clientY
-        };
-        onMouseMove(mouseEvent);
-    }
-}
-
-function onTouchEnd(event) {
-    const currentTime = Date.now();
-    const timeSinceLastTouch = currentTime - lastTouchTime;
-    
-    // Prevent double-tap zoom on mobile
-    if (timeSinceLastTouch < 300) {
-        event.preventDefault();
-    }
-    lastTouchTime = currentTime;
-    
-    // Check if this was a tap (not a swipe)
-    if (event.changedTouches.length === 1) {
-        const touch = event.changedTouches[0];
-        const dx = Math.abs(touch.clientX - touchStartPos.x);
-        const dy = Math.abs(touch.clientY - touchStartPos.y);
-        
-        // If movement is less than 10px, treat as a tap/click
-        if (dx < 10 && dy < 10) {
-            onMouseClick();
-        }
-    }
-    
-    // Clean up hover states after touch ends
-    setTimeout(() => {
-        if (hoveredNode && !selectedNode) {
-            hoveredNode.material.opacity = 0.8;
-            hoveredNode.scale.set(1, 1, 1);
-            if (hoveredNode.userData.outline) {
-                hoveredNode.userData.outline.material.opacity = 0.6;
-            }
-            hoveredNode = null;
-        }
-        if (hoveredPrism) {
-            hoveredPrism = false;
-            container.classList.remove('hovering');
-        }
-        hideTooltip();
-        skillConnectionLines.forEach(line => {
-            line.material.opacity = line.userData.baseOpacity;
-        });
-    }, 100);
-}
-
 // --- EVENT LISTENERS ---
-// Mouse events for desktop
-container.addEventListener('mousemove', onMouseMove);
-container.addEventListener('click', onMouseClick);
-container.addEventListener('mouseleave', () => {
-    // Clean up hover states when mouse leaves the graph container
-    if (hoveredNode) {
-        hoveredNode.material.opacity = 0.8;
-        hoveredNode.scale.set(1, 1, 1);
-        if (hoveredNode.userData.outline) {
-            hoveredNode.userData.outline.material.opacity = 0.6;
-        }
-        hoveredNode = null;
+container.addEventListener('mousedown', e => { downAt(e.clientX, e.clientY); });
+window.addEventListener('mousemove', e => { moveAt(e.clientX, e.clientY); });
+window.addEventListener('mouseup', e => { if (ptr.down) upAt(e.clientX, e.clientY); });
+container.addEventListener('wheel', e => {
+    e.preventDefault();
+    orbit.radius = Math.max(orbit.minRadius, Math.min(orbit.maxRadius, orbit.radius + e.deltaY * 0.012));
+    orbit.idle = 0; orbit.autoRotate = false;
+    setTimeout(() => { orbit.autoRotate = true; }, 2500);
+}, { passive: false });
+// touch: single finger = orbit/drag/tap; pinch = zoom
+let pinchDist = 0;
+function tDist(t) { const dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY; return Math.hypot(dx, dy); }
+container.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) { downAt(e.touches[0].clientX, e.touches[0].clientY); }
+    else if (e.touches.length === 2) { pinchDist = tDist(e.touches); ptr.down = false; }
+    e.preventDefault();
+}, { passive: false });
+container.addEventListener('touchmove', e => {
+    if (e.touches.length === 1) moveAt(e.touches[0].clientX, e.touches[0].clientY);
+    else if (e.touches.length === 2) {
+        const d = tDist(e.touches);
+        orbit.radius = Math.max(orbit.minRadius, Math.min(orbit.maxRadius, orbit.radius + (pinchDist - d) * 0.05));
+        pinchDist = d; orbit.idle = 0; orbit.autoRotate = false;
     }
-    if (hoveredPrism) {
-        hoveredPrism = false;
-        container.classList.remove('hovering');
+    e.preventDefault();
+}, { passive: false });
+container.addEventListener('touchend', e => {
+    if (e.touches.length === 0 && ptr.down) {
+        const t = e.changedTouches[0];
+        upAt(t.clientX, t.clientY);
     }
-    hideTooltip();
-    skillConnectionLines.forEach(line => {
-        line.material.opacity = line.userData.baseOpacity;
-    });
-});
-
-// Touch events for mobile
-container.addEventListener('touchstart', onTouchStart, { passive: false });
-container.addEventListener('touchmove', onTouchMove, { passive: false });
-container.addEventListener('touchend', onTouchEnd, { passive: false });
+    if (e.touches.length === 0) setTimeout(() => { orbit.autoRotate = true; }, 3000);
+}, { passive: false });
 window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const w = container.clientWidth || window.innerWidth, h = container.clientHeight || 600;
+    camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);
 });
+const mc = document.querySelector('.modal-close');
+if (mc) mc.addEventListener('click', closeModal);
+const ov = document.getElementById('graph-modal-overlay');
+if (ov) ov.addEventListener('click', closeModal);
+const md = document.getElementById('graph-modal');
+if (md) md.addEventListener('click', e => e.stopPropagation());
 
-document.querySelector('.modal-close').addEventListener('click', closeModal);
-document.getElementById('graph-modal-overlay').addEventListener('click', closeModal);
-document.getElementById('graph-modal').addEventListener('click', (e) => e.stopPropagation());
-
-// --- INITIALIZE ---
-console.log('🎬 Starting animation...');
+// --- INIT ---
+buildSliders();
 animate();
+loadProjects().then(() => console.log('Knowledge Graph loaded')).catch(err => console.error('Graph load error:', err));
 
-console.log('📞 Calling loadProjects...');
-loadProjects().then(() => {
-    console.log('✅ Projects loaded!');
-}).catch(err => {
-    console.error('❌ Error loading projects:', err);
-});
-
-console.log('✅ Knowledge Graph Initialized!');
-
-
-// --- SEARCH + ZOOM/RESET CONTROLS (deep-link UX) ---
-function _gsApplyOpacity(node, val, outlineVal){
-    if(node.userData._sbase===undefined) node.userData._sbase=node.material.opacity;
-    if(node.userData.outline && node.userData._obase===undefined) node.userData._obase=node.userData.outline.material.opacity;
-    node.material.opacity=val;
-    if(node.userData.outline) node.userData.outline.material.opacity=outlineVal;
-}
-function clearSearch(){
-    projectNodes.forEach(function(n){ if(n.userData._sbase!==undefined) n.material.opacity=n.userData._sbase; if(n.userData.outline && n.userData._obase!==undefined) n.userData.outline.material.opacity=n.userData._obase; });
-    skillNodes.forEach(function(n){ if(n.userData._sbase!==undefined) n.material.opacity=n.userData._sbase; });
-}
-function searchGraph(q){
-    q=(q||'').trim().toLowerCase();
-    if(!q){ clearSearch(); return; }
-    var pIds=new Set(); var sIds=new Set();
-    projectNodes.forEach(function(n){ var p=n.userData.project; if(((p.label||'')+' '+(p.description||'')+' '+(p.id||'')).toLowerCase().indexOf(q)>=0) pIds.add(p.id); });
-    skillNodes.forEach(function(n){ var s=n.userData.skill; if(((s.name||'')+' '+(s.id||'')).toLowerCase().indexOf(q)>=0) sIds.add(s.id); });
-    skillLinks.forEach(function(l){ if(pIds.has(l.project)) sIds.add(l.skill); if(sIds.has(l.skill)) pIds.add(l.project); });
-    projectNodes.forEach(function(n){ var on=pIds.has(n.userData.project.id); _gsApplyOpacity(n, on?0.95:0.12, on?(n.userData._obase!==undefined?n.userData._obase:0.6):0.05); });
-    skillNodes.forEach(function(n){ var on=sIds.has(n.userData.skill.id); _gsApplyOpacity(n, on?0.95:0.12, 0.6); });
-    var first=projectNodes.find(function(n){ return pIds.has(n.userData.project.id); });
-    if(first){ selectedNode=first; showProjectDetails(first.userData.project); zoomToNode(first); }
-}
-(function(){
-    var input=document.getElementById('graph-search');
-    var reset=document.getElementById('graph-reset');
-    if(input){ input.addEventListener('input', function(){ searchGraph(input.value); }); }
-    if(reset){ reset.addEventListener('click', function(){ if(input) input.value=''; clearSearch(); selectedNode=null; zoomOut(); var m=document.getElementById('graph-modal'); var o=document.getElementById('graph-modal-overlay'); if(m)m.classList.remove('active'); if(o)o.classList.remove('active'); }); }
-    var c=document.getElementById('graph-container');
-    if(c){ c.addEventListener('wheel', function(e){ e.preventDefault(); camera.position.z=Math.max(6,Math.min(30,camera.position.z + e.deltaY*0.01)); camera.lookAt(selectedNode?selectedNode.position: new THREE.Vector3(0,0,0)); }, {passive:false}); }
+// Search + reset wiring (existing controls)
+(function () {
+    const input = document.getElementById('graph-search');
+    if (input) input.addEventListener('input', e => searchGraph(e.target.value));
+    const reset = document.getElementById('graph-reset');
+    if (reset) reset.addEventListener('click', resetView);
 })();
