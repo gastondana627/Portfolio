@@ -47,7 +47,7 @@
             client: "Personal Project / Portfolio",
             status: "Published",
             duration: "4:15",
-            imageSource: "/assets/ai-room-designer-promo.jpg",
+            imageSource: "../assets/ai-room-designer-promo.jpg",
             description: "Comprehensive video walkthrough showcasing the AI Room Designer's dual-mode functionality, featuring Gemini 2.5 Flash integration and multi-modal AI capabilities for interior design revolution.",
             objectives: [
                 "Demonstrate AI-powered interior design capabilities",
@@ -80,14 +80,14 @@
             },
             awards: ["Viral Potential Content 2024"],
             media: {
-                thumbnail: "/assets/ai-room-designer-promo.jpg",
+                thumbnail: "../assets/ai-room-designer-promo.jpg",
                 videoUrl: "https://youtube.com/watch?v=ai-room-designer-demo",
                 screenshots: [
-                    "/assets/ai-room-designer-promo.jpg",
-                    "/assets/ai-room-designer-promo.jpg",
-                    "/assets/ai-room-designer-promo.jpg"
+                    "../assets/ai-room-designer-promo.jpg",
+                    "../assets/ai-room-designer-promo.jpg",
+                    "../assets/ai-room-designer-promo.jpg"
                 ],
-                behindScenes: "/assets/ai-room-designer-promo.jpg"
+                behindScenes: "../assets/ai-room-designer-promo.jpg"
             }
         },
         {
@@ -97,7 +97,7 @@
             client: "Personal Project / NASA Collaboration",
             status: "Published",
             duration: "6:30",
-            imageSource: "/assets/planetrics-dashboard.jpg",
+            imageSource: "../assets/planetrics-dashboard.jpg",
             description: "Interactive demo video showcasing NASA exoplanet data exploration through advanced data visualization techniques, featuring Plotly integration and real-time data analysis.",
             objectives: [
                 "Demonstrate data visualization expertise",
@@ -129,11 +129,11 @@
                 professionalInquiries: 25
             },
             media: {
-                thumbnail: "/assets/planetrics-dashboard.jpg",
+                thumbnail: "../assets/planetrics-dashboard.jpg",
                 videoUrl: "https://youtube.com/watch?v=planetrics-demo",
                 screenshots: [
-                    "/assets/planetrics-dashboard.jpg",
-                    "/assets/planetrics-dashboard.jpg"
+                    "../assets/planetrics-dashboard.jpg",
+                    "../assets/planetrics-dashboard.jpg"
                 ]
             }
         },
@@ -144,7 +144,7 @@
             client: "NASA Collaboration Project",
             status: "Published",
             duration: "8:50",
-            imageSource: "/assets/Space For Health Challenge.png",
+            imageSource: "../assets/Space For Health Challenge.png",
             description: "Technical deep-dive into knowledge graph implementation for NASA space data, showcasing AI in space exploration and advanced data visualization techniques.",
             objectives: [
                 "Document NASA collaboration work",
@@ -176,11 +176,11 @@
                 industryRecognition: "High"
             },
             media: {
-                thumbnail: "/assets/Space For Health Challenge.png",
+                thumbnail: "../assets/Space For Health Challenge.png",
                 videoUrl: "https://youtube.com/watch?v=nasa-knowledge-graph",
                 screenshots: [
-                    "/assets/Space For Health Challenge.png",
-                    "/assets/SESA_1.png"
+                    "../assets/Space For Health Challenge.png",
+                    "../assets/SESA_1.png"
                 ]
             }
         }
@@ -223,12 +223,12 @@
                 performanceOptimization: "90+ Lighthouse Score"
             },
             media: {
-                thumbnail: "/assets/ai-room-designer-promo.jpg",
+                thumbnail: "../assets/ai-room-designer-promo.jpg",
                 gallery: [
-                    "/assets/ai-room-designer-promo.jpg",
-                    "/assets/ai-room-designer-promo.jpg",
-                    "/assets/ai-room-designer-promo.jpg",
-                    "/assets/ai-room-designer-promo.jpg"
+                    "../assets/ai-room-designer-promo.jpg",
+                    "../assets/ai-room-designer-promo.jpg",
+                    "../assets/ai-room-designer-promo.jpg",
+                    "../assets/ai-room-designer-promo.jpg"
                 ]
             }
         },
@@ -267,12 +267,12 @@
                 educationalImpact: "High"
             },
             media: {
-                thumbnail: "/assets/planetrics-dashboard.jpg",
+                thumbnail: "../assets/planetrics-dashboard.jpg",
                 gallery: [
-                    "/assets/planetrics-dashboard.jpg",
-                    "/assets/planetrics-dashboard.jpg",
-                    "/assets/planetrics-dashboard.jpg",
-                    "/assets/planetrics-dashboard.jpg"
+                    "../assets/planetrics-dashboard.jpg",
+                    "../assets/planetrics-dashboard.jpg",
+                    "../assets/planetrics-dashboard.jpg",
+                    "../assets/planetrics-dashboard.jpg"
                 ]
             }
         },
@@ -311,12 +311,12 @@
                 brandRecognition: "90%"
             },
             media: {
-                thumbnail: "/assets/The Hero Shot.png",
+                thumbnail: "../assets/The Hero Shot.png",
                 gallery: [
-                    "/assets/The Hero Shot.png",
-                    "/assets/Untitled-15.png",
-                    "/assets/The Hero Shot.png",
-                    "/assets/Untitled-15.png"
+                    "../assets/The Hero Shot.png",
+                    "../assets/Untitled-15.png",
+                    "../assets/The Hero Shot.png",
+                    "../assets/Untitled-15.png"
                 ]
             }
         }
@@ -365,11 +365,11 @@
                 communityFeedback: "Excellent"
             },
             media: {
-                thumbnail: "/assets/ai-room-designer-promo.jpg",
+                thumbnail: "../assets/ai-room-designer-promo.jpg",
                 campaignAssets: [
-                    "/assets/ai-room-designer-promo.jpg",
-                    "/assets/ai-room-designer-promo.jpg",
-                    "/assets/ai-room-designer-promo.jpg"
+                    "../assets/ai-room-designer-promo.jpg",
+                    "../assets/ai-room-designer-promo.jpg",
+                    "../assets/ai-room-designer-promo.jpg"
                 ]
             }
         },
@@ -414,11 +414,11 @@
                 industryRecognition: "Featured Content"
             },
             media: {
-                thumbnail: "/assets/planetrics-dashboard.jpg",
+                thumbnail: "../assets/planetrics-dashboard.jpg",
                 campaignAssets: [
-                    "/assets/planetrics-dashboard.jpg",
-                    "/assets/Space For Health Challenge.png",
-                    "/assets/SESA_1.png"
+                    "../assets/planetrics-dashboard.jpg",
+                    "../assets/Space For Health Challenge.png",
+                    "../assets/SESA_1.png"
                 ]
             }
         },
@@ -463,11 +463,11 @@
                 developerFeedback: "Excellent"
             },
             media: {
-                thumbnail: "/assets/Gen Image to 3D Construct Showcase 1.png",
+                thumbnail: "../assets/Gen Image to 3D Construct Showcase 1.png",
                 campaignAssets: [
-                    "/assets/Gen Image to 3D Construct Showcase 1.png",
-                    "/assets/Gen Image to 3D Construct Showcase 1.png",
-                    "/assets/Gen Image to 3D Construct Showcase 1.png"
+                    "../assets/Gen Image to 3D Construct Showcase 1.png",
+                    "../assets/Gen Image to 3D Construct Showcase 1.png",
+                    "../assets/Gen Image to 3D Construct Showcase 1.png"
                 ]
             }
         },
@@ -512,11 +512,11 @@
                 communityImpact: "Significant"
             },
             media: {
-                thumbnail: "/assets/The Hero Shot.png",
+                thumbnail: "../assets/The Hero Shot.png",
                 campaignAssets: [
-                    "/assets/The Hero Shot.png",
-                    "/assets/Untitled-15.png",
-                    "/assets/The Hero Shot.png"
+                    "../assets/The Hero Shot.png",
+                    "../assets/Untitled-15.png",
+                    "../assets/The Hero Shot.png"
                 ]
             }
         }
