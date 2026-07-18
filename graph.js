@@ -205,6 +205,16 @@ async function loadProjects() {
     createProjectNodes();
     createSkillNodes();
     createSkillConnections();
+
+    // Deep-linking: focus a project node from a shareable #graph/<id> link.
+    // The Base44 host reads its own URL hash and injects window.__GRAPH_FOCUS__.
+    if (window.__GRAPH_FOCUS__) {
+        setTimeout(function () {
+            if (typeof window.zoomToProjectNode === 'function') {
+                window.zoomToProjectNode(window.__GRAPH_FOCUS__);
+            }
+        }, 300);
+    }
 }
 
 // --- CREATE NODES ---
