@@ -122,7 +122,8 @@ class ContentSegmentsUI {
                     <span class="segment-badge">${item.segmentTitle}</span>
                     <h3 class="segment-item-title">${item.title}</h3>
                     <p class="segment-item-description">${item.description || ''}</p>
-                    ${item.duration ? `<span class="segment-duration"><i class="fas fa-clock"></i> ${item.duration}</span>` : ''}
+                    ${item.prompt ? `span class="segment-prompt-label"><i class="fas fa-lightbulb" aria-hidden="true"></i> Prompt: ${item.prompt}</span>` : ''}
+                    ${item.duration ? `span class="segment-duration"><i class="fas fa-clock"></i> ${item.duration}</span>` : ''}
                     ${item.month ? `<span class="segment-date"><i class="fas fa-calendar"></i> ${item.month} ${item.year}</span>` : ''}
                 </div>
             </div>
