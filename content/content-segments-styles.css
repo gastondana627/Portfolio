@@ -611,3 +611,21 @@
     border-radius: 4px;
     border: 1px solid rgba(255,255,255,0.1);
 }
+
+/* Prompt label on segment cards */
+.segment-prompt-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aquamarine, #00FFD1);
+  background: rgba(0, 255, 209, 0.08);
+  border: 1px solid rgba(0, 255, 209, 0.22);
+  border-radius: 999px;
+}
+.segment-prompt-label i { font-size: 0.6rem; }
