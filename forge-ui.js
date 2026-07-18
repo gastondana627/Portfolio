@@ -82,6 +82,7 @@
       seen[href] = true;
       if (href.charAt(0) === '#') cmds.push({ label: label, sub: 'Section', href: href, icon: 'fa-hashtag', type: 'scroll' });
     }
+    if (!seen['#creative-lab']) cmds.push({ label: 'Creative Lab', sub: 'Generative mastery', href: '#creative-lab', icon: 'fa-palette', type: 'scroll' });
     for (var p = 0; p < PAGES.length; p++) {
       var pg = PAGES[p];
       if (!seen[pg.href]) cmds.push({ label: pg.label, sub: pg.sub, href: pg.href, icon: pg.icon, type: 'page' });
@@ -100,7 +101,7 @@
       '<div class="forge-palette-box">' +
       '<input class="forge-palette-input" id="forge-palette-input" placeholder="Jump to anything..." autocomplete="off" />' +
       '<div class="forge-palette-list" id="forge-palette-list"></div>' +
-      '<div class="forge-palette-foot"><span>Forge Command</span><span><kbd>arrows</kbd> navigate &nbsp; <kbd>enter</kbd> open &nbsp; <kbd>esc</kbd> close</span></div>' +
+      '<div class="forge-palette-foot"><span>GasMan Command</span><span><kbd>arrows</kbd> navigate &nbsp; <kbd>enter</kbd> open &nbsp; <kbd>esc</kbd> close</span></div>' +
       '</div>';
     document.body.appendChild(palette);
     input = palette.querySelector('#forge-palette-input');
