@@ -1001,7 +1001,13 @@
       .mp-list::-webkit-scrollbar-thumb{background:rgba(212,175,55,.25);border-radius:3px}
       @media (max-width:380px){.mp-panel{width:300px}}
     </style>
+    <style>
+      button.mp-cta{border:0;font-family:inherit;cursor:pointer;width:100%}
+      .mp-flow-link{display:block;text-align:center;margin:-6px 14px 8px;font-size:10px;letter-spacing:.06em;color:#8A8270;text-decoration:none;transition:color .18s}
+      .mp-flow-link:hover{color:#D4AF37}
+    </style>
     <div class="mp-player" id="mp-player">
+      <audio id="mp-audio" preload="auto"></audio>
       <button class="mp-orb" id="mp-toggle" aria-label="Toggle music player">
         <span class="mp-vinyl">
           <span class="mp-vinyl-label"></span>
@@ -1026,15 +1032,15 @@
             <p class="mp-np-mood" id="mp-np-mood"></p>
           </div>
         </div>
-        <a class="mp-cta" id="mp-np-play" href="#" target="_blank" rel="noopener noreferrer">
-          <span class="mp-cta-icon"><i class="fas fa-play"></i></span>
-          <span>Play on Flow Music</span>
-          <i class="fas fa-arrow-up-right-from-square mp-cta-ext"></i>
-        </a>
+        <button class="mp-cta" id="mp-np-play" type="button" aria-label="Play">
+          <span class="mp-cta-icon"><i class="fas fa-play" id="mp-np-play-icon"></i></span>
+          <span id="mp-np-play-label">Play</span>
+        </button>
+        <a class="mp-flow-link" id="mp-flow-link" href="#" target="_blank" rel="noopener noreferrer">Open on Flow Music <i class="fas fa-arrow-up-right-from-square"></i></a>
         <div class="mp-list" id="mp-list" role="list"></div>
       </div>
     </div>
-    <script src="music-player.js?v=3"></script>
+    <script src="music-player.js?v=4"></script>
 
     <!-- Knowledge Graph Modal -->
     <div id="graph-modal-overlay"></div>
