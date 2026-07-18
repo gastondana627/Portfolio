@@ -856,91 +856,68 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Futuristic Music Player -->
-    <div class="music-player" id="music-player">
-        <!-- Ambient glow halo (behind everything) -->
-        <div class="orb-halo" id="orb-halo"></div>
-
-        <!-- Collapsed mini bar -->
-        <div class="music-player-mini" id="music-player-mini">
-            <div class="music-player-orb" id="music-player-toggle" aria-label="Toggle music player" role="button" tabindex="0">
-                <div class="orb-ring orb-ring-1"></div>
-                <div class="orb-ring orb-ring-2"></div>
-                <div class="orb-core"></div>
-                <i class="fas fa-music orb-icon" id="orb-icon"></i>
-            </div>
-            <div class="music-mini-info">
-                <div class="music-mini-top">
-                    <span class="music-status-dot" id="music-status-dot"></span>
-                    <div class="music-ticker-wrap">
-                        <span class="music-ticker-text" id="music-ticker"> Background Ambience</span>
-                    </div>
-                </div>
-                <div class="music-waveform-mini" id="waveform-mini">
-                    <span></span><span></span><span></span><span></span><span></span>
-                </div>
-            </div>
+    <!-- Sonic Forge Music Player -->
+    <style>
+      .mp-player{position:fixed;right:24px;bottom:24px;z-index:900;font-family:'Inter','Poppins',sans-serif}
+      .mp-orb{position:relative;width:54px;height:54px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#FFE9A8,#D4AF37 55%,#8a6d1a);box-shadow:0 0 0 1px rgba(255,255,255,.15),0 10px 30px -8px rgba(212,175,55,.7),inset 0 1px 2px rgba(255,255,255,.5);transition:transform .25s cubic-bezier(.16,1,.3,1)}
+      .mp-orb:hover{transform:scale(1.07)}
+      .mp-orb i{color:#3a2c08;font-size:18px;position:relative;z-index:2}
+      .mp-orb-ring{position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(212,175,55,.45);animation:mp-spin 8s linear infinite}
+      @keyframes mp-spin{to{transform:rotate(360deg)}}
+      .mp-panel{position:absolute;right:0;bottom:66px;width:316px;max-width:calc(100vw - 44px);background:linear-gradient(160deg,rgba(15,18,25,.94),rgba(8,10,15,.94));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(212,175,55,.25);border-radius:18px;box-shadow:0 30px 70px -30px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.05);padding:16px;opacity:0;transform:translateY(12px) scale(.98);pointer-events:none;transition:opacity .25s ease,transform .25s cubic-bezier(.16,1,.3,1)}
+      .mp-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+      .mp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+      .mp-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.22em;color:#FFEDC8}
+      .mp-label i{color:#D4AF37}
+      .mp-close{background:transparent;border:0;color:#FFEDC8;cursor:pointer;font-size:13px;opacity:.7;padding:4px 6px;border-radius:8px}
+      .mp-close:hover{opacity:1;background:rgba(212,175,55,.12)}
+      .mp-nowplaying{background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.18);border-radius:14px;padding:12px;margin-bottom:12px}
+      .mp-viz{display:flex;align-items:flex-end;gap:3px;height:34px;margin-bottom:10px}
+      .mp-viz span{flex:1;background:linear-gradient(to top,#FF8C42,#D4AF37);border-radius:2px;height:30%;opacity:.85}
+      .mp-player.active .mp-viz span:nth-child(odd){animation:mp-bar .9s ease-in-out infinite alternate}
+      .mp-player.active .mp-viz span:nth-child(even){animation:mp-bar .7s ease-in-out .15s infinite alternate}
+      @keyframes mp-bar{from{height:18%}to{height:95%}}
+      .mp-np-title{font-size:15px;font-weight:700;color:#FFEDC8;margin:0}
+      .mp-np-artist{font-size:11px;color:#FFEDC8;opacity:.7;margin:2px 0 0}
+      .mp-np-mood{font-size:11px;color:#D4AF37;margin:6px 0 0;font-style:italic}
+      .mp-play{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;text-decoration:none;background:linear-gradient(135deg,#D4AF37,#FF8C42);color:#1a1206;font-size:12px;font-weight:700;letter-spacing:.03em;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px -8px rgba(212,175,55,.7);transition:transform .2s,box-shadow .2s}
+      .mp-play:hover{transform:translateY(-1px);box-shadow:0 12px 26px -8px rgba(212,175,55,.85)}
+      .mp-list{display:flex;flex-direction:column;gap:4px;max-height:240px;overflow-y:auto;padding-right:2px}
+      .mp-track{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:1px solid transparent;color:#FFEDC8;cursor:pointer;padding:9px 10px;border-radius:10px;transition:background .15s,border-color .15s;font-family:inherit}
+      .mp-track:hover{background:rgba(212,175,55,.08)}
+      .mp-track.active{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.4)}
+      .mp-track-num{width:20px;text-align:center;font-size:11px;font-weight:700;color:#D4AF37;flex:0 0 auto}
+      .mp-track.active .mp-track-num i{font-size:10px}
+      .mp-track-meta{display:flex;flex-direction:column;flex:1;min-width:0}
+      .mp-track-title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .mp-track-sub{font-size:10px;opacity:.6;letter-spacing:.04em}
+      .mp-track-go{color:#D4AF37;font-size:11px;opacity:0;transition:opacity .15s}
+      .mp-track:hover .mp-track-go,.mp-track.active .mp-track-go{opacity:1}
+      .mp-list::-webkit-scrollbar{width:6px}
+      .mp-list::-webkit-scrollbar-thumb{background:rgba(212,175,55,.3);border-radius:3px}
+      @media (max-width:480px){.mp-panel{width:280px}}
+    </style>
+    <div class="mp-player" id="mp-player">
+      <div class="mp-orb" id="mp-toggle" role="button" tabindex="0" aria-label="Toggle music player">
+        <span class="mp-orb-ring"></span>
+        <i class="fas fa-music"></i>
+      </div>
+      <div class="mp-panel" id="mp-panel" aria-hidden="true">
+        <div class="mp-header">
+          <span class="mp-label"><i class="fas fa-compact-disc"></i> SONIC FORGE</span>
+          <button class="mp-close" id="mp-close" aria-label="Collapse player"><i class="fas fa-chevron-down"></i></button>
         </div>
-
-        <!-- Expanded panel -->
-        <div class="music-player-panel" id="music-player-panel" aria-hidden="true">
-            <!-- Gradient border overlay -->
-            <div class="panel-border-glow"></div>
-
-            <div class="music-panel-header">
-                <div class="music-panel-label">
-                    <i class="fas fa-satellite-dish"></i>
-                    <span>ORBITAL AUDIO</span>
-                </div>
-                <button class="music-panel-close" id="music-panel-close" aria-label="Collapse player">
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-            </div>
-
-            <div class="music-visualizer" id="music-visualizer">
-                <div class="visualizer-bars" id="visualizer-bars">
-                    <span></span><span></span><span></span><span></span><span></span>
-                    <span></span><span></span><span></span><span></span><span></span>
-                    <span></span><span></span><span></span><span></span><span></span>
-                    <span></span><span></span><span></span><span></span><span></span>
-                </div>
-                <div class="visualizer-ring"></div>
-                <div class="visualizer-ring visualizer-ring-outer"></div>
-            </div>
-
-            <div class="music-track-info">
-                <p class="music-track-name" id="music-track-name">Background Ambience</p>
-                <p class="music-track-artist">Gaston Dana  Portfolio</p>
-            </div>
-
-            <div class="music-controls-row">
-                <!-- Rotating arc wrapper -->
-                <div class="play-btn-wrap">
-                    <svg class="play-arc" viewBox="0 0 56 56" id="play-arc">
-                        <circle class="play-arc-track" cx="28" cy="28" r="25"/>
-                        <circle class="play-arc-fill" cx="28" cy="28" r="25" id="play-arc-fill"/>
-                    </svg>
-                    <button class="music-ctrl-btn" id="play-pause-button" aria-label="Play music">
-                        <i class="fas fa-play"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="music-volume-row">
-                <i class="fas fa-volume-down music-vol-icon"></i>
-                <div class="music-volume-track">
-                    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5"
-                        aria-label="Volume control" title="Volume">
-                    <div class="music-volume-fill" id="volume-fill"></div>
-                </div>
-                <i class="fas fa-volume-up music-vol-icon"></i>
-            </div>
-
-            <div class="music-scan-line"></div>
+        <div class="mp-nowplaying">
+          <div class="mp-viz"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <p class="mp-np-title" id="mp-np-title">Crafting Sessions</p>
+          <p class="mp-np-artist" id="mp-np-artist">GasMan - Flow Music</p>
+          <p class="mp-np-mood" id="mp-np-mood"></p>
+          <a class="mp-play" id="mp-np-play" href="#" target="_blank" rel="noopener noreferrer"><i class="fas fa-play"></i> Play on Flow Music <i class="fas fa-external-link-alt"></i></a>
         </div>
+        <div class="mp-list" id="mp-list"></div>
+      </div>
     </div>
-
-    <audio id="background-music" src="assets/bg-music.mp3" autoplay loop preload="auto"></audio>
+    <script src="music-player.js?v=1"></script>
 
     <!-- Knowledge Graph Modal -->
     <div id="graph-modal-overlay"></div>
