@@ -571,17 +571,37 @@ function onMouseMove(event) {
     }
 }
 
-function onMouseClick() {
-    if (hoveredPrism) {
-        console.log('🤖 Prism clicked! Opening chatbot...');
+function onMouseClick(event) {
+    // Hit-test the node directly from the click coordinates so clicks register
+    // even when the mousemove hover pass missed (iframe coordinate quirks).
+    var target = hoveredNode;
+    if (event && container) {
+        var rect = container.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+            var mx = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            var my = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            if (Math.abs(mx) <= 1 && Math.abs(my) <= 1) {
+                var best = null, bestD = Infinity;
+                var probes = [{nodes: projectNodes, t: 0.25}, {nodes: skillNodes, t: 0.20}];
+                for (var i = 0; i < probes.length; i++) {
+                    probes[i].nodes.forEach(function(n){
+                        var sp = n.position.clone().project(camera);
+                        var d = Math.sqrt((sp.x - mx) * (sp.x - mx) + (sp.y - my) * (sp.y - my));
+                        if (d < probes[i].t && d < bestD) { bestD = d; best = n; }
+                    });
+                }
+                if (best) target = best;
+            }
+        }
+    }
+    if (hoveredPrism && !target) {
         openChatbot();
-    } else if (hoveredNode && !selectedNode) {
-        selectedNode = hoveredNode;
-        showProjectDetails(hoveredNode.userData.project);
-        zoomToNode(hoveredNode);
-        
+    } else if (target && target.userData.project) {
+        selectedNode = target;
+        showProjectDetails(target.userData.project);
+        zoomToNode(target);
         if (typeof updateCarouselToProject === 'function') {
-            updateCarouselToProject(hoveredNode.userData.project.id);
+            updateCarouselToProject(target.userData.project.id);
         }
     }
 }
