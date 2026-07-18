@@ -374,25 +374,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Portfolio Navigation Functions
 function navigateToPortfolio(portfolioType) {
-    // Add to browser history for proper back navigation
     const targetUrl = portfolioType === 'gaming' ? '/gaming/' : '/content/';
+    const targetClass = portfolioType === 'gaming' ? 'gaming-portfolio' : 'content-portfolio';
     
-    // Update browser history
-    if (window.history && window.history.pushState) {
-        window.history.pushState(
-            { portfolio: portfolioType }, 
-            `Gaston Dana - ${portfolioType === 'gaming' ? 'Gaming Ecosystem' : 'Content Creation'}`,
-            targetUrl
-        );
+    // Detect if we are inside the editor preview iframe (which uses jsdelivr base URI)
+    const isPreview = document.baseURI && document.baseURI.includes('jsdelivr.net');
+    
+    if (isPreview) {
+        // --- EDITOR PREVIEW SAFE PATH (In-place Swap) ---
+        showPortfolioTransition(portfolioType);
+        setTimeout(() => {
+            // Remove existing classes & add the target to toggle the visible sections via CSS
+            document.body.classList.remove('gaming-portfolio', 'content-portfolio');
+            document.body.classList.add(targetClass);
+            
+            const overlay = document.querySelector('.portfolio-transition-overlay');
+            if (overlay) overlay.remove();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 1000);
+    } else {
+        // --- PRODUCTION & STANDARD LOCALHOST PATH (URL Redirects) ---
+        if (window.history && window.history.pushState) {
+            window.history.pushState({ portfolio: portfolioType }, '', targetUrl);
+        }
+        showPortfolioTransition(portfolioType);
+        setTimeout(() => {
+            window.location.href = targetUrl;
+        }, 1000);
     }
-    
-    // Show transition overlay
-    showPortfolioTransition(portfolioType);
-    
-    // Navigate after transition animation
-    setTimeout(() => {
-        window.location.href = targetUrl;
-    }, 1000);
 }
 
 // Handle browser back/forward navigation
