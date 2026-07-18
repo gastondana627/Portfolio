@@ -8,16 +8,16 @@
       id: "promptofthemonth",
       name: "Prompt of the Month",
       description: "Video editing for explanational monthly prompt topics exploring AI creativity and innovation",
-      thumbnail: "/content/assets/segments/promptofthemonth/January/Thumby.png",
+      thumbnail: "../assets/content/segments/promptofthemonth/January/Thumby.png",
       thumbnails: [
-        "/content/assets/segments/promptofthemonth/January/Thumby.png",
-        "/content/assets/segments/promptofthemonth/February/Thumby.png",
-        "/content/assets/segments/promptofthemonth/March/Prompt of the Month RadCliffe Wave-Where the Stars Are Born.png",
-        "/content/assets/segments/promptofthemonth/April/Prompt of the Month.png",
-        "/content/assets/segments/promptofthemonth/May/FMU.png",
-        "/content/assets/segments/promptofthemonth/June/Prompt of the Month June Thumbnail 1_1.png",
-        "/content/assets/segments/promptofthemonth/July/PofT Oceans HeartBeat July_Final_Thumbie_2.png",
-        "/content/assets/segments/promptofthemonth/September/FMU.png"
+        "../assets/content/segments/promptofthemonth/January/Thumby.png",
+        "../assets/content/segments/promptofthemonth/February/Thumby.png",
+        "../assets/content/segments/promptofthemonth/March/Prompt of the Month RadCliffe Wave-Where the Stars Are Born.png",
+        "../assets/content/segments/promptofthemonth/April/Prompt of the Month.png",
+        "../assets/content/segments/promptofthemonth/May/FMU.png",
+        "../assets/content/segments/promptofthemonth/June/Prompt of the Month June Thumbnail 1_1.png",
+        "../assets/content/segments/promptofthemonth/July/PofT Oceans HeartBeat July_Final_Thumbie_2.png",
+        "../assets/content/segments/promptofthemonth/September/FMU.png"
       ],
       color: "#D4AF37",
       gradient: "linear-gradient(135deg, #D4AF37, #FF8C42)",
@@ -33,9 +33,9 @@
       id: "vitrinesteganos",
       name: "Vitrine Steganos",
       description: "Showcase of hidden messages and steganography in digital media and art",
-      thumbnail: "/content/assets/segments/vitrinesteganos/placeholder.png",
+      thumbnail: "../assets/content/segments/vitrinesteganos/placeholder.png",
       thumbnails: [
-        "/content/assets/segments/vitrinesteganos/placeholder.png"
+        "../assets/content/segments/vitrinesteganos/placeholder.png"
       ],
       color: "#FF8C42",
       gradient: "linear-gradient(135deg, #FF8C42, #D4AF37)",
@@ -51,20 +51,20 @@
       id: "quarters",
       name: "Quarters",
       description: "Quarterly project showcases and milestone achievements highlighting key developments",
-      thumbnail: "/content/assets/segments/quarters/quarter1/1.png",
+      thumbnail: "../assets/content/segments/quarters/quarter1/1.png",
       thumbnails: [
-        "/content/assets/segments/quarters/quarter1/1.png",
-        "/content/assets/segments/quarters/quarter1/2.png",
-        "/content/assets/segments/quarters/quarter1/3.png",
-        "/content/assets/segments/quarters/quarter1/4.png",
-        "/content/assets/segments/quarters/quarter1/5.png",
-        "/content/assets/segments/quarters/quarter1/6.png",
-        "/content/assets/segments/quarters/quarter1/7.png",
-        "/content/assets/segments/quarters/quarter1/8.png",
-        "/content/assets/segments/quarters/quarter1/9.png",
-        "/content/assets/segments/quarters/quarter1/10.png",
-        "/content/assets/segments/quarters/quarter2/Thumby_Quarters.png",
-        "/content/assets/segments/quarters/quarter3/Thumby.png"
+        "../assets/content/segments/quarters/quarter1/1.png",
+        "../assets/content/segments/quarters/quarter1/2.png",
+        "../assets/content/segments/quarters/quarter1/3.png",
+        "../assets/content/segments/quarters/quarter1/4.png",
+        "../assets/content/segments/quarters/quarter1/5.png",
+        "../assets/content/segments/quarters/quarter1/6.png",
+        "../assets/content/segments/quarters/quarter1/7.png",
+        "../assets/content/segments/quarters/quarter1/8.png",
+        "../assets/content/segments/quarters/quarter1/9.png",
+        "../assets/content/segments/quarters/quarter1/10.png",
+        "../assets/content/segments/quarters/quarter2/Thumby_Quarters.png",
+        "../assets/content/segments/quarters/quarter3/Thumby.png"
       ],
       color: "#DAA520",
       gradient: "linear-gradient(135deg, #DAA520, #FF8C42)",
@@ -134,24 +134,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/X/week9/Week 9 X - 1 of 3.png",
+            image: "../assets/content/advancingx/X/week9/Week 9 X - 1 of 3.png",
             alt: "Week 9 X - Introduction to Team Composition",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/X/week9/Week 9 X - 2 of 3.png",
+            image: "../assets/content/advancingx/X/week9/Week 9 X - 2 of 3.png",
             alt: "Week 9 X - Leadership Mental Models",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/X/week9/Week 9 X - 3 of 3.png",
+            image: "../assets/content/advancingx/X/week9/Week 9 X - 3 of 3.png",
             alt: "Week 9 X - Team Selection Strategies",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/X/week9/Week 9 X Thumby.png",
+        thumbnail: "../assets/content/advancingx/X/week9/Week 9 X Thumby.png",
         engagement: {
           likes: 450,
           comments: 23,
@@ -169,24 +169,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/X/week10/X Week 10 Post Pg 1 of 3.png",
+            image: "../assets/content/advancingx/X/week10/X Week 10 Post Pg 1 of 3.png",
             alt: "Week 10 X - Innovation Framework Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/X/week10/X Week 10 Post Pg 2 of 3.png",
+            image: "../assets/content/advancingx/X/week10/X Week 10 Post Pg 2 of 3.png",
             alt: "Week 10 X - Framework Components",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/X/week10/X Week 10 Post Pg 3 of 3.png",
+            image: "../assets/content/advancingx/X/week10/X Week 10 Post Pg 3 of 3.png",
             alt: "Week 10 X - Implementation Strategies",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/X/week10/X Week 10 Post Thumby.png",
+        thumbnail: "../assets/content/advancingx/X/week10/X Week 10 Post Thumby.png",
         engagement: {
           likes: 520,
           comments: 31,
@@ -204,24 +204,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/X/week11/X Week 11 Post Pg 1 of 3.png",
+            image: "../assets/content/advancingx/X/week11/X Week 11 Post Pg 1 of 3.png",
             alt: "Week 11 X - Agile Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/X/week11/X Week 11 Post Pg 2 of 3.png",
+            image: "../assets/content/advancingx/X/week11/X Week 11 Post Pg 2 of 3.png",
             alt: "Week 11 X - Distributed Team Practices",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/X/week11/X Week 11 Post Pg 3 of 3.png",
+            image: "../assets/content/advancingx/X/week11/X Week 11 Post Pg 3 of 3.png",
             alt: "Week 11 X - Implementation Guide",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/X/week11/X Week 11 Post Thumby.png",
+        thumbnail: "../assets/content/advancingx/X/week11/X Week 11 Post Thumby.png",
         engagement: {
           likes: 485,
           comments: 28,
@@ -239,24 +239,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/X/week12/X Week 12 Post Pg 1 of 3 .png",
+            image: "../assets/content/advancingx/X/week12/X Week 12 Post Pg 1 of 3 .png",
             alt: "Week 12 X - Product Development Overview",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/X/week12/X Week 12 Post Pg 2 of 3 .png",
+            image: "../assets/content/advancingx/X/week12/X Week 12 Post Pg 2 of 3 .png",
             alt: "Week 12 X - Development Stages",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/X/week12/X Week 12 Post Pg 3 of 3.png",
+            image: "../assets/content/advancingx/X/week12/X Week 12 Post Pg 3 of 3.png",
             alt: "Week 12 X - Launch Strategies",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/X/week12/X Week 12 Post Thumby .png",
+        thumbnail: "../assets/content/advancingx/X/week12/X Week 12 Post Thumby .png",
         engagement: {
           likes: 510,
           comments: 35,
@@ -274,24 +274,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/X/week13/X Week 13 Post Pg 1 of 3.png",
+            image: "../assets/content/advancingx/X/week13/X Week 13 Post Pg 1 of 3.png",
             alt: "Week 13 X - Data-Driven Decisions Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/X/week13/X Week 13 Post Pg 2 of 3.png",
+            image: "../assets/content/advancingx/X/week13/X Week 13 Post Pg 2 of 3.png",
             alt: "Week 13 X - Analytics Framework",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/X/week13/X Week 13 Post Pg 3 of 3.png",
+            image: "../assets/content/advancingx/X/week13/X Week 13 Post Pg 3 of 3.png",
             alt: "Week 13 X - Implementation Best Practices",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/X/week13/X Week 13 Post Thumby.png",
+        thumbnail: "../assets/content/advancingx/X/week13/X Week 13 Post Thumby.png",
         engagement: {
           likes: 495,
           comments: 29,
@@ -309,24 +309,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/X/week14/X Week 14 Post Pg 1 of 3.png",
+            image: "../assets/content/advancingx/X/week14/X Week 14 Post Pg 1 of 3.png",
             alt: "Week 14 X - Remote Work Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/X/week14/X Week 14 Post Pg 2 of 3.png",
+            image: "../assets/content/advancingx/X/week14/X Week 14 Post Pg 2 of 3.png",
             alt: "Week 14 X - Productivity Strategies",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/X/week14/X  Week 14 Post Pg 3 of 3.png",
+            image: "../assets/content/advancingx/X/week14/X  Week 14 Post Pg 3 of 3.png",
             alt: "Week 14 X - Team Collaboration Tools",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/X/week14/X Week 14 Post Thumby.png",
+        thumbnail: "../assets/content/advancingx/X/week14/X Week 14 Post Thumby.png",
         engagement: {
           likes: 530,
           comments: 42,
@@ -344,24 +344,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/X/week15/X Week 15 Post Pg 1 of 3.png",
+            image: "../assets/content/advancingx/X/week15/X Week 15 Post Pg 1 of 3.png",
             alt: "Week 15 X - Customer-Centric Design Principles",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/X/week15/X Week 15 Post Pg 2 of 3.png",
+            image: "../assets/content/advancingx/X/week15/X Week 15 Post Pg 2 of 3.png",
             alt: "Week 15 X - User Research Methods",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/X/week15/X Week 15 Post Pg 3 of 3.png",
+            image: "../assets/content/advancingx/X/week15/X Week 15 Post Pg 3 of 3.png",
             alt: "Week 15 X - Design Implementation",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/X/week15/X Week 15 Post Thumby.png",
+        thumbnail: "../assets/content/advancingx/X/week15/X Week 15 Post Thumby.png",
         engagement: {
           likes: 475,
           comments: 26,
@@ -379,24 +379,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/X/week16/X Week 16 Post Pg 1 of 3.png",
+            image: "../assets/content/advancingx/X/week16/X Week 16 Post Pg 1 of 3.png",
             alt: "Week 16 X - App Launch Overview",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/X/week16/X Week 16 Post Pg 2 of 3.png",
+            image: "../assets/content/advancingx/X/week16/X Week 16 Post Pg 2 of 3.png",
             alt: "Week 16 X - Marketing Strategies",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/X/week16/X Week 16 Post Pg 3 of 3.png",
+            image: "../assets/content/advancingx/X/week16/X Week 16 Post Pg 3 of 3.png",
             alt: "Week 16 X - Launch Checklist",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/X/week16/X Week 16 Post Thumby.png",
+        thumbnail: "../assets/content/advancingx/X/week16/X Week 16 Post Thumby.png",
         engagement: {
           likes: 560,
           comments: 38,
@@ -416,12 +416,12 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week4/W4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week4/W4.jpeg",
             alt: "Week 4 LinkedIn - Professional Development Guide",
             order: 1
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week4/W4.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week4/W4.jpeg",
         engagement: {
           likes: 680,
           comments: 45,
@@ -439,24 +439,24 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week5/W5_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week5/W5_1.jpeg",
             alt: "Week 5 LinkedIn - Leadership Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week5/W5_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week5/W5_2.jpeg",
             alt: "Week 5 LinkedIn - Leadership Qualities",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week5/W5_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week5/W5_3.jpeg",
             alt: "Week 5 LinkedIn - Practical Applications",
             order: 3
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week5/W5_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week5/W5_1.jpeg",
         engagement: {
           likes: 720,
           comments: 52,
@@ -474,36 +474,36 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week6/W6_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week6/W6_1.jpeg",
             alt: "Week 6 LinkedIn - Collaboration Fundamentals",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week6/W6_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week6/W6_2.jpeg",
             alt: "Week 6 LinkedIn - Team Dynamics",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week6/W6_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week6/W6_3.jpeg",
             alt: "Week 6 LinkedIn - Communication Strategies",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week6/W6_4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week6/W6_4.jpeg",
             alt: "Week 6 LinkedIn - Tools and Techniques",
             order: 4
           },
           {
             id: "slide-5",
-            image: "/content/assets/advancingx/linkedin/week6/W6_5.jpeg",
+            image: "../assets/content/advancingx/linkedin/week6/W6_5.jpeg",
             alt: "Week 6 LinkedIn - Success Metrics",
             order: 5
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week6/W6_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week6/W6_1.jpeg",
         engagement: {
           likes: 795,
           comments: 61,
@@ -521,42 +521,42 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week7/W7_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week7/W7_1.jpeg",
             alt: "Week 7 LinkedIn - Innovation Culture Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week7/W7_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week7/W7_2.jpeg",
             alt: "Week 7 LinkedIn - Cultural Elements",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week7/W7_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week7/W7_3.jpeg",
             alt: "Week 7 LinkedIn - Implementation Steps",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week7/W7_4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week7/W7_4.jpeg",
             alt: "Week 7 LinkedIn - Measuring Success",
             order: 4
           },
           {
             id: "slide-5",
-            image: "/content/assets/advancingx/linkedin/week7/W7_5.jpeg",
+            image: "../assets/content/advancingx/linkedin/week7/W7_5.jpeg",
             alt: "Week 7 LinkedIn - Case Studies",
             order: 5
           },
           {
             id: "slide-6",
-            image: "/content/assets/advancingx/linkedin/week7/W7_6.jpeg",
+            image: "../assets/content/advancingx/linkedin/week7/W7_6.jpeg",
             alt: "Week 7 LinkedIn - Key Takeaways",
             order: 6
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week7/W7_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week7/W7_1.jpeg",
         engagement: {
           likes: 850,
           comments: 68,
@@ -574,36 +574,36 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week8/W8_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week8/W8_1.jpeg",
             alt: "Week 8 LinkedIn - Digital Transformation Overview",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week8/W8_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week8/W8_2.jpeg",
             alt: "Week 8 LinkedIn - Transformation Stages",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week8/W8_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week8/W8_3.jpeg",
             alt: "Week 8 LinkedIn - Technology Stack",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week8/W8_4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week8/W8_4.jpeg",
             alt: "Week 8 LinkedIn - Change Management",
             order: 4
           },
           {
             id: "slide-5",
-            image: "/content/assets/advancingx/linkedin/week8/W8_5.jpeg",
+            image: "../assets/content/advancingx/linkedin/week8/W8_5.jpeg",
             alt: "Week 8 LinkedIn - Success Stories",
             order: 5
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week8/W8_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week8/W8_1.jpeg",
         engagement: {
           likes: 780,
           comments: 55,
@@ -621,36 +621,36 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week9/W9_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week9/W9_1.jpeg",
             alt: "Week 9 LinkedIn - Strategic Planning Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week9/W9_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week9/W9_2.jpeg",
             alt: "Week 9 LinkedIn - Planning Framework",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week9/W9_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week9/W9_3.jpeg",
             alt: "Week 9 LinkedIn - Execution Strategies",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week9/W9_4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week9/W9_4.jpeg",
             alt: "Week 9 LinkedIn - Monitoring Progress",
             order: 4
           },
           {
             id: "slide-5",
-            image: "/content/assets/advancingx/linkedin/week9/W9_5.jpeg",
+            image: "../assets/content/advancingx/linkedin/week9/W9_5.jpeg",
             alt: "Week 9 LinkedIn - Adjusting Course",
             order: 5
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week9/W9_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week9/W9_1.jpeg",
         engagement: {
           likes: 820,
           comments: 64,
@@ -668,36 +668,36 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week10/W10_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week10/W10_1.jpeg",
             alt: "Week 10 LinkedIn - Performance Metrics Overview",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week10/W10_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week10/W10_2.jpeg",
             alt: "Week 10 LinkedIn - KPI Selection",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week10/W10_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week10/W10_3.jpeg",
             alt: "Week 10 LinkedIn - Measurement Tools",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week10/W10_4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week10/W10_4.jpeg",
             alt: "Week 10 LinkedIn - Data Analysis",
             order: 4
           },
           {
             id: "slide-5",
-            image: "/content/assets/advancingx/linkedin/week10/W10_5.jpeg",
+            image: "../assets/content/advancingx/linkedin/week10/W10_5.jpeg",
             alt: "Week 10 LinkedIn - Actionable Insights",
             order: 5
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week10/W10_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week10/W10_1.jpeg",
         engagement: {
           likes: 765,
           comments: 58,
@@ -715,42 +715,42 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week11/W11_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week11/W11_1.jpeg",
             alt: "Week 11 LinkedIn - Customer Success Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week11/W11_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week11/W11_2.jpeg",
             alt: "Week 11 LinkedIn - Success Framework",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week11/W11_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week11/W11_3.jpeg",
             alt: "Week 11 LinkedIn - Onboarding Strategies",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week11/W11_4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week11/W11_4.jpeg",
             alt: "Week 11 LinkedIn - Engagement Tactics",
             order: 4
           },
           {
             id: "slide-5",
-            image: "/content/assets/advancingx/linkedin/week11/W11_5.jpeg",
+            image: "../assets/content/advancingx/linkedin/week11/W11_5.jpeg",
             alt: "Week 11 LinkedIn - Retention Metrics",
             order: 5
           },
           {
             id: "slide-6",
-            image: "/content/assets/advancingx/linkedin/week11/W11_6.jpeg",
+            image: "../assets/content/advancingx/linkedin/week11/W11_6.jpeg",
             alt: "Week 11 LinkedIn - Best Practices",
             order: 6
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week11/W11_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week11/W11_1.jpeg",
         engagement: {
           likes: 890,
           comments: 72,
@@ -768,36 +768,36 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week12/W12_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week12/W12_1.jpeg",
             alt: "Week 12 LinkedIn - Market Analysis Overview",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week12/W12_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week12/W12_2.jpeg",
             alt: "Week 12 LinkedIn - Research Methods",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week12/W12_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week12/W12_3.jpeg",
             alt: "Week 12 LinkedIn - Competitive Landscape",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week12/W12_4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week12/W12_4.jpeg",
             alt: "Week 12 LinkedIn - Market Opportunities",
             order: 4
           },
           {
             id: "slide-5",
-            image: "/content/assets/advancingx/linkedin/week12/W12_5.jpeg",
+            image: "../assets/content/advancingx/linkedin/week12/W12_5.jpeg",
             alt: "Week 12 LinkedIn - Strategic Positioning",
             order: 5
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week12/W12_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week12/W12_1.jpeg",
         engagement: {
           likes: 745,
           comments: 49,
@@ -815,42 +815,42 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week13/W13_1.jpeg",
+            image: "../assets/content/advancingx/linkedin/week13/W13_1.jpeg",
             alt: "Week 13 LinkedIn - Scaling Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week13/W13_2.jpeg",
+            image: "../assets/content/advancingx/linkedin/week13/W13_2.jpeg",
             alt: "Week 13 LinkedIn - Infrastructure Planning",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week13/W13_3.jpeg",
+            image: "../assets/content/advancingx/linkedin/week13/W13_3.jpeg",
             alt: "Week 13 LinkedIn - Process Optimization",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week13/W13_4.jpeg",
+            image: "../assets/content/advancingx/linkedin/week13/W13_4.jpeg",
             alt: "Week 13 LinkedIn - Team Growth",
             order: 4
           },
           {
             id: "slide-5",
-            image: "/content/assets/advancingx/linkedin/week13/W13_5.jpeg",
+            image: "../assets/content/advancingx/linkedin/week13/W13_5.jpeg",
             alt: "Week 13 LinkedIn - Maintaining Quality",
             order: 5
           },
           {
             id: "slide-6",
-            image: "/content/assets/advancingx/linkedin/week13/W13_6.jpeg",
+            image: "../assets/content/advancingx/linkedin/week13/W13_6.jpeg",
             alt: "Week 13 LinkedIn - Scaling Checklist",
             order: 6
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week13/W13_1.jpeg",
+        thumbnail: "../assets/content/advancingx/linkedin/week13/W13_1.jpeg",
         engagement: {
           likes: 810,
           comments: 66,
@@ -868,30 +868,30 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week15/Li Week 15 Post Pg 1 of 5 .png",
+            image: "../assets/content/advancingx/linkedin/week15/Li Week 15 Post Pg 1 of 5 .png",
             alt: "Week 15 LinkedIn - Product-Market Fit Introduction",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week15/Li Week 15 Post Pg 3 of 5 .png",
+            image: "../assets/content/advancingx/linkedin/week15/Li Week 15 Post Pg 3 of 5 .png",
             alt: "Week 15 LinkedIn - Validation Methods",
             order: 2
           },
           {
             id: "slide-3",
-            image: "/content/assets/advancingx/linkedin/week15/Li Week 15 Post Pg 4 of 5.png",
+            image: "../assets/content/advancingx/linkedin/week15/Li Week 15 Post Pg 4 of 5.png",
             alt: "Week 15 LinkedIn - Iteration Process",
             order: 3
           },
           {
             id: "slide-4",
-            image: "/content/assets/advancingx/linkedin/week15/Li Week 15 Post Pg 5 of 5.png",
+            image: "../assets/content/advancingx/linkedin/week15/Li Week 15 Post Pg 5 of 5.png",
             alt: "Week 15 LinkedIn - Success Indicators",
             order: 4
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week15/Li Week 15 Post Thumby.png",
+        thumbnail: "../assets/content/advancingx/linkedin/week15/Li Week 15 Post Thumby.png",
         engagement: {
           likes: 920,
           comments: 78,
@@ -909,18 +909,18 @@
         slides: [
           {
             id: "slide-1",
-            image: "/content/assets/advancingx/linkedin/week16/Li Week 16 Post App Push.png",
+            image: "../assets/content/advancingx/linkedin/week16/Li Week 16 Post App Push.png",
             alt: "Week 16 LinkedIn - App Launch Overview",
             order: 1
           },
           {
             id: "slide-2",
-            image: "/content/assets/advancingx/linkedin/week16/Li Week 16 Post App Push QR code slide V2 2 of 2.png",
+            image: "../assets/content/advancingx/linkedin/week16/Li Week 16 Post App Push QR code slide V2 2 of 2.png",
             alt: "Week 16 LinkedIn - QR Code Strategy V2",
             order: 2
           }
         ],
-        thumbnail: "/content/assets/advancingx/linkedin/week16/Li Week 16 Post App Push.png",
+        thumbnail: "../assets/content/advancingx/linkedin/week16/Li Week 16 Post App Push.png",
         engagement: {
           likes: 1050,
           comments: 89,
@@ -936,7 +936,7 @@
         id: "ax-product-demo",
         title: "AdvancingX Platform Demo",
         description: "Comprehensive walkthrough of the AdvancingX platform features",
-        thumbnail: "/content/assets/advancingx/videos/product-demo-thumb.jpg",
+        thumbnail: "../assets/content/advancingx/videos/product-demo-thumb.jpg",
         videoUrl: "https://youtube.com/watch?v=axdemo1",
         duration: "8:45",
         publishDate: "2023-09-15",
@@ -947,7 +947,7 @@
         id: "ax-team-culture",
         title: "Inside AdvancingX: Team Culture",
         description: "Behind the scenes look at AdvancingX team culture",
-        thumbnail: "/content/assets/advancingx/videos/culture-thumb.jpg",
+        thumbnail: "../assets/content/advancingx/videos/culture-thumb.jpg",
         videoUrl: "https://youtube.com/watch?v=axdemo3",
         duration: "6:15",
         publishDate: "2024-01-10",
@@ -958,7 +958,7 @@
         id: "ax-innovation-showcase",
         title: "Innovation Showcase 2024",
         description: "Latest innovations and product updates",
-        thumbnail: "/content/assets/advancingx/videos/innovation-thumb.jpg",
+        thumbnail: "../assets/content/advancingx/videos/innovation-thumb.jpg",
         videoUrl: "https://youtube.com/watch?v=axdemo4",
         duration: "10:20",
         publishDate: "2024-02-28",
@@ -969,7 +969,7 @@
         id: "ax-webinar-leadership",
         title: "Leadership Webinar Series",
         description: "Webinar on modern leadership practices",
-        thumbnail: "/content/assets/advancingx/videos/webinar-thumb.jpg",
+        thumbnail: "../assets/content/advancingx/videos/webinar-thumb.jpg",
         videoUrl: "https://youtube.com/watch?v=axdemo5",
         duration: "45:00",
         publishDate: "2024-03-15",
