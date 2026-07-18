@@ -13,7 +13,7 @@ Changed from generic "cutting-edge development tool beta programs" to more accur
 ### 2. Current Role (Featured)
 
 **LoveSetMatch Foundation**
-- Role: Volunteer Tech Associate — AI & App Development
+- Role: Volunteer Tech Associate - AI & App Development
 - Period: Oct 2025 - Present · 5 months
 - Location: Los Angeles (East & South LA focus)
 - Icon: Tennis ball (🎾)
