@@ -1,5 +1,5 @@
 // Centralized Skill Explorer Data Registry
-// Flat structure — one column per domain, each with its own projects list.
+// Flat structure - one column per domain, each with its own projects list.
 // No nested sub-categories. Each column routes to its own portfolio.
 
 const SkillExplorerData = {
